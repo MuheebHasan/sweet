@@ -1,0 +1,2 @@
+id,type,name,address,phone
+32,owner,fadi,nablus,0987632462

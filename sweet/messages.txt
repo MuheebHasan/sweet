@@ -1,0 +1,3 @@
+senderName;ownerName;message
+leen@gmail.com;ahmad;tywkqi
+ahw@gmail.com;ahmad;ok 

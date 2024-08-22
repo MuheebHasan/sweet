@@ -1,0 +1,6 @@
+id,type,name,address,phone
+11,user,sara,nablus,0981452462
+37,user,anas,nablus,0986632462
+52,user,aya,nablus,0987632460
+30,user,leen,nablus,0598723455
+32,owner,fadi,nablus,0987632462

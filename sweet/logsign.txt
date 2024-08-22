@@ -1,0 +1,10 @@
+farah,11Aagu58,farah@gmail.com,User
+yy,32Aa,yy@gmail.com,User
+farahdf,2mkj8NH,bn@gmail.com,Admin
+gege,76Snj,gg@gmail.com,Admin
+reemo,56Dfn8,rmrm@gmail.com,Admin
+ahmad,67AAm34,ahw@gmail.com,Store Owner
+ali,aA111,ali@gmail.com,Store Owner
+reem,Rr333,reem@gmail.com,Admin
+dema,dema123D,d@gmail.com,User
+leen,123Rr,leen@gmail.com,Supplier

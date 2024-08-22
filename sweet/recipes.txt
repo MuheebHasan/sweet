@@ -1,0 +1,12 @@
+
+Brownies;Contains nuts, Contains dairy, Contains eggs
+Vegan Chocolate Cake;No nuts, No dairy, No eggs
+Gluten-Free Cookies;Contains nuts, No dairy, Contains eggs
+Fruit Salad;No nuts, No dairy, No eggs
+Cheesecake;Contains nuts, Contains dairy, Contains eggs
+Tiramisu;Contains nuts, Contains dairy, Contains eggs
+Panna Cotta;No nuts, Contains dairy, No eggs
+Apple Pie;Contains nuts, Contains dairy, Contains eggs
+Chocolate Mousse;Contains nuts, Contains dairy, Contains eggs
+Macarons;Contains nuts, Contains dairy, Contains eggs
+

@@ -1,0 +1,3 @@
+sweet,20.0
+summer,10.0
+dismanage,5.0
