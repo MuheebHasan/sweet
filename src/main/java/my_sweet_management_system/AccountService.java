@@ -16,9 +16,13 @@ public class AccountService {
     }
 
     public void addAccount(String name, String email) {
-        accounts.put(name, new UserAccount(name, email));
-        saveAccounts();
-        logger.info(String.format("Added account: %s", name));
+        if (!accounts.containsKey(name)) {
+            accounts.put(name, new UserAccount(name, email));
+            saveAccounts();
+            logger.info(String.format("Added account: %s", name));
+        } else {
+            logger.warning(String.format("Account already exists: %s", name));
+        }
     }
 
     public UserAccount getAccountDetail(String name) {
@@ -43,20 +47,29 @@ public class AccountService {
             logger.warning(String.format("Account not found for update: %s", name));
             return "Account not found";
         }
-        switch (field) {
+
+        boolean updated = false;
+        switch (field.toLowerCase()) {
             case "email":
                 account.setEmail(value);
+                updated = true;
                 break;
             case "phone":
                 account.setPhone(value);
+                updated = true;
                 break;
             default:
                 logger.warning(String.format("Invalid field for update: %s", field));
                 return "Field does not exist";
         }
-        saveAccounts();
-        logger.info(String.format("Updated account: %s, Field: %s", name, field));
-        return "Account details updated successfully";
+
+        if (updated) {
+            saveAccounts();
+            logger.info(String.format("Updated account: %s, Field: %s", name, field));
+            return "Account details updated successfully";
+        } else {
+            return "No changes made";
+        }
     }
 
     private void loadAccounts() {
@@ -66,6 +79,7 @@ public class AccountService {
             saveAccounts();  // Save the empty map to create the file
             return;
         }
+
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {

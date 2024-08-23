@@ -1,7 +1,7 @@
 package my_sweet_management_system;
 
 import java.util.Map;
- import java.util.logging.Logger;
+import java.util.logging.Logger;
 
 public class BeneficiaryUsers {
 
@@ -18,8 +18,8 @@ public class BeneficiaryUsers {
         logger.info("Entering sign-up details...");
         String username = userDetails.get("username");
         String password = userDetails.get("password");
-        logger.info("Username: " + username);
-        logger.info("Password: " + password);
+        logger.info(String.format("Username: %s", username));
+        logger.info(String.format("Password: %s", password));
         // Logic to enter sign-up details
     }
 
@@ -44,8 +44,8 @@ public class BeneficiaryUsers {
     // Logic to enter sign-in credentials
     public void enterSignInCredentials(String username, String password) {
         logger.info("Entering sign-in credentials...");
-        logger.info("Username: " + username);
-        logger.info("Password: " + password);
+        logger.info(String.format("Username: %s", username));
+        logger.info(String.format("Password: %s", password));
         // Logic to enter sign-in credentials
     }
 
@@ -64,7 +64,7 @@ public class BeneficiaryUsers {
     // Logic to verify welcome message
     public void verifyWelcomeMessage(String message) {
         logger.info("Verifying welcome message...");
-        logger.info("Expected Message: " + message);
+        logger.info(String.format("Expected Message: %s", message));
         // Logic to verify welcome message
     }
 
@@ -76,7 +76,7 @@ public class BeneficiaryUsers {
 
     // Logic to navigate to the specified section
     public void navigateToSection(String section) {
-        logger.info("Navigating to section: " + section);
+        logger.info(String.format("Navigating to section: %s", section));
         // Logic to navigate to the specified section
     }
 
@@ -85,8 +85,8 @@ public class BeneficiaryUsers {
         logger.info("Updating user details...");
         String address = updatedDetails.get("address");
         String phoneNumber = updatedDetails.get("phone");
-        logger.info("New Address: " + address);
-        logger.info("New Phone Number: " + phoneNumber);
+        logger.info(String.format("New Address: %s", address));
+        logger.info(String.format("New Phone Number: %s", phoneNumber));
         // Logic to update user details
     }
 
@@ -101,8 +101,8 @@ public class BeneficiaryUsers {
         logger.info("Entering dessert details...");
         String dessertName = dessertDetails.get("name");
         String ingredients = dessertDetails.get("ingredients");
-        logger.info("Dessert Name: " + dessertName);
-        logger.info("Ingredients: " + ingredients);
+        logger.info(String.format("Dessert Name: %s", dessertName));
+        logger.info(String.format("Ingredients: %s", ingredients));
         // Logic to enter dessert details
     }
 
@@ -120,25 +120,25 @@ public class BeneficiaryUsers {
 
     // Logic to search for a recipe
     public void searchForRecipe(String searchTerm) {
-        logger.info("Searching for recipe: " + searchTerm);
+        logger.info(String.format("Searching for recipe: %s", searchTerm));
         // Logic to search for a recipe
     }
 
     // Logic to verify recipe list for search term
     public void verifyRecipeList(String searchTerm) {
-        logger.info("Verifying recipe list for search term: " + searchTerm);
+        logger.info(String.format("Verifying recipe list for search term: %s", searchTerm));
         // Logic to verify recipe list for search term
     }
 
     // Logic to apply filter
     public void applyFilter(String filter) {
-        logger.info("Applying filter: " + filter);
+        logger.info(String.format("Applying filter: %s", filter));
         // Logic to apply filter
     }
 
     // Logic to verify filtered recipes
     public void verifyFilteredRecipes(String filter) {
-        logger.info("Verifying filtered recipes for filter: " + filter);
+        logger.info(String.format("Verifying filtered recipes for filter: %s", filter));
         // Logic to verify filtered recipes
     }
 
@@ -159,8 +159,8 @@ public class BeneficiaryUsers {
         logger.info("Entering payment details...");
         String cardNumber = paymentDetails.get("cardNumber");
         String expirationDate = paymentDetails.get("expirationDate");
-        logger.info("Card Number: " + cardNumber);
-        logger.info("Expiration Date: " + expirationDate);
+        logger.info(String.format("Card Number: %s", cardNumber));
+        logger.info(String.format("Expiration Date: %s", expirationDate));
         // Logic to enter payment details
     }
 
@@ -178,13 +178,13 @@ public class BeneficiaryUsers {
 
     // Logic to navigate to the specified section on store owner page
     public void navigateToStoreOwnerSection(String section) {
-        logger.info("Navigating to store owner section: " + section);
+        logger.info(String.format("Navigating to store owner section: %s", section));
         // Logic to navigate to the specified section on store owner page
     }
 
     // Logic to send message to store owner
     public void sendMessageToStoreOwner(String message) {
-        logger.info("Sending message to store owner: " + message);
+        logger.info(String.format("Sending message to store owner: %s", message));
         // Logic to send message to store owner
     }
 
@@ -202,7 +202,7 @@ public class BeneficiaryUsers {
 
     // Logic to enter feedback
     public void enterFeedback(String feedback) {
-        logger.info("Entering feedback: " + feedback);
+        logger.info(String.format("Entering feedback: %s", feedback));
         // Logic to enter feedback
     }
 
