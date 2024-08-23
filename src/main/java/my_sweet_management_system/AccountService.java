@@ -19,16 +19,16 @@ public class AccountService {
         if (!accounts.containsKey(name)) {
             accounts.put(name, new UserAccount(name, email));
             saveAccountsIfNeeded(); // Save only if an account is added
-            logger.info(() -> "Added account: " + name);
+            logInfo("Added account: " + name);
         } else {
-            logger.warning(() -> "Account already exists: " + name);
+            logWarning("Account already exists: " + name);
         }
     }
 
     public UserAccount getAccountDetail(String name) {
         UserAccount account = accounts.get(name);
         if (account == null) {
-            logger.warning(() -> "Account not found: " + name);
+            logWarning("Account not found: " + name);
         }
         return account;
     }
@@ -36,7 +36,7 @@ public class AccountService {
     public boolean accountExists(String name) {
         boolean exists = accounts.containsKey(name);
         if (!exists) {
-            logger.warning(() -> "Account does not exist: " + name);
+            logWarning("Account does not exist: " + name);
         }
         return exists;
     }
@@ -44,7 +44,7 @@ public class AccountService {
     public String updateAccount(String name, String field, String value) {
         UserAccount account = accounts.get(name);
         if (account == null) {
-            logger.warning(() -> "Account not found for update: " + name);
+            logWarning("Account not found for update: " + name);
             return "Account not found";
         }
 
@@ -59,13 +59,13 @@ public class AccountService {
                 updated = true;
                 break;
             default:
-                logger.warning(() -> "Invalid field for update: " + field);
+                logWarning("Invalid field for update: " + field);
                 return "Field does not exist";
         }
 
         if (updated) {
             saveAccountsIfNeeded(); // Save only if there is an update
-            logger.info(() -> "Updated account: " + name + ", Field: " + field);
+            logInfo("Updated account: " + name + ", Field: " + field);
             return "Account details updated successfully";
         } else {
             return "No changes made";
@@ -82,14 +82,14 @@ public class AccountService {
                     if (parts.length == 2) {
                         accounts.put(parts[0], new UserAccount(parts[0], parts[1]));
                     } else {
-                        logger.warning(() -> "Malformed line in accounts file: " + line);
+                        logWarning("Malformed line in accounts file: " + line);
                     }
                 }
             } catch (IOException e) {
                 logger.log(Level.SEVERE, "Error loading accounts", e);
             }
         } else {
-            logger.info(() -> "No accounts file found. Creating a new file.");
+            logInfo("No accounts file found. Creating a new file.");
             saveAccountsIfNeeded(); // Create a new file only if it does not exist
         }
     }
@@ -104,6 +104,18 @@ public class AccountService {
             } catch (IOException e) {
                 logger.log(Level.SEVERE, "Error saving accounts", e);
             }
+        }
+    }
+
+    private void logInfo(String message) {
+        if (logger.isLoggable(Level.INFO)) {
+            logger.info(message);
+        }
+    }
+
+    private void logWarning(String message) {
+        if (logger.isLoggable(Level.WARNING)) {
+            logger.warning(message);
         }
     }
 
