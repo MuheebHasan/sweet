@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 public class MainMenu {
     private static final Logger logger = Logger.getLogger(MainMenu.class.getName());
+    private static final String INVALID_CHOICE_MESSAGE = INVALID_CHOICE_MESSAGE;
 
      private static ooorder orderManager = new ooorder();
      private static Test userAuth = new Test();
@@ -53,7 +54,7 @@ public class MainMenu {
                     logInfo("Exiting the system. Goodbye!");                    break;
 
                 default:
-                    logInfo("Invalid choice. Please try again.");
+                    logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
 
@@ -166,7 +167,7 @@ public class MainMenu {
                 	  logInfo("Logging out...");
                       return;
                   default:
-                      logInfo("Invalid choice. Please try again.");
+                      logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
     }
@@ -207,7 +208,7 @@ public class MainMenu {
                     return;
 
                 default:
-                    logInfo("Invalid choice. Please try again.");
+                    logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
     }
@@ -254,7 +255,7 @@ public class MainMenu {
                     return;
 
                 default:
-                    logInfo("Invalid choice. Please try again.");
+                    logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
     }
@@ -316,7 +317,7 @@ public class MainMenu {
                     return;
 
                 default:
-                    logInfo("Invalid choice. Please try again.");
+                    logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
     }
@@ -371,7 +372,7 @@ public class MainMenu {
                     return;
 
                 default:
-                    logInfo("Invalid choice. Please try again.");
+                    logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
     }
@@ -424,7 +425,7 @@ public class MainMenu {
                     return;
 
                 default:
-                    logInfo("Invalid choice. Please try again.");
+                    logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
     }
@@ -463,7 +464,7 @@ public class MainMenu {
                     return;
 
                 default:
-                    logInfo("Invalid choice. Please try again.");
+                    logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
     }
@@ -523,7 +524,7 @@ public class MainMenu {
                     return; // Exit the product management menu loop
 
                 default:
-                    logInfo("Invalid choice. Please try again.");
+                    logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
     }
@@ -619,7 +620,7 @@ public class MainMenu {
                     return; // Exit the order management menu loop
 
                 default:
-                    logInfo("Invalid choice. Please try again.");
+                    logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
     }
@@ -685,7 +686,7 @@ public class MainMenu {
                     return; // Exit Communication and Notification Menu and return to the Store Owner Menu
 
                 default:
-                    logInfo("Invalid choice. Please try again.");
+                    logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
     }
@@ -726,7 +727,7 @@ public class MainMenu {
                     logInfo("Logging out...");
                     return;
                 default:
-                    logInfo("Invalid choice. Please try again.");
+                    logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
     }
@@ -754,7 +755,7 @@ public class MainMenu {
                     logInfo("Returning to User Menu...");
                     return;
                 default:
-                    logInfo("Invalid choice. Please try again.");
+                    logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
     }
@@ -865,7 +866,7 @@ public class MainMenu {
                     logInfo("Returning to User Menu...");
                     return;
                 default:
-                    logInfo("Invalid choice. Please try again.");
+                    logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
     }
@@ -918,7 +919,7 @@ public class MainMenu {
                     logInfo("Returning to Supplier Menu...");
                     return;
                 default:
-                    logInfo("Invalid choice. Please try again.");
+                    logInfo(INVALID_CHOICE_MESSAGE);
             }
         }
     }}

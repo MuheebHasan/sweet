@@ -9,7 +9,7 @@ import io.cucumber.junit.CucumberOptions.SnippetType;
 plugin = { "summary", "html:target/cucumber/report.html" }, 
 monochrome = true, 
 snippets = SnippetType.CAMELCASE, 
-glue="mySweetmanagementsystem")
+glue="my_sweet_management_system")
 public class TestFeatures {
 
 }
