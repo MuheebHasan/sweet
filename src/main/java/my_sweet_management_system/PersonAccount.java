@@ -1,5 +1,8 @@
 package my_sweet_management_system;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.util.*;
 
@@ -8,6 +11,8 @@ public class PersonAccount {
     private static final String RECIPES_FILE_NAME = "recipes.txt";
     private static final String POSTS_FILE_NAME = "posts.txt";
     private static final String FEEDBACK_FILE_NAME = "feedback.txt";
+
+    private static final Logger logger = LoggerFactory.getLogger(PersonAccount.class);
 
     private File recipesFile = new File(RECIPES_FILE_NAME);
     private File postsFile = new File(POSTS_FILE_NAME);
@@ -19,11 +24,9 @@ public class PersonAccount {
             if (!postsFile.exists()) postsFile.createNewFile();
             if (!feedbackFile.exists()) feedbackFile.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error creating files: {}", e.getMessage());
         }
     }
-
- 
 
     public static void searchRecipeByName(String name) {
         try (BufferedReader reader = new BufferedReader(new FileReader(RECIPES_FILE_NAME))) {
@@ -32,16 +35,16 @@ public class PersonAccount {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
                 if (parts.length == 2 && parts[0].equalsIgnoreCase(name)) {
-                    System.out.println(parts[0] + ": " + parts[1]);
+                    logger.info("{}: {}", parts[0], parts[1]);
                     found = true;
                     break;
                 }
             }
             if (!found) {
-                System.out.println("Recipe not found.");
+                logger.info("Recipe not found.");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error reading recipes file: {}", e.getMessage());
         }
     }
 
@@ -54,16 +57,14 @@ public class PersonAccount {
                     String recipeName = parts[0];
                     String contents = parts[1];
                     if (contents.contains(allergy)) {
-                        System.out.println(recipeName + ": " + contents);
+                        logger.info("{}: {}", recipeName, contents);
                     }
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error reading recipes file: {}", e.getMessage());
         }
     }
-
-     
 
     public void filterRecipesByNutritionalValue(Set<String> criteria) {
         try (BufferedReader reader = new BufferedReader(new FileReader(recipesFile))) {
@@ -84,12 +85,12 @@ public class PersonAccount {
                     }
 
                     if (matchesAll) {
-                        System.out.println(recipeName + ": " + contents);
+                        logger.info("{}: {}", recipeName, contents);
                     }
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error reading recipes file: {}", e.getMessage());
         }
     }
 
@@ -101,15 +102,14 @@ public class PersonAccount {
                 if (parts.length == 2) {
                     String recipeName = parts[0];
                     String contents = parts[1];
-                    System.out.println(recipeName + ": " + contents);
+                    logger.info("{}: {}", recipeName, contents);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error reading recipes file: {}", e.getMessage());
         }
     }
 
-    // Method to filter and show recipes based on a criterion
     public static void filterAndShowRecipes(String criterion) {
         try (BufferedReader reader = new BufferedReader(new FileReader(RECIPES_FILE_NAME))) {
             String line;
@@ -119,16 +119,14 @@ public class PersonAccount {
                     String recipeName = parts[0];
                     String contents = parts[1];
                     if (contents.contains(criterion)) {
-                        System.out.println(recipeName + ": " + contents);
+                        logger.info("{}: {}", recipeName, contents);
                     }
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error reading recipes file: {}", e.getMessage());
         }
     }
-
-   
 
     public String addRecipe(String name, String ingredient, String quantity) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(recipesFile, true))) {
@@ -136,7 +134,7 @@ public class PersonAccount {
             writer.newLine();
             return "Recipe added successfully";
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to add recipe: {}", e.getMessage());
             return "Failed to add recipe";
         }
     }
@@ -155,7 +153,7 @@ public class PersonAccount {
                 recipes.add(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to update recipe: {}", e.getMessage());
             return "Failed to update recipe";
         }
         if (!found) {
@@ -168,7 +166,7 @@ public class PersonAccount {
             }
             return "Recipe updated successfully";
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to update recipe: {}", e.getMessage());
             return "Failed to update recipe";
         }
     }
@@ -186,7 +184,7 @@ public class PersonAccount {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to delete recipe: {}", e.getMessage());
             return "Failed to delete recipe";
         }
         if (!found) {
@@ -199,7 +197,7 @@ public class PersonAccount {
             }
             return "Recipe deleted successfully";
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to delete recipe: {}", e.getMessage());
             return "Failed to delete recipe";
         }
     }
@@ -214,7 +212,7 @@ public class PersonAccount {
             }
             return "Recipe not found";
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to view recipe: {}", e.getMessage());
             return "Failed to view recipe";
         }
     }
@@ -225,7 +223,7 @@ public class PersonAccount {
             writer.newLine();
             return "Post added successfully";
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to add post: {}", e.getMessage());
             return "Failed to add post";
         }
     }
@@ -243,7 +241,7 @@ public class PersonAccount {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to delete post: {}", e.getMessage());
             return "Failed to delete post";
         }
         if (!found) {
@@ -256,7 +254,7 @@ public class PersonAccount {
             }
             return "Post deleted successfully";
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to delete post: {}", e.getMessage());
             return "Failed to delete post";
         }
     }
@@ -275,7 +273,7 @@ public class PersonAccount {
                 posts.add(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to update post: {}", e.getMessage());
             return "Failed to update post";
         }
         if (!found) {
@@ -288,7 +286,7 @@ public class PersonAccount {
             }
             return "Post updated successfully";
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to update post: {}", e.getMessage());
             return "Failed to update post";
         }
     }
@@ -302,7 +300,7 @@ public class PersonAccount {
                 allPosts.append(line).append("\n\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to retrieve posts: {}", e.getMessage());
             return "Failed to retrieve posts";
         }
         if (allPosts.length() == 0) {
@@ -319,7 +317,7 @@ public class PersonAccount {
                 feedbackList.append(line).append("\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to retrieve feedback: {}", e.getMessage());
         }
         return feedbackList.toString();
     }
@@ -333,10 +331,10 @@ public class PersonAccount {
                 String[] parts = line.split(";");
                 if (Integer.parseInt(parts[0]) == feedbackId) {
                     if (parts.length > 3) {
-                        // إذا كان هناك رد موجود، نضيف الرد الجديد
+                        // If there is an existing response, append the new response
                         line += " | " + response;
                     } else {
-                        // إذا لم يكن هناك ردود، نضيف الرد الجديد فقط
+                        // If there are no responses, add the new response
                         line += "; Response: " + response;
                     }
                     found = true;
@@ -344,7 +342,7 @@ public class PersonAccount {
                 feedbacks.add(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to respond to feedback: {}", e.getMessage());
             return "Failed to respond to feedback";
         }
         if (!found) {
@@ -357,7 +355,7 @@ public class PersonAccount {
             }
             return "Feedback responded to successfully";
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to respond to feedback: {}", e.getMessage());
             return "Failed to respond to feedback";
         }
     }
@@ -376,7 +374,7 @@ public class PersonAccount {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to delete feedback: {}", e.getMessage());
             return "Failed to delete feedback";
         }
         if (!found) {
@@ -389,7 +387,7 @@ public class PersonAccount {
             }
             return "Feedback deleted successfully";
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Failed to delete feedback: {}", e.getMessage());
             return "Failed to delete feedback";
         }
     }
