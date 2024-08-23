@@ -542,13 +542,13 @@ public class MainMenu {
                     String discountName = scanner.nextLine();
                     logInfo("Enter Discount Rate (in percentage): ");
                     double discountRate = Double.parseDouble(scanner.nextLine());
-                    logInfo(orderManager.addDiscount(discountName, discountRate));
+                    logInfo(ooorder.addDiscount(discountName, discountRate));
                     break;
 
                 case 2:
                     logInfo("Enter Discount Name to Apply: ");
                     String applyDiscountName = scanner.nextLine();
-                    logInfo(orderManager.applyDiscount(applyDiscountName));
+                    logInfo(ooorder.applyDiscount(applyDiscountName));
                     break;
 
                 case 3:
@@ -740,7 +740,7 @@ public class MainMenu {
 
             switch (accountChoice) {
                 case 1:
-                    pp.showAllProducts();
+                    ProductSearchtest.showAllProducts();
                     break;
                 case 2:
                     logInfo("Enter the Product ID to search: ");
