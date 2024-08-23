@@ -71,6 +71,7 @@ public class Product {
     public static boolean productExists(String productId) {
         return products.containsKey(productId);
     }
+
     private static void loadData() {
         try (BufferedReader reader = new BufferedReader(new FileReader("product.txt"))) {
             String line;
@@ -90,9 +91,11 @@ public class Product {
             e.printStackTrace();
         }
     }
+
     static {
         loadData(); // Load data when class is first used
     }
+
     public static void main(String[] args) {
         Product productSystem = new Product();
         Scanner scanner = new Scanner(System.in);
@@ -157,6 +160,4 @@ public class Product {
             }
         }
     }
-    
 }
-

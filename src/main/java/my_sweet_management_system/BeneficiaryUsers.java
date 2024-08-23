@@ -1,233 +1,232 @@
 package my_sweet_management_system;
 
 import java.util.Map;
+ import java.util.logging.Logger;
 
 public class BeneficiaryUsers {
 
-    // منطق التنقل إلى صفحة التسجيل
+    private static final Logger logger = Logger.getLogger(BeneficiaryUsers.class.getName());
+
+    // Logic to navigate to the sign-up page
     public void navigateToSignUpPage() {
-        System.out.println("Navigating to the sign-up page...");
-        // توجيه إلى صفحة التسجيل (مثلاً في تطبيق ويب، يمكن فتح URL معين)
-        // يمكنك استخدام WebDriver أو مكتبة HTTP في حالة التطبيقات الأخرى
+        logger.info("Navigating to the sign-up page...");
+        // Logic to navigate to the sign-up page
     }
 
-    // منطق إدخال تفاصيل التسجيل
+    // Logic to enter sign-up details
     public void enterSignUpDetails(Map<String, String> userDetails) {
-        System.out.println("Entering sign-up details...");
-        // إدخال تفاصيل التسجيل (مثلاً في تطبيق ويب، يمكن إدخال البيانات في نماذج)
+        logger.info("Entering sign-up details...");
         String username = userDetails.get("username");
         String password = userDetails.get("password");
-        System.out.println("Username: " + username);
-        System.out.println("Password: " + password);
-        // استخدم WebDriver أو مكتبة HTTP لإدخال التفاصيل
+        logger.info("Username: " + username);
+        logger.info("Password: " + password);
+        // Logic to enter sign-up details
     }
 
-    // منطق إرسال نموذج التسجيل
+    // Logic to submit the sign-up form
     public void submitSignUpForm() {
-        System.out.println("Submitting sign-up form...");
-        // إرسال نموذج التسجيل (مثلاً في تطبيق ويب، يمكن الضغط على زر الإرسال)
-        // استخدم WebDriver أو مكتبة HTTP لإرسال النموذج
+        logger.info("Submitting sign-up form...");
+        // Logic to submit the sign-up form
     }
 
-    // منطق التحقق من استلام رسالة التأكيد
+    // Logic to verify confirmation email
     public void verifyConfirmationEmail() {
-        System.out.println("Verifying confirmation email...");
-        // التحقق من استلام رسالة التأكيد (يمكن استخدام مكتبة للتحقق من البريد الإلكتروني)
-        // مثال: استخدام مكتبة JavaMail للتحقق من الرسائل
+        logger.info("Verifying confirmation email...");
+        // Logic to verify confirmation email
     }
 
-    // منطق التنقل إلى صفحة تسجيل الدخول
+    // Logic to navigate to the sign-in page
     public void navigateToSignInPage() {
-        System.out.println("Navigating to the sign-in page...");
-        // توجيه إلى صفحة تسجيل الدخول
+        logger.info("Navigating to the sign-in page...");
+        // Logic to navigate to the sign-in page
     }
 
-    // منطق إدخال اسم المستخدم وكلمة المرور
+    // Logic to enter sign-in credentials
     public void enterSignInCredentials(String username, String password) {
-        System.out.println("Entering sign-in credentials...");
-        System.out.println("Username: " + username);
-        System.out.println("Password: " + password);
-        // إدخال اسم المستخدم وكلمة المرور (استخدام WebDriver أو مكتبة HTTP)
+        logger.info("Entering sign-in credentials...");
+        logger.info("Username: " + username);
+        logger.info("Password: " + password);
+        // Logic to enter sign-in credentials
     }
 
-    // منطق إرسال نموذج تسجيل الدخول
+    // Logic to submit the sign-in form
     public void submitSignInForm() {
-        System.out.println("Submitting sign-in form...");
-        // إرسال نموذج تسجيل الدخول (استخدام WebDriver أو مكتبة HTTP)
+        logger.info("Submitting sign-in form...");
+        // Logic to submit the sign-in form
     }
 
-    // منطق التحقق من إعادة التوجيه إلى لوحة التحكم
+    // Logic to verify redirection to the dashboard
     public void verifyDashboardRedirect() {
-        System.out.println("Verifying redirection to the dashboard...");
-        // التحقق من إعادة التوجيه إلى لوحة التحكم (استخدام WebDriver للتحقق من URL)
+        logger.info("Verifying redirection to the dashboard...");
+        // Logic to verify redirection to the dashboard
     }
 
-    // منطق التحقق من عرض رسالة الترحيب
+    // Logic to verify welcome message
     public void verifyWelcomeMessage(String message) {
-        System.out.println("Verifying welcome message...");
-        System.out.println("Expected Message: " + message);
-        // التحقق من عرض رسالة الترحيب (استخدام WebDriver للتحقق من النص)
+        logger.info("Verifying welcome message...");
+        logger.info("Expected Message: " + message);
+        // Logic to verify welcome message
     }
 
-    // منطق التحقق من تسجيل دخول المستخدم
+    // Logic to verify user login
     public void verifyUserLoggedIn() {
-        System.out.println("Verifying user login...");
-        // التحقق من تسجيل دخول المستخدم (مثلاً، التحقق من وجود عناصر خاصة بالمستخدم في الصفحة)
+        logger.info("Verifying user login...");
+        // Logic to verify user login
     }
 
-    // منطق التنقل إلى القسم المحدد
+    // Logic to navigate to the specified section
     public void navigateToSection(String section) {
-        System.out.println("Navigating to section: " + section);
-        // التنقل إلى القسم المحدد (استخدام WebDriver للبحث عن عناصر والتفاعل معها)
+        logger.info("Navigating to section: " + section);
+        // Logic to navigate to the specified section
     }
 
-    // منطق تحديث تفاصيل المستخدم
+    // Logic to update user details
     public void updateUserDetails(Map<String, String> updatedDetails) {
-        System.out.println("Updating user details...");
+        logger.info("Updating user details...");
         String address = updatedDetails.get("address");
         String phoneNumber = updatedDetails.get("phone");
-        System.out.println("New Address: " + address);
-        System.out.println("New Phone Number: " + phoneNumber);
-        // إدخال تفاصيل التحديث (استخدام WebDriver أو مكتبة HTTP)
+        logger.info("New Address: " + address);
+        logger.info("New Phone Number: " + phoneNumber);
+        // Logic to update user details
     }
 
-    // منطق إرسال نموذج التحديث
+    // Logic to submit update form
     public void submitUpdateForm() {
-        System.out.println("Submitting update form...");
-        // إرسال نموذج التحديث (استخدام WebDriver أو مكتبة HTTP)
+        logger.info("Submitting update form...");
+        // Logic to submit update form
     }
 
-    // منطق إدخال تفاصيل إنشاء الحلوى
+    // Logic to enter dessert details
     public void enterDessertDetails(Map<String, String> dessertDetails) {
-        System.out.println("Entering dessert details...");
+        logger.info("Entering dessert details...");
         String dessertName = dessertDetails.get("name");
         String ingredients = dessertDetails.get("ingredients");
-        System.out.println("Dessert Name: " + dessertName);
-        System.out.println("Ingredients: " + ingredients);
-        // إدخال تفاصيل الحلوى (استخدام WebDriver أو مكتبة HTTP)
+        logger.info("Dessert Name: " + dessertName);
+        logger.info("Ingredients: " + ingredients);
+        // Logic to enter dessert details
     }
 
-    // منطق إرسال المشاركة
+    // Logic to submit post
     public void submitPost() {
-        System.out.println("Submitting dessert post...");
-        // إرسال المشاركة (استخدام WebDriver أو مكتبة HTTP)
+        logger.info("Submitting dessert post...");
+        // Logic to submit post
     }
 
-    // منطق التحقق من عرض المشاركة على ملف المستخدم
+    // Logic to verify post display on user profile
     public void verifyPostDisplayed() {
-        System.out.println("Verifying post display on user profile...");
-        // التحقق من عرض المشاركة على ملف المستخدم (استخدام WebDriver للتحقق من وجود المشاركة)
+        logger.info("Verifying post display on user profile...");
+        // Logic to verify post display on user profile
     }
 
-    // منطق البحث عن الوصفة
+    // Logic to search for a recipe
     public void searchForRecipe(String searchTerm) {
-        System.out.println("Searching for recipe: " + searchTerm);
-        // تنفيذ البحث عن الوصفة (استخدام WebDriver للبحث في الموقع)
+        logger.info("Searching for recipe: " + searchTerm);
+        // Logic to search for a recipe
     }
 
-    // منطق التحقق من قائمة الوصفات المتعلقة بالبحث
+    // Logic to verify recipe list for search term
     public void verifyRecipeList(String searchTerm) {
-        System.out.println("Verifying recipe list for search term: " + searchTerm);
-        // التحقق من قائمة الوصفات المتعلقة بالبحث (استخدام WebDriver للتحقق من العناصر المعروضة)
+        logger.info("Verifying recipe list for search term: " + searchTerm);
+        // Logic to verify recipe list for search term
     }
 
-    // منطق تطبيق الفلتر
+    // Logic to apply filter
     public void applyFilter(String filter) {
-        System.out.println("Applying filter: " + filter);
-        // تطبيق الفلتر (استخدام WebDriver للتفاعل مع عناصر الفلترة)
+        logger.info("Applying filter: " + filter);
+        // Logic to apply filter
     }
 
-    // منطق التحقق من الوصفات المفلترة
+    // Logic to verify filtered recipes
     public void verifyFilteredRecipes(String filter) {
-        System.out.println("Verifying filtered recipes for filter: " + filter);
-        // التحقق من عرض الوصفات المفلترة (استخدام WebDriver للتحقق من العناصر المعروضة)
+        logger.info("Verifying filtered recipes for filter: " + filter);
+        // Logic to verify filtered recipes
     }
 
-    // منطق التحقق من صفحة مالك المتجر
+    // Logic to verify store owner page
     public void verifyStoreOwnerPage() {
-        System.out.println("Verifying store owner page...");
-        // التحقق من أن المستخدم على صفحة مالك المتجر (استخدام WebDriver للتحقق من URL أو محتوى الصفحة)
+        logger.info("Verifying store owner page...");
+        // Logic to verify store owner page
     }
 
-    // منطق اختيار الحلوى للشراء
+    // Logic to select dessert for purchase
     public void selectDessertForPurchase() {
-        System.out.println("Selecting dessert for purchase...");
-        // اختيار الحلوى للشراء (استخدام WebDriver للتفاعل مع العناصر)
+        logger.info("Selecting dessert for purchase...");
+        // Logic to select dessert for purchase
     }
 
-    // منطق إدخال تفاصيل الدفع
+    // Logic to enter payment details
     public void enterPaymentDetails(Map<String, String> paymentDetails) {
-        System.out.println("Entering payment details...");
+        logger.info("Entering payment details...");
         String cardNumber = paymentDetails.get("cardNumber");
         String expirationDate = paymentDetails.get("expirationDate");
-        System.out.println("Card Number: " + cardNumber);
-        System.out.println("Expiration Date: " + expirationDate);
-        // إدخال تفاصيل الدفع (استخدام WebDriver أو مكتبة HTTP)
+        logger.info("Card Number: " + cardNumber);
+        logger.info("Expiration Date: " + expirationDate);
+        // Logic to enter payment details
     }
 
-    // منطق إرسال الدفع
+    // Logic to submit payment
     public void submitPayment() {
-        System.out.println("Submitting payment...");
-        // إرسال الدفع (استخدام WebDriver أو مكتبة HTTP)
+        logger.info("Submitting payment...");
+        // Logic to submit payment
     }
 
-    // منطق التحقق من استلام إيصال الدفع عبر البريد الإلكتروني
+    // Logic to verify email receipt
     public void verifyEmailReceipt() {
-        System.out.println("Verifying email receipt...");
-        // التحقق من استلام إيصال الدفع عبر البريد الإلكتروني (استخدام مكتبة JavaMail للتحقق من الرسائل)
+        logger.info("Verifying email receipt...");
+        // Logic to verify email receipt
     }
 
-    // منطق التنقل إلى القسم المحدد على صفحة مالك المتجر
+    // Logic to navigate to the specified section on store owner page
     public void navigateToStoreOwnerSection(String section) {
-        System.out.println("Navigating to store owner section: " + section);
-        // التنقل إلى القسم المحدد على صفحة مالك المتجر (استخدام WebDriver للتفاعل مع العناصر)
+        logger.info("Navigating to store owner section: " + section);
+        // Logic to navigate to the specified section on store owner page
     }
 
-    // منطق إرسال رسالة إلى مالك المتجر
+    // Logic to send message to store owner
     public void sendMessageToStoreOwner(String message) {
-        System.out.println("Sending message to store owner: " + message);
-        // إرسال رسالة إلى مالك المتجر (استخدام WebDriver أو مكتبة HTTP)
+        logger.info("Sending message to store owner: " + message);
+        // Logic to send message to store owner
     }
 
-    // منطق التحقق من إرسال الرسالة إلى مالك المتجر
+    // Logic to verify message sent to store owner
     public void verifyMessageSentToStoreOwner() {
-        System.out.println("Verifying message sent to store owner...");
-        // التحقق من إرسال الرسالة إلى مالك المتجر (استخدام WebDriver للتحقق من وجود الرسالة في النظام)
+        logger.info("Verifying message sent to store owner...");
+        // Logic to verify message sent to store owner
     }
 
-    // منطق اختيار طلب لتقديم ملاحظات
+    // Logic to select order for feedback
     public void selectOrderForFeedback() {
-        System.out.println("Selecting order for feedback...");
-        // اختيار طلب لتقديم ملاحظات (استخدام WebDriver للتفاعل مع العناصر)
+        logger.info("Selecting order for feedback...");
+        // Logic to select order for feedback
     }
 
-    // منطق إدخال الملاحظات
+    // Logic to enter feedback
     public void enterFeedback(String feedback) {
-        System.out.println("Entering feedback: " + feedback);
-        // إدخال الملاحظات (استخدام WebDriver للتفاعل مع نموذج الملاحظات)
+        logger.info("Entering feedback: " + feedback);
+        // Logic to enter feedback
     }
 
-    // منطق إرسال الملاحظات
+    // Logic to submit feedback
     public void submitFeedback() {
-        System.out.println("Submitting feedback...");
-        // إرسال الملاحظات (استخدام WebDriver للتفاعل مع نموذج الملاحظات)
+        logger.info("Submitting feedback...");
+        // Logic to submit feedback
     }
 
-    // منطق التحقق من ظهور الملاحظات تحت تقييمات المنتج
+    // Logic to verify feedback under product reviews
     public void verifyFeedbackUnderProductReviews() {
-        System.out.println("Verifying feedback under product reviews...");
-        // التحقق من ظهور الملاحظات تحت تقييمات المنتج (استخدام WebDriver للتحقق من وجود الملاحظات)
+        logger.info("Verifying feedback under product reviews...");
+        // Logic to verify feedback under product reviews
     }
 
-    // منطق التنقل إلى صفحة الوصفة المشتركة
+    // Logic to navigate to shared recipe page
     public void navigateToSharedRecipePage() {
-        System.out.println("Navigating to shared recipe page...");
-        // التنقل إلى صفحة الوصفة المشتركة (استخدام WebDriver أو مكتبة HTTP)
+        logger.info("Navigating to shared recipe page...");
+        // Logic to navigate to shared recipe page
     }
 
-    // منطق التحقق من ظهور الملاحظات تحت تقييمات الوصفة
+    // Logic to verify feedback under recipe reviews
     public void verifyFeedbackUnderRecipeReviews() {
-        System.out.println("Verifying feedback under recipe reviews...");
-        // التحقق من ظهور الملاحظات تحت تقييمات الوصفة (استخدام WebDriver للتحقق من وجود الملاحظات)
+        logger.info("Verifying feedback under recipe reviews...");
+        // Logic to verify feedback under recipe reviews
     }
 }

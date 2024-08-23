@@ -3,8 +3,11 @@ package my_sweet_management_system;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AccountService {
+    private static final Logger logger = Logger.getLogger(AccountService.class.getName());
     private Map<String, UserAccount> accounts = new HashMap<>();
     private static final String ACCOUNT_FILE = "accounts.txt";
 
@@ -15,20 +18,29 @@ public class AccountService {
     public void addAccount(String name, String email) {
         accounts.put(name, new UserAccount(name, email));
         saveAccounts();
+        logger.info("Added account: " + name);
     }
 
     public UserAccount getAccountDetail(String name) {
-        return accounts.get(name); // This might return null if the account doesn't exist
+        UserAccount account = accounts.get(name);
+        if (account == null) {
+            logger.warning("Account not found: " + name);
+        }
+        return account;
     }
 
-    // Add the accountExists method here
     public boolean accountExists(String name) {
-        return accounts.containsKey(name);
+        boolean exists = accounts.containsKey(name);
+        if (!exists) {
+            logger.warning("Account does not exist: " + name);
+        }
+        return exists;
     }
 
     public String updateAccount(String name, String field, String value) {
         UserAccount account = accounts.get(name);
         if (account == null) {
+            logger.warning("Account not found for update: " + name);
             return "Account not found";
         }
         switch (field) {
@@ -39,16 +51,18 @@ public class AccountService {
                 account.setPhone(value);
                 break;
             default:
+                logger.warning("Invalid field for update: " + field);
                 return "Field does not exist";
         }
         saveAccounts();
+        logger.info("Updated account: " + name + ", Field: " + field);
         return "Account details updated successfully";
     }
 
     private void loadAccounts() {
         File file = new File(ACCOUNT_FILE);
         if (!file.exists()) {
-            System.out.println("No accounts file found. Creating a new file.");
+            logger.info("No accounts file found. Creating a new file.");
             saveAccounts();  // Save the empty map to create the file
             return;
         }
@@ -61,7 +75,7 @@ public class AccountService {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error loading accounts", e);
         }
     }
 
@@ -72,7 +86,7 @@ public class AccountService {
                 writer.write(entry.getKey() + ", " + account.getEmail() + "\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error saving accounts", e);
         }
     }
 }
