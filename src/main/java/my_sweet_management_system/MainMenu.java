@@ -2,13 +2,17 @@ package my_sweet_management_system;
 
 import java.util.Scanner;
 import java.util.Set;
+
+ 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class MainMenu {
-  
+    private static final Logger logger = Logger.getLogger(MainMenu.class.getName());
+
      private static ooorder orderManager = new ooorder();
      private static Test userAuth = new Test();
     private static UserManagementSystem system = new UserManagementSystem(); // Assuming you have this class for managing users
@@ -18,17 +22,20 @@ public class MainMenu {
     static PersonAccount account = new PersonAccount();
     private static ProductSearchtest pp ;
     
+    private static void logInfo(String message) {
+        System.out.println(message);
+    }
     
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
         while (running) {
-            System.out.println("Welcome to Sweet Management System");
-            System.out.println("1. Login");
-            System.out.println("2. Signup");
-            System.out.println("3. Exit");
-            System.out.print("Choose an option: ");
+        	 logInfo("Welcome to Sweet Management System");
+             logInfo("1. Login");
+             logInfo("2. Signup");
+             logInfo("3. Exit");
+             logInfo("Choose an option: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
@@ -43,11 +50,10 @@ public class MainMenu {
 
                 case 3:
                     running = false;
-                    System.out.println("Exiting the system. Goodbye!");
-                    break;
+                    logInfo("Exiting the system. Goodbye!");                    break;
 
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    logInfo("Invalid choice. Please try again.");
             }
         }
 
@@ -59,14 +65,14 @@ public class MainMenu {
 
     
     private static void handleLogin(Scanner scanner) {
-        System.out.print("Enter your email: ");
+        logInfo("Enter your email: ");
         String email = scanner.nextLine();
-        System.out.print("Enter your password: ");
+        logInfo("Enter your password: ");
         String password = scanner.nextLine();
 
         // Check login using the MonitoringAndReportingww class
         if (reporting.login(email, password)) {
-            System.out.println("Login successful!");
+            logInfo("Login successful!");
 
             // Set the current logged-in user
             currentLoggedInUser = email;
@@ -87,11 +93,11 @@ public class MainMenu {
                     handleSupplierMenu(scanner, currentLoggedInUser);
                     break;
                 default:
-                    System.out.println("Welcome, " + role + "!"); // For unexpected roles
+                    logInfo("Welcome, " + role + "!"); // For unexpected roles
                     break;
             }
         } else {
-            System.out.println("Invalid email or password.");
+            logInfo("Invalid email or password.");
         }
     }
 
@@ -99,12 +105,12 @@ public class MainMenu {
 
 
     private static void handleSignup(Scanner scanner) {
-        System.out.println("Select your role:");
-        System.out.println("1. Admin");
-        System.out.println("2. Store Owner");
-        System.out.println("3. Supplier");
-        System.out.println("4. User");
-        System.out.print("Enter the number corresponding to your role: ");
+        logInfo("Select your role:");
+        logInfo("1. Admin");
+        logInfo("2. Store Owner");
+        logInfo("3. Supplier");
+        logInfo("4. User");
+        logInfo("Enter the number corresponding to your role: ");
         int roleChoice = scanner.nextInt();
         scanner.nextLine();
 
@@ -123,32 +129,32 @@ public class MainMenu {
                 role = "User";
                 break;
             default:
-                System.out.println("Invalid choice. Role set to 'User' by default.");
+                logInfo("Invalid choice. Role set to 'User' by default.");
                 role = "User";
         }
 
         // Input user details after selecting role
-        System.out.print("Enter your username: ");
+        logInfo("Enter your username: ");
         String username = scanner.nextLine();
-        System.out.print("Enter your password: ");
+        logInfo("Enter your password: ");
         String password = scanner.nextLine();
-        System.out.print("Enter your email: ");
+        logInfo("Enter your email: ");
         String email = scanner.nextLine();
 
         if (userAuth.registerUser(username, password, email, role)) {
-            System.out.println("Signup successful!");
+            logInfo("Signup successful!");
         } else {
-            System.out.println("Signup failed. Please check your details and try again.");
+            logInfo("Signup failed. Please check your details and try again.");
         }
     }
     
     private static void handleSupplierMenu(Scanner scanner, String loggedInUser) {
         // Example Supplier Menu implementation
         while (true) {
-            System.out.println("\n** Supplier Menu **");
-            System.out.println("1. Messaging system to communicate");
-            System.out.println("2. Logout");
-            System.out.print("Enter your choice: ");
+        	logInfo("\n** Supplier Menu **");
+            logInfo("1. Messaging system to communicate");
+            logInfo("2. Logout");
+            logInfo("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
@@ -157,15 +163,15 @@ public class MainMenu {
                     handleMessaging(scanner, loggedInUser);
                     break;
                 case 2:
-                    System.out.println("Logging out...");
-                    return;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                	  logInfo("Logging out...");
+                      return;
+                  default:
+                      logInfo("Invalid choice. Please try again.");
             }
         }
     }
 
-
+//------------------------------
     private static void handleAdminMenu(Scanner scanner) {
         while (true) {
             System.out.println("\n** Admin Menu **");
