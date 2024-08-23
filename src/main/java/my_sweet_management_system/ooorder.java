@@ -1,25 +1,26 @@
 package my_sweet_management_system;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
-import java.io.BufferedReader;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Scanner;
+ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import java.util.HashMap;
-
-import java.util.Map;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ooorder {
+    private static final Logger logger = Logger.getLogger(ooorder.class.getName());
+
     static Map<String, String[]> orders = new HashMap<>();
     private static Map<String, String[]> products = new HashMap<>();
     private static Map<String, Double> discounts = new HashMap<>();
     private static List<Integer> availableOrderIds = new ArrayList<>();
-    
 
     public ooorder() {
         loadOrders();
@@ -27,10 +28,7 @@ public class ooorder {
         loadDiscounts();
         initializeOrderIds(); // Initialize order IDs
     }
-    
-    
-    
-    
+
     private static void initializeOrderIds() {
         for (int i = 1; i <= 100; i++) {
             availableOrderIds.add(i);
@@ -76,7 +74,6 @@ public class ooorder {
         return "Order added successfully with Order ID: " + orderId;
     }
 
-    
     public static void saveOrders() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("order.txt"))) {
             for (Map.Entry<String, String[]> entry : orders.entrySet()) {
@@ -86,7 +83,7 @@ public class ooorder {
                 writer.newLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error saving orders.", e);
         }
     }
 
@@ -97,47 +94,52 @@ public class ooorder {
             orders.put(orderId, orderInfo);
             saveOrders(); // Save the updates to the file
         } else {
-            System.out.println("Order ID not found.");
+            logger.info("Order ID not found.");
         }
     }
-    
+
     private static void loadOrders() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("order.txt"))) {
+        loadFromFile("order.txt", (line) -> {
+            String[] parts = line.split(",");
+            
+            // Ignore the header line or any incorrect line
+            if (parts[0].equals("Order ID") || parts.length != 7) {
+                return;
+            }
+            
+            try {
+                String orderId = parts[0];
+                String productId = parts[1];
+                String productName = parts[2];
+                String description = parts[3];
+                String quantity = parts[4];
+                String totalPrice = parts[5];
+                String status = parts[6];
+                orders.put(orderId, new String[]{productId, productName, description, quantity, totalPrice, status});
+            } catch (NumberFormatException e) {
+                logger.info("Error parsing order: " + line);
+            }
+        });
+    }
+
+    private static void loadFromFile(String filename, LineProcessor processor) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                
-                // Ignore the header line or any incorrect line
-                if (parts[0].equals("Order ID") || parts.length != 7) {
-                    continue; // Skip this line
-                }
-                
-                try {
-                    String orderId = parts[0];
-                    String productId = parts[1];
-                    String productName = parts[2];
-                    String description = parts[3];
-                    String quantity = parts[4];
-                    String totalPrice = parts[5];
-                    String status = parts[6];
-                    orders.put(orderId, new String[]{productId, productName, description, quantity, totalPrice, status});
-                } catch (NumberFormatException e) {
-                    System.out.println("Error parsing order: " + line);
-                }
+                processor.process(line);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error loading file: " + filename, e);
         }
     }
 
-
     public void viewOrders() {
-        System.out.println("Order List:");
+        logger.info("Order List:");
         for (Map.Entry<String, String[]> entry : orders.entrySet()) {
             String orderId = entry.getKey();
             String[] orderInfo = entry.getValue();
-            System.out.printf("Order ID: %s, Product ID: %s, Product Name: %s, Description: %s, Quantity: %s, Total Price: %s, Status: %s%n",
-                    orderId, orderInfo[0], orderInfo[1], orderInfo[2], orderInfo[3], orderInfo[4], orderInfo[5]);
+            logger.info(String.format("Order ID: %s, Product ID: %s, Product Name: %s, Description: %s, Quantity: %s, Total Price: %s, Status: %s",
+                    orderId, orderInfo[0], orderInfo[1], orderInfo[2], orderInfo[3], orderInfo[4], orderInfo[5]));
         }
     }
 
@@ -157,7 +159,7 @@ public class ooorder {
                 writer.newLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error saving products.", e);
         }
     }
 
@@ -170,7 +172,7 @@ public class ooorder {
                 writer.newLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error saving discounts.", e);
         }
     }
 
@@ -209,15 +211,14 @@ public class ooorder {
     }
 
     public static void printOrders(String message, Map<String, String[]> orders) {
-        System.out.println(message);
+        logger.info(message);
         for (Map.Entry<String, String[]> entry : orders.entrySet()) {
             String orderId = entry.getKey();
             String[] orderInfo = entry.getValue();
-            System.out.printf("Order ID: %s, Product ID: %s, Product Name: %s, Description: %s, Quantity: %s, Total Price: %s, Status: %s%n",
-                    orderId, orderInfo[0], orderInfo[1], orderInfo[2], orderInfo[3], orderInfo[4], orderInfo[5]);
+            logger.info(String.format("Order ID: %s, Product ID: %s, Product Name: %s, Description: %s, Quantity: %s, Total Price: %s, Status: %s",
+                    orderId, orderInfo[0], orderInfo[1], orderInfo[2], orderInfo[3], orderInfo[4], orderInfo[5]));
         }
     }
-
 
     public static String addOrder(String orderId, String productId, int quantity) {
         if (!products.containsKey(productId)) {
@@ -270,19 +271,18 @@ public class ooorder {
     }
 
     private static void loadDiscounts() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("discounts.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length == 2) {
+        loadFromFile("discounts.txt", (line) -> {
+            String[] parts = line.split(",");
+            if (parts.length == 2) {
+                try {
                     String discountName = parts[0];
                     double discountRate = Double.parseDouble(parts[1]);
                     discounts.put(discountName, discountRate);
+                } catch (NumberFormatException e) {
+                    logger.info("Error parsing discount: " + line);
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     public static String updateOrder(String orderId, Map<String, String> updatedDetails) {
@@ -335,23 +335,17 @@ public class ooorder {
     }
 
     private static void loadProducts() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("product.txt"))) {
-            String line;
-            reader.readLine(); // Skip the header line
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length == 5) {
-                    String productId = parts[0];
-                    String productName = parts[1];
-                    String description = parts[2];
-                    String price = parts[3];
-                    String availability = parts[4];
-                    products.put(productId, new String[]{productName, description, price, availability});
-                }
+        loadFromFile("product.txt", (line) -> {
+            String[] parts = line.split(",");
+            if (parts.length == 5) {
+                String productId = parts[0];
+                String productName = parts[1];
+                String description = parts[2];
+                String price = parts[3];
+                String availability = parts[4];
+                products.put(productId, new String[]{productName, description, price, availability});
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
     }
 
     public static void main(String[] args) {
@@ -360,16 +354,16 @@ public class ooorder {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\n1. View Orders");
-            System.out.println("2. Add Order");
-            System.out.println("3. Delete Order");
-            System.out.println("4. Update Order");
-            System.out.println("5. Apply Discount");
-            System.out.println("6. Add Discount");
-            System.out.println("7. Update Order Status");
-            System.out.println("8. Exit");
+            logger.info("\n1. View Orders");
+            logger.info("2. Add Order");
+            logger.info("3. Delete Order");
+            logger.info("4. Update Order");
+            logger.info("5. Apply Discount");
+            logger.info("6. Add Discount");
+            logger.info("7. Update Order Status");
+            logger.info("8. Exit");
 
-            System.out.print("Enter your choice: ");
+            logger.info("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine();
 
@@ -378,68 +372,73 @@ public class ooorder {
                     orderManager.viewOrders();
                     break;
                 case 2:
-                    System.out.print("Enter Order ID: ");
+                    logger.info("Enter Order ID: ");
                     String orderId = scanner.nextLine();
-                    System.out.print("Enter Product ID: ");
+                    logger.info("Enter Product ID: ");
                     String productId = scanner.nextLine();
-                    System.out.print("Enter Quantity: ");
+                    logger.info("Enter Quantity: ");
                     int quantity = scanner.nextInt();
                     scanner.nextLine();
                     String result = addOrder(orderId, productId, quantity);
-                    System.out.println(result);
+                    logger.info(result);
                     break;
                 case 3:
-                    System.out.print("Enter Order ID: ");
+                    logger.info("Enter Order ID: ");
                     String deleteOrderId = scanner.nextLine();
                     String deleteResult = deleteOrder(deleteOrderId);
-                    System.out.println(deleteResult);
+                    logger.info(deleteResult);
                     break;
                 case 4:
-                    System.out.print("Enter Order ID: ");
+                    logger.info("Enter Order ID: ");
                     String updateOrderId = scanner.nextLine();
                     Map<String, String> updatedDetails = new HashMap<>();
-                    System.out.print("Enter new Product ID (or press Enter to keep current): ");
+                    logger.info("Enter new Product ID (or press Enter to keep current): ");
                     String newProductId = scanner.nextLine();
                     if (!newProductId.isEmpty()) {
                         updatedDetails.put("Product ID", newProductId);
                     }
-                    System.out.print("Enter new Quantity (or press Enter to keep current): ");
+                    logger.info("Enter new Quantity (or press Enter to keep current): ");
                     String newQuantityStr = scanner.nextLine();
                     if (!newQuantityStr.isEmpty()) {
                         updatedDetails.put("Quantity", newQuantityStr);
                     }
                     String updateResult = updateOrder(updateOrderId, updatedDetails);
-                    System.out.println(updateResult);
+                    logger.info(updateResult);
                     break;
                 case 5:
-                    System.out.print("Enter Discount Name: ");
+                    logger.info("Enter Discount Name: ");
                     String discountName = scanner.nextLine();
                     String applyDiscountResult = applyDiscount(discountName);
-                    System.out.println(applyDiscountResult);
+                    logger.info(applyDiscountResult);
                     break;
                 case 6:
-                    System.out.print("Enter Discount Name: ");
+                    logger.info("Enter Discount Name: ");
                     String discountNameAdd = scanner.nextLine();
-                    System.out.print("Enter Discount Rate: ");
+                    logger.info("Enter Discount Rate: ");
                     double discountRate = scanner.nextDouble();
                     scanner.nextLine();
                     String addDiscountResult = addDiscount(discountNameAdd, discountRate);
-                    System.out.println(addDiscountResult);
+                    logger.info(addDiscountResult);
                     break;
                 case 7:
-                    System.out.print("Enter Order ID: ");
+                    logger.info("Enter Order ID: ");
                     String statusOrderId = scanner.nextLine();
-                    System.out.print("Enter New Status: ");
+                    logger.info("Enter New Status: ");
                     String newStatus = scanner.nextLine();
                     updateOrderStatus(statusOrderId, newStatus);
                     break;
                 case 8:
-                    System.out.println("Exiting...");
+                    logger.info("Exiting...");
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("Invalid choice, please try again.");
+                    logger.info("Invalid choice, please try again.");
             }
         }
+    }
+
+    @FunctionalInterface
+    private interface LineProcessor {
+        void process(String line);
     }
 }
