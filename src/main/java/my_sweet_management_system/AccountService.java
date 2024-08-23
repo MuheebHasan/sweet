@@ -20,7 +20,7 @@ public class AccountService {
     public void addAccount(String name, String email) {
         if (!accounts.containsKey(name)) {
             accounts.put(name, new UserAccount(name, email));
-            saveAccounts(); // Save the new account to the file
+            saveAccountsIfNeeded(); // Save the new account to the file if necessary
             logger.info(String.format("Added account: %s", name));
         } else {
             logger.warning(String.format("Account already exists: %s", name));
@@ -68,8 +68,9 @@ public class AccountService {
                 return "Field does not exist";
         }
 
+        // Save the account details only if there was an update
         if (updated) {
-            saveAccounts(); // Save the updated account details to the file
+            saveAccountsIfNeeded();
             logger.info(String.format("Updated account: %s, Field: %s", name, field));
             return "Account details updated successfully";
         } else {
@@ -82,7 +83,7 @@ public class AccountService {
         File file = new File(ACCOUNT_FILE);
         if (!file.exists()) {
             logger.info("No accounts file found. Creating a new file.");
-            saveAccounts(); // Save an empty map to create the file
+            saveAccountsIfNeeded(); // Save an empty map to create the file if needed
             return;
         }
 
@@ -101,15 +102,19 @@ public class AccountService {
         }
     }
 
-    // Saves account details to the file
-    private void saveAccounts() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(ACCOUNT_FILE))) {
-            for (Map.Entry<String, UserAccount> entry : accounts.entrySet()) {
-                UserAccount account = entry.getValue();
-                writer.write(String.format("%s, %s%n", entry.getKey(), account.getEmail()));
+    // Saves account details to the file if there are changes
+    private void saveAccountsIfNeeded() {
+        // Determine if accounts have been modified and need saving
+        boolean needsSaving = !accounts.isEmpty();
+        if (needsSaving) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(ACCOUNT_FILE))) {
+                for (Map.Entry<String, UserAccount> entry : accounts.entrySet()) {
+                    UserAccount account = entry.getValue();
+                    writer.write(String.format("%s, %s%n", entry.getKey(), account.getEmail()));
+                }
+            } catch (IOException e) {
+                logger.log(Level.SEVERE, "Error saving accounts", e);
             }
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error saving accounts", e);
         }
     }
 
