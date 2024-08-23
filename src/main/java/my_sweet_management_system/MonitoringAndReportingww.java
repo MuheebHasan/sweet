@@ -10,7 +10,7 @@ public class MonitoringAndReportingww {
 
     private Map<String, List<String>> usersByCity;
     private Map<String, Integer> salesByProduct;
-    
+
     // Define constants for file names
     private static final String USER_DATA_FILE = "user.txt";
     private static final String SALES_DATA_FILE = "order.txt";
@@ -31,8 +31,7 @@ public class MonitoringAndReportingww {
 
     private void loadUserData(String filename) {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            String line;
-            br.readLine(); // Skip header
+            String line = br.readLine(); // Skip header
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length < 5) continue; // Validate data length
@@ -49,8 +48,7 @@ public class MonitoringAndReportingww {
 
     private void loadSalesData(String filename) {
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            String line;
-            br.readLine(); // Skip header
+            String line = br.readLine(); // Skip header
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length < 6) continue; // Validate data length
@@ -226,8 +224,10 @@ public class MonitoringAndReportingww {
             return;
         }
 
+        File tempFile = new File("logsign_temp.txt");
+
         try (BufferedReader reader = new BufferedReader(new FileReader(LOGSIGN_FILE));
-             BufferedWriter writer = new BufferedWriter(new FileWriter("logsign_temp.txt"))) {
+             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
 
             String line;
             boolean updated = false;
@@ -257,7 +257,14 @@ public class MonitoringAndReportingww {
             LOGGER.log(Level.SEVERE, "Error updating logsign file: {0}", e.getMessage());
         }
 
-        new File(LOGSIGN_FILE).delete();
-        new File("logsign_temp.txt").renameTo(new File(LOGSIGN_FILE));
+        boolean deleteSuccessful = new File(LOGSIGN_FILE).delete();
+        if (!deleteSuccessful) {
+            LOGGER.warning("Failed to delete the original logsign file.");
+        }
+
+        boolean renameSuccessful = tempFile.renameTo(new File(LOGSIGN_FILE));
+        if (!renameSuccessful) {
+            LOGGER.warning("Failed to rename the temporary logsign file.");
+        }
     }
 }
