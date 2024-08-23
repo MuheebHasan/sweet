@@ -6,8 +6,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TestUtility {
+
+    private static final Logger LOGGER = Logger.getLogger(TestUtility.class.getName());
 
     private static final String OWNER_FILE = "owner.txt";
     private static final String USER_FILE = "user.txt";
@@ -18,23 +22,18 @@ public class TestUtility {
     private Set<String> owners;
     private Set<String> users;
     private Set<String> suppliers;
-    private Map<String, String> orders; // Add this map to store orders
-    private String lastUpdateMessage;  // Variable to store the last update message
+    private Map<String, String> orders;
+    private String lastUpdateMessage;
 
     public TestUtility() {
         owners = loadNamesFromFile(OWNER_FILE);
         users = loadNamesFromFile(USER_FILE);
         suppliers = loadNamesFromFile(SUPPLIER_FILE);
-        orders = new HashMap<>(); 
+        orders = new HashMap<>();
         lastUpdateMessage = "";
         loadOrdersFromFile("order.txt");
-        
     }
 
-   
-    
-
-    // Method to load orders from the file
     private void loadOrdersFromFile(String filename) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -47,9 +46,10 @@ public class TestUtility {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error reading order file.", e);
         }
     }
+
     private Set<String> loadNamesFromFile(String fileName) {
         Set<String> names = new HashSet<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -58,7 +58,7 @@ public class TestUtility {
                 names.add(line.trim());
             }
         } catch (IOException e) {
-            System.out.println("Error reading file: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Error reading file: " + fileName, e);
         }
         return names;
     }
@@ -68,12 +68,12 @@ public class TestUtility {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(MESSAGE_FILE, true))) {
                 writer.write(recipient + ": " + sender + ": " + message + "\n");
                 writer.flush();
-                System.out.println("Message sent successfully!");
+                LOGGER.info("Message sent successfully!");
             } catch (IOException e) {
-                System.out.println("Error writing to file: " + e.getMessage());
+                LOGGER.log(Level.SEVERE, "Error writing to message file.", e);
             }
         } else {
-            System.out.println("Invalid sender or recipient.");
+            LOGGER.warning("Invalid sender or recipient.");
         }
     }
 
@@ -96,7 +96,7 @@ public class TestUtility {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error reading from file: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Error reading from message file.", e);
         }
         if (messages.length() > 0) {
             return messages.toString();
@@ -109,9 +109,9 @@ public class TestUtility {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(EMAIL_FILE, true))) {
             writer.write(recipientEmail + ": " + sender + ": " + subject + ": " + body + "\n");
             writer.flush();
-            System.out.println("Email sent from " + sender + " to " + recipientEmail + " with subject: " + subject);
+            LOGGER.info("Email sent from " + sender + " to " + recipientEmail + " with subject: " + subject);
         } catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Error writing to email file.", e);
         }
     }
 
@@ -127,7 +127,7 @@ public class TestUtility {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error reading from file: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Error reading from email file.", e);
         }
         if (emails.length() > 0) {
             return emails.toString();
@@ -138,7 +138,7 @@ public class TestUtility {
 
     public void updateUserDetails(String owner, String oldUsername, String newUsername, String newAddress, String newPhone) {
         if (!owners.contains(owner)) {
-            System.out.println("You are not authorized to update user details.");
+            LOGGER.warning("You are not authorized to update user details.");
             return;
         }
 
@@ -161,26 +161,26 @@ public class TestUtility {
             }
 
         } catch (IOException e) {
-            System.out.println("Error updating user details: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Error updating user details.", e);
             return;
         }
 
         if (userFound) {
             if (!userFile.delete()) {
-                System.out.println("Error deleting original file.");
+                LOGGER.warning("Error deleting original file.");
                 return;
             }
 
             if (!tempFile.renameTo(userFile)) {
-                System.out.println("Error renaming temporary file to the original file.");
+                LOGGER.warning("Error renaming temporary file to the original file.");
             } else {
-                System.out.println("User details updated successfully.");
+                LOGGER.info("User details updated successfully.");
             }
         } else {
             if (!tempFile.delete()) {
-                System.out.println("Error deleting temporary file.");
+                LOGGER.warning("Error deleting temporary file.");
             }
-            System.out.println("Username not found.");
+            LOGGER.info("Username not found.");
         }
     }
 
@@ -211,97 +211,95 @@ public class TestUtility {
 
         } catch (IOException e) {
             lastUpdateMessage = "Error updating supplier details: " + e.getMessage();
+            LOGGER.log(Level.SEVERE, lastUpdateMessage, e);
             return;
         }
 
         if (!supplierFile.delete()) {
             lastUpdateMessage = "Error deleting original file.";
+            LOGGER.warning(lastUpdateMessage);
             return;
         }
 
         if (!tempFile.renameTo(supplierFile)) {
             lastUpdateMessage = "Error renaming temporary file to the original file.";
+            LOGGER.warning(lastUpdateMessage);
         }
     }
 
-    // Method to get the last update message
     public String getLastUpdateMessage() {
         return lastUpdateMessage;
     }
-    
+
     public void viewAndUpdateOrder(String userType, String username) {
         Scanner scanner = new Scanner(System.in);
 
         if ("owner".equalsIgnoreCase(userType)) {
-            System.out.println("Viewing and updating orders:");
+            LOGGER.info("Viewing and updating orders:");
             boolean hasOrders = false;
 
-            // Display all orders
             for (Map.Entry<String, String> entry : orders.entrySet()) {
-                System.out.println("Order ID: " + entry.getKey() + " - " + entry.getValue());
+                LOGGER.info("Order ID: " + entry.getKey() + " - " + entry.getValue());
                 hasOrders = true;
             }
 
             if (!hasOrders) {
-                System.out.println("No orders found.");
+                LOGGER.info("No orders found.");
                 return;
             }
 
-            // Ask for Order ID to update
-            System.out.print("Enter the Order ID to update (e.g., to mark as 'Ready'): ");
+            LOGGER.info("Enter the Order ID to update (e.g., to mark as 'Ready'): ");
             String orderId = scanner.nextLine().trim();
 
             if (orders.containsKey(orderId)) {
-                System.out.println("Updating order ID " + orderId);
+                LOGGER.info("Updating order ID " + orderId);
                 String[] parts = orders.get(orderId).split(",", 2);
                 String newDescription = parts[0] + ", Process";
                 orders.put(orderId, newDescription);
-                System.out.println("Order updated to 'Ready'.");
+                LOGGER.info("Order updated to 'Ready'.");
                 updateOrderInFile(orderId, newDescription);
             } else {
-                System.out.println("Order ID not found.");
+                LOGGER.info("Order ID not found.");
             }
 
         } else if ("user".equalsIgnoreCase(userType)) {
             if (!users.contains(username)) {
-                System.out.println("User not found. No updates will be made.");
+                LOGGER.info("User not found. No updates will be made.");
                 return;
             }
 
-            System.out.println("Viewing all available orders:");
+            LOGGER.info("Viewing all available orders:");
             boolean hasOrders = false;
 
-            // Display all available orders
             for (Map.Entry<String, String> entry : orders.entrySet()) {
-                System.out.println("Order ID: " + entry.getKey() + " - " + entry.getValue());
+                LOGGER.info("Order ID: " + entry.getKey() + " - " + entry.getValue());
                 hasOrders = true;
             }
 
             if (!hasOrders) {
-                System.out.println("No orders found.");
+                LOGGER.info("No orders found.");
                 return;
             }
 
-            // Ask for Order ID to bind
-            System.out.print("Enter the Order ID to bind to yourself: ");
+            LOGGER.info("Enter the Order ID to bind to yourself: ");
             String orderId = scanner.nextLine().trim();
 
             if (orders.containsKey(orderId)) {
                 String[] parts = orders.get(orderId).split(",", 2);
                 String newDescription = parts[0] + ", Reserved by " + username;
                 orders.put(orderId, newDescription);
-                System.out.println("Order ID " + orderId + " has been bound to you.");
+                LOGGER.info("Order ID " + orderId + " has been bound to you.");
                 updateOrderInFile(orderId, newDescription);
             } else {
-                System.out.println("Order ID not found.");
+                LOGGER.info("Order ID not found.");
             }
         } else {
-            System.out.println("Invalid user type.");
+            LOGGER.info("Invalid user type.");
         }
     }
 
     private void updateOrderInFile(String orderId, String updatedOrderDetails) {
-        File orderFile = new File("order.txt"); // تأكد من أن هذا هو الاسم الصحيح للملف
+        File orderFile = new File("order.txt");
         File tempFile = new File("order_temp.txt");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(orderFile));
@@ -321,36 +319,32 @@ public class TestUtility {
             }
 
             if (!updated) {
-                System.out.println("Order ID " + orderId + " not found in the file.");
+                LOGGER.info("Order ID " + orderId + " not found in the file.");
             }
 
         } catch (IOException e) {
-            System.out.println("Error updating order in file: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Error updating order in file.", e);
             return;
         }
 
         if (!orderFile.delete()) {
-            System.out.println("Error deleting original file.");
+            LOGGER.severe("Error deleting original file.");
             return;
         }
 
         if (!tempFile.renameTo(orderFile)) {
-            System.out.println("Error renaming temporary file to the original file.");
+            LOGGER.severe("Error renaming temporary file to the original file.");
         } else {
-            System.out.println("Order file updated successfully.");
+            LOGGER.info("Order file updated successfully.");
         }
     }
-
-
 
     private void sendNotification(String orderId, String message) {
-        // هذه الدالة ترسل رسالة للمستخدم بناءً على رقم الطلب
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("order_notifications.txt", true))) {
             writer.write("Order ID: " + orderId + " - " + message + "\n");
-            System.out.println("Notification sent to the user.");
+            LOGGER.info("Notification sent to the user.");
         } catch (IOException e) {
-            System.out.println("Error sending notification: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Error sending notification.", e);
         }
     }
-
 }
