@@ -1,6 +1,7 @@
 package my_sweet_management_system;
 
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class BeneficiaryUsers {
@@ -9,224 +10,236 @@ public class BeneficiaryUsers {
 
     // Logic to navigate to the sign-up page
     public void navigateToSignUpPage() {
-        logger.info("Navigating to the sign-up page...");
+        logInfo("Navigating to the sign-up page...");
         // Logic to navigate to the sign-up page
     }
 
     // Logic to enter sign-up details
     public void enterSignUpDetails(Map<String, String> userDetails) {
-        logger.info("Entering sign-up details...");
+        logInfo("Entering sign-up details...");
         String username = userDetails.get("username");
         String password = userDetails.get("password");
-        logger.info(String.format("Username: %s", username));
-        logger.info(String.format("Password: %s", password));
+        logInfo(String.format("Username: %s", username));
+        logInfo(String.format("Password: %s", password));
         // Logic to enter sign-up details
     }
 
     // Logic to submit the sign-up form
     public void submitSignUpForm() {
-        logger.info("Submitting sign-up form...");
+        logInfo("Submitting sign-up form...");
         // Logic to submit the sign-up form
     }
 
     // Logic to verify confirmation email
     public void verifyConfirmationEmail() {
-        logger.info("Verifying confirmation email...");
+        logInfo("Verifying confirmation email...");
         // Logic to verify confirmation email
     }
 
     // Logic to navigate to the sign-in page
     public void navigateToSignInPage() {
-        logger.info("Navigating to the sign-in page...");
+        logInfo("Navigating to the sign-in page...");
         // Logic to navigate to the sign-in page
     }
 
     // Logic to enter sign-in credentials
     public void enterSignInCredentials(String username, String password) {
-        logger.info("Entering sign-in credentials...");
-        logger.info(String.format("Username: %s", username));
-        logger.info(String.format("Password: %s", password));
+        logInfo("Entering sign-in credentials...");
+        logInfo(String.format("Username: %s", username));
+        logInfo(String.format("Password: %s", password));
         // Logic to enter sign-in credentials
     }
 
     // Logic to submit the sign-in form
     public void submitSignInForm() {
-        logger.info("Submitting sign-in form...");
+        logInfo("Submitting sign-in form...");
         // Logic to submit the sign-in form
     }
 
     // Logic to verify redirection to the dashboard
     public void verifyDashboardRedirect() {
-        logger.info("Verifying redirection to the dashboard...");
+        logInfo("Verifying redirection to the dashboard...");
         // Logic to verify redirection to the dashboard
     }
 
     // Logic to verify welcome message
     public void verifyWelcomeMessage(String message) {
-        logger.info("Verifying welcome message...");
-        logger.info(String.format("Expected Message: %s", message));
+        logInfo("Verifying welcome message...");
+        logInfo(String.format("Expected Message: %s", message));
         // Logic to verify welcome message
     }
 
     // Logic to verify user login
     public void verifyUserLoggedIn() {
-        logger.info("Verifying user login...");
+        logInfo("Verifying user login...");
         // Logic to verify user login
     }
 
     // Logic to navigate to the specified section
     public void navigateToSection(String section) {
-        logger.info(String.format("Navigating to section: %s", section));
+        logInfo(String.format("Navigating to section: %s", section));
         // Logic to navigate to the specified section
     }
 
     // Logic to update user details
     public void updateUserDetails(Map<String, String> updatedDetails) {
-        logger.info("Updating user details...");
+        logInfo("Updating user details...");
         String address = updatedDetails.get("address");
         String phoneNumber = updatedDetails.get("phone");
-        logger.info(String.format("New Address: %s", address));
-        logger.info(String.format("New Phone Number: %s", phoneNumber));
+        logInfo(String.format("New Address: %s", address));
+        logInfo(String.format("New Phone Number: %s", phoneNumber));
         // Logic to update user details
     }
 
     // Logic to submit update form
     public void submitUpdateForm() {
-        logger.info("Submitting update form...");
+        logInfo("Submitting update form...");
         // Logic to submit update form
     }
 
     // Logic to enter dessert details
     public void enterDessertDetails(Map<String, String> dessertDetails) {
-        logger.info("Entering dessert details...");
+        logInfo("Entering dessert details...");
         String dessertName = dessertDetails.get("name");
         String ingredients = dessertDetails.get("ingredients");
-        logger.info(String.format("Dessert Name: %s", dessertName));
-        logger.info(String.format("Ingredients: %s", ingredients));
+        logInfo(String.format("Dessert Name: %s", dessertName));
+        logInfo(String.format("Ingredients: %s", ingredients));
         // Logic to enter dessert details
     }
 
     // Logic to submit post
     public void submitPost() {
-        logger.info("Submitting dessert post...");
+        logInfo("Submitting dessert post...");
         // Logic to submit post
     }
 
     // Logic to verify post display on user profile
     public void verifyPostDisplayed() {
-        logger.info("Verifying post display on user profile...");
+        logInfo("Verifying post display on user profile...");
         // Logic to verify post display on user profile
     }
 
     // Logic to search for a recipe
     public void searchForRecipe(String searchTerm) {
-        logger.info(String.format("Searching for recipe: %s", searchTerm));
+        logInfo(String.format("Searching for recipe: %s", searchTerm));
         // Logic to search for a recipe
     }
 
     // Logic to verify recipe list for search term
     public void verifyRecipeList(String searchTerm) {
-        logger.info(String.format("Verifying recipe list for search term: %s", searchTerm));
+        logInfo(String.format("Verifying recipe list for search term: %s", searchTerm));
         // Logic to verify recipe list for search term
     }
 
     // Logic to apply filter
     public void applyFilter(String filter) {
-        logger.info(String.format("Applying filter: %s", filter));
+        logInfo(String.format("Applying filter: %s", filter));
         // Logic to apply filter
     }
 
     // Logic to verify filtered recipes
     public void verifyFilteredRecipes(String filter) {
-        logger.info(String.format("Verifying filtered recipes for filter: %s", filter));
+        logInfo(String.format("Verifying filtered recipes for filter: %s", filter));
         // Logic to verify filtered recipes
     }
 
     // Logic to verify store owner page
     public void verifyStoreOwnerPage() {
-        logger.info("Verifying store owner page...");
+        logInfo("Verifying store owner page...");
         // Logic to verify store owner page
     }
 
     // Logic to select dessert for purchase
     public void selectDessertForPurchase() {
-        logger.info("Selecting dessert for purchase...");
+        logInfo("Selecting dessert for purchase...");
         // Logic to select dessert for purchase
     }
 
     // Logic to enter payment details
     public void enterPaymentDetails(Map<String, String> paymentDetails) {
-        logger.info("Entering payment details...");
+        logInfo("Entering payment details...");
         String cardNumber = paymentDetails.get("cardNumber");
         String expirationDate = paymentDetails.get("expirationDate");
-        logger.info(String.format("Card Number: %s", cardNumber));
-        logger.info(String.format("Expiration Date: %s", expirationDate));
+        logInfo(String.format("Card Number: %s", cardNumber));
+        logInfo(String.format("Expiration Date: %s", expirationDate));
         // Logic to enter payment details
     }
 
     // Logic to submit payment
     public void submitPayment() {
-        logger.info("Submitting payment...");
+        logInfo("Submitting payment...");
         // Logic to submit payment
     }
 
     // Logic to verify email receipt
     public void verifyEmailReceipt() {
-        logger.info("Verifying email receipt...");
+        logInfo("Verifying email receipt...");
         // Logic to verify email receipt
     }
 
     // Logic to navigate to the specified section on store owner page
     public void navigateToStoreOwnerSection(String section) {
-        logger.info(String.format("Navigating to store owner section: %s", section));
+        logInfo(String.format("Navigating to store owner section: %s", section));
         // Logic to navigate to the specified section on store owner page
     }
 
     // Logic to send message to store owner
     public void sendMessageToStoreOwner(String message) {
-        logger.info(String.format("Sending message to store owner: %s", message));
+        logInfo(String.format("Sending message to store owner: %s", message));
         // Logic to send message to store owner
     }
 
     // Logic to verify message sent to store owner
     public void verifyMessageSentToStoreOwner() {
-        logger.info("Verifying message sent to store owner...");
+        logInfo("Verifying message sent to store owner...");
         // Logic to verify message sent to store owner
     }
 
     // Logic to select order for feedback
     public void selectOrderForFeedback() {
-        logger.info("Selecting order for feedback...");
+        logInfo("Selecting order for feedback...");
         // Logic to select order for feedback
     }
 
     // Logic to enter feedback
     public void enterFeedback(String feedback) {
-        logger.info(String.format("Entering feedback: %s", feedback));
+        logInfo(String.format("Entering feedback: %s", feedback));
         // Logic to enter feedback
     }
 
     // Logic to submit feedback
     public void submitFeedback() {
-        logger.info("Submitting feedback...");
+        logInfo("Submitting feedback...");
         // Logic to submit feedback
     }
 
     // Logic to verify feedback under product reviews
     public void verifyFeedbackUnderProductReviews() {
-        logger.info("Verifying feedback under product reviews...");
+        logInfo("Verifying feedback under product reviews...");
         // Logic to verify feedback under product reviews
     }
 
     // Logic to navigate to shared recipe page
     public void navigateToSharedRecipePage() {
-        logger.info("Navigating to shared recipe page...");
+        logInfo("Navigating to shared recipe page...");
         // Logic to navigate to shared recipe page
     }
 
     // Logic to verify feedback under recipe reviews
     public void verifyFeedbackUnderRecipeReviews() {
-        logger.info("Verifying feedback under recipe reviews...");
+        logInfo("Verifying feedback under recipe reviews...");
         // Logic to verify feedback under recipe reviews
+    }
+
+    private void logInfo(String message) {
+        if (logger.isLoggable(Level.INFO)) {
+            logger.info(message);
+        }
+    }
+
+    private void logWarning(String message) {
+        if (logger.isLoggable(Level.WARNING)) {
+            logger.warning(message);
+        }
     }
 }
