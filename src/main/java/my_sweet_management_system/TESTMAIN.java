@@ -10,7 +10,8 @@ public class TESTMAIN {
 
     private static Map<String, String> messages = new HashMap<>();
     private static Map<String, String> emails = new HashMap<>();
- 
+    static Scanner scanner = new Scanner(System.in);
+
 
     public void sendMessage(String sender, String recipient, String message) {
         messages.put(recipient, "From " + sender + ": " + message);
@@ -31,7 +32,6 @@ public class TESTMAIN {
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         TestUtility testUtility = new TestUtility();
         boolean running = true;
 
@@ -65,14 +65,9 @@ public class TESTMAIN {
             logger.info("\n** Test Utilities **");
             logger.info("1. Send Message");
             logger.info("2. Receive Message");
-            logger.info("3. Send Email");
-            logger.info("4. Receive Email");
-            logger.info("5. Update Order Status");
-            logger.info("6. Get Order Status");
-            logger.info("7. Update User Details");
-            logger.info("8. Update Supplier Details");
-            logger.info("9. View and Update Orders");
-            logger.info("10. Back to Main Menu");
+            logger.info("3. Update User Details");
+            logger.info("4. View and Update Orders");
+            logger.info("5. Back to Main Menu");
             logger.info("Enter your choice: ");
             int testChoice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -96,42 +91,6 @@ public class TESTMAIN {
                     break;
 
                 case 3:
-                    logger.info("Enter sender: ");
-                    String emailSender = scanner.nextLine();
-                    logger.info("Enter recipient email: ");
-                    String emailRecipient = scanner.nextLine();
-                    logger.info("Enter subject: ");
-                    String subject = scanner.nextLine();
-                    logger.info("Enter body: ");
-                    String body = scanner.nextLine();
-                    testUtility.sendEmail(emailSender, emailRecipient, subject, body);
-                    break;
-
-                case 4:
-                    logger.info("Enter recipient email: ");
-                    String emailRecipientForCheck = scanner.nextLine();
-                    String receivedEmail = testUtility.receiveEmail(emailRecipientForCheck);
-                    logger.info("Received Email: " + receivedEmail);
-                    break;
-
-                case 5:
-                    logger.info("Enter order ID: ");
-                    String orderId = scanner.nextLine();
-                    logger.info("Enter new status: ");
-                    String status = scanner.nextLine();
-                    // Implement the updateOrderStatus method in TestUtility
-                    //testUtility.updateOrderStatus(orderId, status);
-                    break;
-
-                case 6:
-                    logger.info("Enter order ID: ");
-                    String orderIdForStatus = scanner.nextLine();
-                    // Implement the getOrderStatus method in TestUtility
-                    //String orderStatus = testUtility.getOrderStatus(orderIdForStatus);
-                    //logger.info("Order Status: " + orderStatus);
-                    break;
-
-                case 7:
                     logger.info("Enter your name (owner) to authorize update: ");
                     String ownerName = scanner.nextLine();
                     logger.info("Enter current username to update: ");
@@ -145,23 +104,8 @@ public class TESTMAIN {
                     testUtility.updateUserDetails(ownerName, oldUsernameToUpdate, newUsername, newAddress, newContactNumber);
                     break;
 
-                case 8:
-                    logger.info("Enter your current username: ");
-                    String currentUsername = scanner.nextLine();
-                    logger.info("Enter new username: ");
-                    String newUsername1 = scanner.nextLine();
-                    logger.info("Enter new address: ");
-                    String newAddress1 = scanner.nextLine();
-                    logger.info("Enter new phone number: ");
-                    String newPhone = scanner.nextLine();
-                    logger.info("Enter new email: ");
-                    String newEmail = scanner.nextLine();
-                    testUtility.updateSupplierDetails(currentUsername, newUsername1, newAddress1, newPhone, newEmail);
-                    String confirmationMessage = testUtility.getLastUpdateMessage();
-                    logger.info(confirmationMessage);
-                    break;
-
-                case 9:
+        
+                case 4:
                     logger.info("Enter user type (user/owner): ");
                     String userType = scanner.nextLine();
                     logger.info("Enter your username: ");
@@ -169,7 +113,7 @@ public class TESTMAIN {
                     testUtility.viewAndUpdateOrder(userType, username);
                     break;
 
-                case 10:
+                case 5:
                     testMenuRunning = false;
                     break;
 

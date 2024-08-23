@@ -351,90 +351,90 @@ public class ooorder {
     public static void main(String[] args) {
         ooorder orderManager = new ooorder();
 
-        Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)) {
+			while (true) {
+			    logger.info("\n1. View Orders");
+			    logger.info("2. Add Order");
+			    logger.info("3. Delete Order");
+			    logger.info("4. Update Order");
+			    logger.info("5. Apply Discount");
+			    logger.info("6. Add Discount");
+			    logger.info("7. Update Order Status");
+			    logger.info("8. Exit");
 
-        while (true) {
-            logger.info("\n1. View Orders");
-            logger.info("2. Add Order");
-            logger.info("3. Delete Order");
-            logger.info("4. Update Order");
-            logger.info("5. Apply Discount");
-            logger.info("6. Add Discount");
-            logger.info("7. Update Order Status");
-            logger.info("8. Exit");
+			    logger.info("Enter your choice: ");
+			    int choice = scanner.nextInt();
+			    scanner.nextLine();
 
-            logger.info("Enter your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (choice) {
-                case 1:
-                    orderManager.viewOrders();
-                    break;
-                case 2:
-                    logger.info("Enter Order ID: ");
-                    String orderId = scanner.nextLine();
-                    logger.info("Enter Product ID: ");
-                    String productId = scanner.nextLine();
-                    logger.info("Enter Quantity: ");
-                    int quantity = scanner.nextInt();
-                    scanner.nextLine();
-                    String result = addOrder(orderId, productId, quantity);
-                    logger.info(result);
-                    break;
-                case 3:
-                    logger.info("Enter Order ID: ");
-                    String deleteOrderId = scanner.nextLine();
-                    String deleteResult = deleteOrder(deleteOrderId);
-                    logger.info(deleteResult);
-                    break;
-                case 4:
-                    logger.info("Enter Order ID: ");
-                    String updateOrderId = scanner.nextLine();
-                    Map<String, String> updatedDetails = new HashMap<>();
-                    logger.info("Enter new Product ID (or press Enter to keep current): ");
-                    String newProductId = scanner.nextLine();
-                    if (!newProductId.isEmpty()) {
-                        updatedDetails.put("Product ID", newProductId);
-                    }
-                    logger.info("Enter new Quantity (or press Enter to keep current): ");
-                    String newQuantityStr = scanner.nextLine();
-                    if (!newQuantityStr.isEmpty()) {
-                        updatedDetails.put("Quantity", newQuantityStr);
-                    }
-                    String updateResult = updateOrder(updateOrderId, updatedDetails);
-                    logger.info(updateResult);
-                    break;
-                case 5:
-                    logger.info("Enter Discount Name: ");
-                    String discountName = scanner.nextLine();
-                    String applyDiscountResult = applyDiscount(discountName);
-                    logger.info(applyDiscountResult);
-                    break;
-                case 6:
-                    logger.info("Enter Discount Name: ");
-                    String discountNameAdd = scanner.nextLine();
-                    logger.info("Enter Discount Rate: ");
-                    double discountRate = scanner.nextDouble();
-                    scanner.nextLine();
-                    String addDiscountResult = addDiscount(discountNameAdd, discountRate);
-                    logger.info(addDiscountResult);
-                    break;
-                case 7:
-                    logger.info("Enter Order ID: ");
-                    String statusOrderId = scanner.nextLine();
-                    logger.info("Enter New Status: ");
-                    String newStatus = scanner.nextLine();
-                    updateOrderStatus(statusOrderId, newStatus);
-                    break;
-                case 8:
-                    logger.info("Exiting...");
-                    System.exit(0);
-                    break;
-                default:
-                    logger.info("Invalid choice, please try again.");
-            }
-        }
+			    switch (choice) {
+			        case 1:
+			            orderManager.viewOrders();
+			            break;
+			        case 2:
+			            logger.info("Enter Order ID: ");
+			            String orderId = scanner.nextLine();
+			            logger.info("Enter Product ID: ");
+			            String productId = scanner.nextLine();
+			            logger.info("Enter Quantity: ");
+			            int quantity = scanner.nextInt();
+			            scanner.nextLine();
+			            String result = addOrder(orderId, productId, quantity);
+			            logger.info(result);
+			            break;
+			        case 3:
+			            logger.info("Enter Order ID: ");
+			            String deleteOrderId = scanner.nextLine();
+			            String deleteResult = deleteOrder(deleteOrderId);
+			            logger.info(deleteResult);
+			            break;
+			        case 4:
+			            logger.info("Enter Order ID: ");
+			            String updateOrderId = scanner.nextLine();
+			            Map<String, String> updatedDetails = new HashMap<>();
+			            logger.info("Enter new Product ID (or press Enter to keep current): ");
+			            String newProductId = scanner.nextLine();
+			            if (!newProductId.isEmpty()) {
+			                updatedDetails.put("Product ID", newProductId);
+			            }
+			            logger.info("Enter new Quantity (or press Enter to keep current): ");
+			            String newQuantityStr = scanner.nextLine();
+			            if (!newQuantityStr.isEmpty()) {
+			                updatedDetails.put("Quantity", newQuantityStr);
+			            }
+			            String updateResult = updateOrder(updateOrderId, updatedDetails);
+			            logger.info(updateResult);
+			            break;
+			        case 5:
+			            logger.info("Enter Discount Name: ");
+			            String discountName = scanner.nextLine();
+			            String applyDiscountResult = applyDiscount(discountName);
+			            logger.info(applyDiscountResult);
+			            break;
+			        case 6:
+			            logger.info("Enter Discount Name: ");
+			            String discountNameAdd = scanner.nextLine();
+			            logger.info("Enter Discount Rate: ");
+			            double discountRate = scanner.nextDouble();
+			            scanner.nextLine();
+			            String addDiscountResult = addDiscount(discountNameAdd, discountRate);
+			            logger.info(addDiscountResult);
+			            break;
+			        case 7:
+			            logger.info("Enter Order ID: ");
+			            String statusOrderId = scanner.nextLine();
+			            logger.info("Enter New Status: ");
+			            String newStatus = scanner.nextLine();
+			            updateOrderStatus(statusOrderId, newStatus);
+			            break;
+			        case 8:
+			            logger.info("Exiting...");
+			            System.exit(0);
+			            break;
+			        default:
+			            logger.info("Invalid choice, please try again.");
+			    }
+			}
+		}
     }
 
     @FunctionalInterface

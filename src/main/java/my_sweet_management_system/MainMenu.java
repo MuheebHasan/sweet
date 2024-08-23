@@ -8,8 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
-
+ 
 public class MainMenu {
      private static final String INVALID_CHOICE_MESSAGE = "Invalid choice. Please try again.";
     private static final String ENTER_YOUR_CHOICE= "Enter your choice: ";

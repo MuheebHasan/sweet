@@ -11,7 +11,8 @@ public class PersonAccount {
     private static final String RECIPES_FILE_NAME = "recipes.txt";
     private static final String POSTS_FILE_NAME = "posts.txt";
     private static final String FEEDBACK_FILE_NAME = "feedback.txt";
-
+    private static final String ERROR_READING_RECIPES_FILE = "Error reading recipes file: {}";
+ 
     private static final Logger logger = LoggerFactory.getLogger(PersonAccount.class);
 
     private File recipesFile = new File(RECIPES_FILE_NAME);
@@ -44,7 +45,7 @@ public class PersonAccount {
                 logger.info("Recipe not found.");
             }
         } catch (IOException e) {
-            logger.error("Error reading recipes file: {}", e.getMessage());
+            logger.error(ERROR_READING_RECIPES_FILE, e.getMessage());
         }
     }
 
@@ -62,7 +63,7 @@ public class PersonAccount {
                 }
             }
         } catch (IOException e) {
-            logger.error("Error reading recipes file: {}", e.getMessage());
+            logger.error(ERROR_READING_RECIPES_FILE, e.getMessage());
         }
     }
 
@@ -90,7 +91,7 @@ public class PersonAccount {
                 }
             }
         } catch (IOException e) {
-            logger.error("Error reading recipes file: {}", e.getMessage());
+            logger.error(ERROR_READING_RECIPES_FILE, e.getMessage());
         }
     }
 
@@ -106,7 +107,7 @@ public class PersonAccount {
                 }
             }
         } catch (IOException e) {
-            logger.error("Error reading recipes file: {}", e.getMessage());
+            logger.error(ERROR_READING_RECIPES_FILE, e.getMessage());
         }
     }
 
@@ -124,7 +125,7 @@ public class PersonAccount {
                 }
             }
         } catch (IOException e) {
-            logger.error("Error reading recipes file: {}", e.getMessage());
+            logger.error(ERROR_READING_RECIPES_FILE, e.getMessage());
         }
     }
 

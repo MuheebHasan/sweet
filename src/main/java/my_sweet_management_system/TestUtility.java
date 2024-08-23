@@ -18,6 +18,7 @@ public class TestUtility {
     private static final String SUPPLIER_FILE = "supplier.txt";
     private static final String MESSAGE_FILE = "messages.txt";
     private static final String EMAIL_FILE = "emails.txt";
+    Scanner scanner = new Scanner(System.in);
 
     private Set<String> owners;
     private Set<String> users;
@@ -232,7 +233,6 @@ public class TestUtility {
     }
 
     public void viewAndUpdateOrder(String userType, String username) {
-        Scanner scanner = new Scanner(System.in);
 
         if ("owner".equalsIgnoreCase(userType)) {
             LOGGER.info("Viewing and updating orders:");
@@ -339,12 +339,5 @@ public class TestUtility {
         }
     }
 
-    private void sendNotification(String orderId, String message) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("order_notifications.txt", true))) {
-            writer.write("Order ID: " + orderId + " - " + message + "\n");
-            LOGGER.info("Notification sent to the user.");
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error sending notification.", e);
-        }
-    }
+  
 }
