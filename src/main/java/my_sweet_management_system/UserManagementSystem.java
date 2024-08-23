@@ -33,6 +33,10 @@ public class UserManagementSystem {
             String line;
             reader.readLine(); // Skip the header line
             while ((line = reader.readLine()) != null) {
+                // Store the line read from the file
+                if (line.trim().isEmpty()) {
+                    continue; // Skip empty lines
+                }
                 String[] parts = line.split(",");
                 if (parts.length == 5) {
                     String id = parts[0];
@@ -41,6 +45,9 @@ public class UserManagementSystem {
                     String address = parts[3];
                     String phone = parts[4];
                     users.put(id, new User(id, type, name, address, phone));
+                } else {
+                    // Log a warning if the line format is invalid
+                    logger.warning("Invalid line format: " + line);
                 }
             }
         } catch (IOException e) {
