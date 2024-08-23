@@ -86,6 +86,8 @@ public class AccountService {
                 String[] parts = line.split(", ");
                 if (parts.length == 2) {
                     accounts.put(parts[0], new UserAccount(parts[0], parts[1]));
+                } else {
+                    logger.warning("Malformed line in accounts file: " + line);
                 }
             }
         } catch (IOException e) {
