@@ -11,13 +11,11 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class MainMenu {
-    private static final Logger logger = Logger.getLogger(MainMenu.class.getName());
-    private static final String INVALID_CHOICE_MESSAGE = "Invalid choice. Please try again.";
+     private static final String INVALID_CHOICE_MESSAGE = "Invalid choice. Please try again.";
     private static final String ENTER_YOUR_CHOICE= "Enter your choice: ";
     private static final String BACK_TO_USER_MENUE= "3. Back to User Menu";
 
-     private static ooorder orderManager = new ooorder();
-     private static Test userAuth = new Test();
+      private static Test userAuth = new Test();
     private static UserManagementSystem system = new UserManagementSystem(); // Assuming you have this class for managing users
     private static MonitoringAndReportingww reporting = new MonitoringAndReportingww(); // Assuming you have this class for reporting
     private static Product productSystem = new Product(); // Assuming you have this class for managing products
