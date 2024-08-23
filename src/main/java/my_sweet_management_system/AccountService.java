@@ -11,23 +11,20 @@ public class AccountService {
     private Map<String, UserAccount> accounts = new HashMap<>();
     private static final String ACCOUNT_FILE = "accounts.txt";
 
-    // Constructor that loads accounts from file if available
     public AccountService() {
-        loadAccounts();
+        loadAccountsIfNeeded();
     }
 
-    // Adds a new account only if it does not already exist
     public void addAccount(String name, String email) {
         if (!accounts.containsKey(name)) {
             accounts.put(name, new UserAccount(name, email));
-            saveAccountsIfNeeded(); // Save the new account to the file if necessary
+            saveAccountsIfNeeded(); // Save only if an account is added
             logger.info(String.format("Added account: %s", name));
         } else {
             logger.warning(String.format("Account already exists: %s", name));
         }
     }
 
-    // Retrieves account details; logs a warning if the account is not found
     public UserAccount getAccountDetail(String name) {
         UserAccount account = accounts.get(name);
         if (account == null) {
@@ -36,7 +33,6 @@ public class AccountService {
         return account;
     }
 
-    // Checks if an account exists and logs a warning if it does not
     public boolean accountExists(String name) {
         boolean exists = accounts.containsKey(name);
         if (!exists) {
@@ -45,7 +41,6 @@ public class AccountService {
         return exists;
     }
 
-    // Updates account details only if the account exists and the field is valid
     public String updateAccount(String name, String field, String value) {
         UserAccount account = accounts.get(name);
         if (account == null) {
@@ -68,9 +63,8 @@ public class AccountService {
                 return "Field does not exist";
         }
 
-        // Save the account details only if there was an update
         if (updated) {
-            saveAccountsIfNeeded();
+            saveAccountsIfNeeded(); // Save only if there is an update
             logger.info(String.format("Updated account: %s, Field: %s", name, field));
             return "Account details updated successfully";
         } else {
@@ -78,35 +72,30 @@ public class AccountService {
         }
     }
 
-    // Loads accounts from the file; creates a new file if it does not exist
-    private void loadAccounts() {
+    private void loadAccountsIfNeeded() {
         File file = new File(ACCOUNT_FILE);
-        if (!file.exists()) {
-            logger.info("No accounts file found. Creating a new file.");
-            saveAccountsIfNeeded(); // Save an empty map to create the file if needed
-            return;
-        }
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(", ");
-                if (parts.length == 2) {
-                    accounts.put(parts[0], new UserAccount(parts[0], parts[1]));
-                } else {
-                    logger.warning("Malformed line in accounts file: " + line);
+        if (file.exists()) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(", ");
+                    if (parts.length == 2) {
+                        accounts.put(parts[0], new UserAccount(parts[0], parts[1]));
+                    } else {
+                        logger.warning("Malformed line in accounts file: " + line);
+                    }
                 }
+            } catch (IOException e) {
+                logger.log(Level.SEVERE, "Error loading accounts", e);
             }
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error loading accounts", e);
+        } else {
+            logger.info("No accounts file found. Creating a new file.");
+            saveAccountsIfNeeded(); // Create a new file only if it does not exist
         }
     }
 
-    // Saves account details to the file if there are changes
     private void saveAccountsIfNeeded() {
-        // Determine if accounts have been modified and need saving
-        boolean needsSaving = !accounts.isEmpty();
-        if (needsSaving) {
+        if (!accounts.isEmpty()) { // Save only if there are accounts to save
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(ACCOUNT_FILE))) {
                 for (Map.Entry<String, UserAccount> entry : accounts.entrySet()) {
                     UserAccount account = entry.getValue();
@@ -118,7 +107,6 @@ public class AccountService {
         }
     }
 
-    // Inner class for UserAccount
     public static class UserAccount {
         private String name;
         private String email;
