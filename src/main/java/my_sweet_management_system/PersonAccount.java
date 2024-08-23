@@ -1,10 +1,18 @@
 package my_sweet_management_system;
+
 import java.io.*;
 import java.util.*;
+
 public class PersonAccount {
-    private File recipesFile = new File("recipes.txt");
-    private File postsFile = new File("posts.txt");
-    private File feedbackFile = new File("feedback.txt");
+    // Define constants for file names
+    private static final String RECIPES_FILE_NAME = "recipes.txt";
+    private static final String POSTS_FILE_NAME = "posts.txt";
+    private static final String FEEDBACK_FILE_NAME = "feedback.txt";
+
+    private File recipesFile = new File(RECIPES_FILE_NAME);
+    private File postsFile = new File(POSTS_FILE_NAME);
+    private File feedbackFile = new File(FEEDBACK_FILE_NAME);
+
     public PersonAccount() {
         try {
             if (!recipesFile.exists()) recipesFile.createNewFile();
@@ -14,6 +22,7 @@ public class PersonAccount {
             e.printStackTrace();
         }
     }
+
     private void writeLinesToFile(List<String> lines, File file) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for (String line : lines) {
@@ -22,10 +31,9 @@ public class PersonAccount {
             }
         }
     }
-    
-    
+
     public static void searchRecipeByName(String name) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("recipes.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(RECIPES_FILE_NAME))) {
             String line;
             boolean found = false;
             while ((line = reader.readLine()) != null) {
@@ -43,8 +51,9 @@ public class PersonAccount {
             e.printStackTrace();
         }
     }
+
     public static void filterRecipesByAllergies(String allergy) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("recipes.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(RECIPES_FILE_NAME))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
@@ -60,9 +69,9 @@ public class PersonAccount {
             e.printStackTrace();
         }
     }
-    
+
     private static void filterRecipesByMultipleNutritionalValues(Set<String> criteria) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("recipes.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(RECIPES_FILE_NAME))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
@@ -70,7 +79,7 @@ public class PersonAccount {
                     String recipeName = parts[0];
                     String contents = parts[1];
                     boolean matchesAll = true;
-                    
+
                     // Check if all criteria are present in the contents
                     for (String criterion : criteria) {
                         if (!contents.contains(criterion)) {
@@ -78,7 +87,7 @@ public class PersonAccount {
                             break;
                         }
                     }
-                    
+
                     if (matchesAll) {
                         System.out.println(recipeName + ": " + contents);
                     }
@@ -88,6 +97,7 @@ public class PersonAccount {
             e.printStackTrace();
         }
     }
+
     public void filterRecipesByNutritionalValue(Set<String> criteria) {
         try (BufferedReader reader = new BufferedReader(new FileReader(recipesFile))) {
             String line;
@@ -97,7 +107,7 @@ public class PersonAccount {
                     String recipeName = parts[0];
                     String contents = parts[1];
                     boolean matchesAll = true;
-                    
+
                     // Check if all criteria are present in the contents
                     for (String criterion : criteria) {
                         if (!contents.contains(criterion)) {
@@ -105,7 +115,7 @@ public class PersonAccount {
                             break;
                         }
                     }
-                    
+
                     if (matchesAll) {
                         System.out.println(recipeName + ": " + contents);
                     }
@@ -115,10 +125,9 @@ public class PersonAccount {
             e.printStackTrace();
         }
     }
-   
-    
+
     public void showAllRecipes() {
-        try (BufferedReader reader = new BufferedReader(new FileReader("recipes.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(RECIPES_FILE_NAME))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
@@ -132,9 +141,10 @@ public class PersonAccount {
             e.printStackTrace();
         }
     }
+
     // Method to filter and show recipes based on a criterion
     public static void filterAndShowRecipes(String criterion) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("recipes.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(RECIPES_FILE_NAME))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
@@ -150,8 +160,7 @@ public class PersonAccount {
             e.printStackTrace();
         }
     }
-    
-   
+
     private List<String> readLinesFromFile(File file) throws IOException {
         List<String> lines = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -162,8 +171,7 @@ public class PersonAccount {
         }
         return lines;
     }
-    
-    
+
     public String addRecipe(String name, String ingredient, String quantity) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(recipesFile, true))) {
             writer.write(name + ";" + ingredient + ";" + quantity);
@@ -174,6 +182,7 @@ public class PersonAccount {
             return "Failed to add recipe";
         }
     }
+
     public String updateRecipe(String name, String newDescription) {
         List<String> recipes = new ArrayList<>();
         boolean found = false;
@@ -205,6 +214,7 @@ public class PersonAccount {
             return "Failed to update recipe";
         }
     }
+
     public String deleteRecipe(String name) {
         List<String> recipes = new ArrayList<>();
         boolean found = false;
@@ -235,6 +245,7 @@ public class PersonAccount {
             return "Failed to delete recipe";
         }
     }
+
     public String viewRecipe(String name) {
         try (BufferedReader reader = new BufferedReader(new FileReader(recipesFile))) {
             String line;
@@ -249,6 +260,7 @@ public class PersonAccount {
             return "Failed to view recipe";
         }
     }
+
     public String addPost(String title, String content) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(postsFile, true))) {
             writer.write(title + ";" + content);
@@ -259,6 +271,7 @@ public class PersonAccount {
             return "Failed to add post";
         }
     }
+
     public String deletePost(String title) {
         List<String> posts = new ArrayList<>();
         boolean found = false;
@@ -289,6 +302,7 @@ public class PersonAccount {
             return "Failed to delete post";
         }
     }
+
     public String updatePost(String title, String newContent) {
         List<String> posts = new ArrayList<>();
         boolean found = false;
@@ -320,10 +334,10 @@ public class PersonAccount {
             return "Failed to update post";
         }
     }
-    
+
     public String viewAllPosts() {
         StringBuilder allPosts = new StringBuilder();
-        
+
         try (BufferedReader reader = new BufferedReader(new FileReader(postsFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -338,6 +352,7 @@ public class PersonAccount {
         }
         return allPosts.toString();
     }
+
     public String viewFeedback() {
         StringBuilder feedbackList = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(feedbackFile))) {
@@ -350,6 +365,7 @@ public class PersonAccount {
         }
         return feedbackList.toString();
     }
+
     public String respondToFeedback(int feedbackId, String response) {
         List<String> feedbacks = new ArrayList<>();
         boolean found = false;
@@ -387,6 +403,7 @@ public class PersonAccount {
             return "Failed to respond to feedback";
         }
     }
+
     public String deleteFeedback(int feedbackId) {
         List<String> feedbacks = new ArrayList<>();
         boolean found = false;

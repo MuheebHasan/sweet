@@ -14,6 +14,7 @@ public class MainMenu {
     private static final Logger logger = Logger.getLogger(MainMenu.class.getName());
     private static final String INVALID_CHOICE_MESSAGE = "Invalid choice. Please try again.";
     private static final String ENTER_YOUR_CHOICE= "Enter your choice: ";
+    private static final String BACK_TO_USER_MENUE= "3. Back to User Menu";
 
      private static ooorder orderManager = new ooorder();
      private static Test userAuth = new Test();
@@ -267,8 +268,7 @@ public class MainMenu {
             logInfo("1. Add User");
             logInfo("2. Update User");
             logInfo("3. Delete User");
-            logInfo("4. View All Users");
-            logInfo("5. Back to Admin Menu");
+             logInfo("4. Back to Admin Menu");
             logInfo(ENTER_YOUR_CHOICE);
             int userMgmtChoice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -307,13 +307,8 @@ public class MainMenu {
                       String deleteResult = system.deleteUser();
                       logInfo(deleteResult);
                       break;
-                case 4:
-                    // Display all users
-                    // String allUsers = system.getAllUsers();
-                    // System.out.println(allUsers);
-                    break;
 
-                case 5:
+                case 4:
                     logInfo("Returning to Admin Menu...");
                     return;
 
@@ -330,7 +325,7 @@ public class MainMenu {
             logInfo("2. Update Recipe");
             logInfo("3. Delete Recipe");
             logInfo("4. View Recipe");
-            logInfo("5. Back to Admin Menu");
+            logInfo("5. Back to Menu Admin ");
             logInfo(ENTER_YOUR_CHOICE);
             int recipeChoice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -738,7 +733,7 @@ public class MainMenu {
             logInfo("\n--- Welcome to the Product Browsing Menu ---");
             logInfo("1. Show all products");
             logInfo("2. Search for a product by ID");
-            logInfo("3. Back to User Menu");
+            logInfo(BACK_TO_USER_MENUE);
             logInfo(ENTER_YOUR_CHOICE);
             int accountChoice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -766,7 +761,7 @@ public class MainMenu {
             logInfo("\n--- Welcome to the Purchase Menu ---");
             logInfo("1. Add Order");
             logInfo("2. Cancel Order");
-            logInfo("3. Back to User Menu");
+            logInfo(BACK_TO_USER_MENUE);
 
             int accountChoice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -845,7 +840,7 @@ public class MainMenu {
             logInfo("\n--- Manage Account ---");
             logInfo("1. Change Password");
             logInfo("2. Change Email");
-            logInfo("3. Back to User Menu");
+            logInfo(BACK_TO_USER_MENUE);
             logInfo(ENTER_YOUR_CHOICE);
             int accountChoice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
