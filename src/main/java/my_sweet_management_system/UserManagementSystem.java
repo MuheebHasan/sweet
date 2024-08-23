@@ -8,12 +8,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class UserManagementSystem {
-    private static final Logger logger = Logger.getLogger(UserManagementSystem.class.getName());
-
     private Map<String, User> users = new HashMap<>();
     private String currentId;
 
@@ -23,6 +19,7 @@ public class UserManagementSystem {
 
     // Load data from the text files
     private void loadData() {
+        
         loadFromFile("user.txt");
         loadFromFile("owner.txt");
         loadFromFile("supplier.txt");
@@ -44,7 +41,7 @@ public class UserManagementSystem {
                 }
             }
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error loading data from file: " + filename, e);
+            e.printStackTrace();
         }
     }
 
@@ -59,9 +56,9 @@ public class UserManagementSystem {
             return "Invalid user type";
         }
 
-        users.put(id, new User(id, type, name, address, phone));
+         users.put(id, new User(id, type, name, address, phone));
         saveData();
-
+       
         return "User account created successfully";
     }
 
@@ -93,16 +90,21 @@ public class UserManagementSystem {
         return "User account updated successfully";
     }
 
+  
+   
+
+
     public String deleteUser() {
         User user = users.remove(currentId);
         if (user != null) {
             saveData(); // Save changes to all files
             return "User account deleted successfully";
         } else {
-            logger.log(Level.WARNING, "Current ID not found: " + currentId); // Debug statement
+            System.out.println("Debug: Current ID not found: " + currentId); // Debug statement
             return "ID does not exist";
         }
     }
+
 
     // Save data to all text files
     private void saveData() {
@@ -132,7 +134,7 @@ public class UserManagementSystem {
                 }
             }
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "Error saving data to file: " + filename, e);
+            e.printStackTrace();
         }
     }
 
@@ -168,67 +170,67 @@ public class UserManagementSystem {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            logger.info("\n** Admin Menu **");
-            logger.info("1. Add User");
-            logger.info("2. Update User");
-            logger.info("3. Delete User");
-            logger.info("4. View All Users");
-            logger.info("5. Exit");
-            logger.info("Enter your choice: ");
+            System.out.println("\n** Admin Menu **");
+            System.out.println("1. Add User");
+            System.out.println("2. Update User");
+            System.out.println("3. Delete User");
+            System.out.println("4. View All Users");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
             switch (choice) {
                 case 1:
-                    logger.info("Enter User ID: ");
+                    System.out.print("Enter User ID: ");
                     String id = scanner.nextLine();
-                    logger.info("Enter User Type (User/Owner/Supplier): ");
+                    System.out.print("Enter User Type (User/Owner/Supplier): ");
                     String type = scanner.nextLine().toLowerCase(); // Convert to lower case for consistency
-                    logger.info("Enter User Name: ");
+                    System.out.print("Enter User Name: ");
                     String name = scanner.nextLine();
-                    logger.info("Enter User Address: ");
+                    System.out.print("Enter User Address: ");
                     String address = scanner.nextLine();
-                    logger.info("Enter User Phone: ");
+                    System.out.print("Enter User Phone: ");
                     String phone = scanner.nextLine();
                     String addResult = system.addUser(id, type, name, address, phone);
-                    logger.info(addResult);
+                    System.out.println(addResult);
                     break;
 
                 case 2:
-                    logger.info("Enter User ID to update: ");
+                    System.out.print("Enter User ID to update: ");
                     String updateId = scanner.nextLine();
                     system.setCurrentId(updateId);
-                    logger.info("Enter field to update (Name/Address/Phone): ");
+                    System.out.print("Enter field to update (Name/Address/Phone): ");
                     String field = scanner.nextLine();
-                    logger.info("Enter new value: ");
+                    System.out.print("Enter new value: ");
                     String value = scanner.nextLine();
                     String updateResult = system.updateUser(field, value);
-                    logger.info(updateResult);
+                    System.out.println(updateResult);
                     break;
 
                 case 3:
-                    logger.info("Enter User ID to delete: ");
+                    System.out.print("Enter User ID to delete: ");
                     String deleteId = scanner.nextLine();
                     system.setCurrentId(deleteId);
                     String deleteResult = system.deleteUser();
-                    logger.info(deleteResult);
+                    System.out.println(deleteResult);
                     break;
 
                 case 4:
-                    logger.info("All users:");
+                    System.out.println("All users:");
                     for (User user : system.users.values()) {
-                        logger.info(String.format("ID: %s, Type: %s, Name: %s, Address: %s, Phone: %s",
+                        System.out.println(String.format("ID: %s, Type: %s, Name: %s, Address: %s, Phone: %s",
                                 user.getId(), user.getType(), user.getName(), user.getAddress(), user.getPhone()));
                     }
                     break;
 
                 case 5:
-                    logger.info("Exiting...");
+                    System.out.println("Exiting...");
                     scanner.close();
                     return;
 
                 default:
-                    logger.warning("Invalid choice. Please try again.");
+                    System.out.println("Invalid choice. Please try again.");
             }
         }
     }
