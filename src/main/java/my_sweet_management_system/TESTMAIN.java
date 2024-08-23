@@ -1,49 +1,48 @@
 package my_sweet_management_system;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class TESTMAIN {
-	
-	
-	  private static Map<String, String> messages = new HashMap<>();
-	    private static Map<String, String> emails = new HashMap<>();
+    private static final Logger logger = Logger.getLogger(TESTMAIN.class.getName());
 
-	    public void sendMessage(String sender, String recipient, String message) {
-	        messages.put(recipient, "From " + sender + ": " + message);
-	        System.out.println("Message sent.");
-	    }
+    private static Map<String, String> messages = new HashMap<>();
+    private static Map<String, String> emails = new HashMap<>();
+ 
 
-	    public String receiveMessage(String recipient) {
-	        return messages.getOrDefault(recipient, "No new messages.");
-	    }
+    public void sendMessage(String sender, String recipient, String message) {
+        messages.put(recipient, "From " + sender + ": " + message);
+        logger.info("Message sent.");
+    }
 
-	    public void sendEmail(String sender, String recipient, String subject, String body) {
-	        emails.put(recipient, "From: " + sender + "\nSubject: " + subject + "\nBody: " + body);
-	        System.out.println("Email sent.");
-	    }
+    public String receiveMessage(String recipient) {
+        return messages.getOrDefault(recipient, "No new messages.");
+    }
 
-	    public String receiveEmail(String recipient) {
-	        return emails.getOrDefault(recipient, "No new emails.");
-	    }
-    
-    private static Map<String, String> userMap = new HashMap<>();
-    private static Map<String, String> ownerMap = new HashMap<>();
-    private static Map<String, String> supplierMap = new HashMap<>();
-    
+    public void sendEmail(String sender, String recipient, String subject, String body) {
+        emails.put(recipient, "From: " + sender + "\nSubject: " + subject + "\nBody: " + body);
+        logger.info("Email sent.");
+    }
+
+    public String receiveEmail(String recipient) {
+        return emails.getOrDefault(recipient, "No new emails.");
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         TestUtility testUtility = new TestUtility();
         boolean running = true;
-        
+
         while (running) {
-            System.out.println("Welcome to Sweet Management System");
-            System.out.println("1. Test Utilities");
-            System.out.println("2. Exit");
-            System.out.print("Choose an option: ");
+            logger.info("Welcome to Sweet Management System");
+            logger.info("1. Test Utilities");
+            logger.info("2. Exit");
+            logger.info("Choose an option: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
-            
+
             switch (choice) {
                 case 1:
                     testUtilities(scanner, testUtility);
@@ -52,120 +51,120 @@ public class TESTMAIN {
                     running = false; // Exit the program
                     break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    logger.info("Invalid choice. Please try again.");
             }
         }
-        
+
         scanner.close(); // Close the scanner when done
     }
-    
+
     private static void testUtilities(Scanner scanner, TestUtility testUtility) {
         boolean testMenuRunning = true;
 
         while (testMenuRunning) {
-            System.out.println("\n** Test Utilities **");
-            System.out.println("1. Send Message");
-            System.out.println("2. Receive Message");
-            System.out.println("3. Send Email");
-            System.out.println("4. Receive Email");
-            System.out.println("5. Update Order Status");
-            System.out.println("6. Get Order Status");
-            System.out.println("7. Update User Details");
-            System.out.println("8. Update Supplier Details");
-            System.out.println("9. View and Update Orders");
-            System.out.println("10. Back to Main Menu");
-            System.out.print("Enter your choice: ");
+            logger.info("\n** Test Utilities **");
+            logger.info("1. Send Message");
+            logger.info("2. Receive Message");
+            logger.info("3. Send Email");
+            logger.info("4. Receive Email");
+            logger.info("5. Update Order Status");
+            logger.info("6. Get Order Status");
+            logger.info("7. Update User Details");
+            logger.info("8. Update Supplier Details");
+            logger.info("9. View and Update Orders");
+            logger.info("10. Back to Main Menu");
+            logger.info("Enter your choice: ");
             int testChoice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
             switch (testChoice) {
                 case 1:
-                    System.out.print("Enter sender name: ");
+                    logger.info("Enter sender name: ");
                     String sender = scanner.nextLine();
-                    System.out.print("Enter recipient name: ");
+                    logger.info("Enter recipient name: ");
                     String recipient = scanner.nextLine();
-                    System.out.print("Enter message: ");
+                    logger.info("Enter message: ");
                     String message = scanner.nextLine();
                     testUtility.sendMessage(sender, recipient, message);
                     break;
 
                 case 2:
-                    System.out.print("Enter recipient name: ");
+                    logger.info("Enter recipient name: ");
                     String recipientForMessage = scanner.nextLine();
                     String receivedMessage = testUtility.receiveMessage(recipientForMessage);
-                    System.out.println(receivedMessage);
+                    logger.info(receivedMessage);
                     break;
 
                 case 3:
-                    System.out.print("Enter sender: ");
+                    logger.info("Enter sender: ");
                     String emailSender = scanner.nextLine();
-                    System.out.print("Enter recipient email: ");
+                    logger.info("Enter recipient email: ");
                     String emailRecipient = scanner.nextLine();
-                    System.out.print("Enter subject: ");
+                    logger.info("Enter subject: ");
                     String subject = scanner.nextLine();
-                    System.out.print("Enter body: ");
+                    logger.info("Enter body: ");
                     String body = scanner.nextLine();
                     testUtility.sendEmail(emailSender, emailRecipient, subject, body);
                     break;
 
                 case 4:
-                    System.out.print("Enter recipient email: ");
+                    logger.info("Enter recipient email: ");
                     String emailRecipientForCheck = scanner.nextLine();
                     String receivedEmail = testUtility.receiveEmail(emailRecipientForCheck);
-                    System.out.println("Received Email: " + receivedEmail);
+                    logger.info("Received Email: " + receivedEmail);
                     break;
 
                 case 5:
-                    System.out.print("Enter order ID: ");
+                    logger.info("Enter order ID: ");
                     String orderId = scanner.nextLine();
-                    System.out.print("Enter new status: ");
+                    logger.info("Enter new status: ");
                     String status = scanner.nextLine();
                     // Implement the updateOrderStatus method in TestUtility
                     //testUtility.updateOrderStatus(orderId, status);
                     break;
 
                 case 6:
-                    System.out.print("Enter order ID: ");
+                    logger.info("Enter order ID: ");
                     String orderIdForStatus = scanner.nextLine();
                     // Implement the getOrderStatus method in TestUtility
-                  //  String orderStatus = testUtility.getOrderStatus(orderIdForStatus);
-                   // System.out.println("Order Status: " + orderStatus);
+                    //String orderStatus = testUtility.getOrderStatus(orderIdForStatus);
+                    //logger.info("Order Status: " + orderStatus);
                     break;
 
                 case 7:
-                    System.out.print("Enter your name (owner) to authorize update: ");
+                    logger.info("Enter your name (owner) to authorize update: ");
                     String ownerName = scanner.nextLine();
-                    System.out.print("Enter current username to update: ");
+                    logger.info("Enter current username to update: ");
                     String oldUsernameToUpdate = scanner.nextLine();
-                    System.out.print("Enter new username: ");
+                    logger.info("Enter new username: ");
                     String newUsername = scanner.nextLine();
-                    System.out.print("Enter new address: ");
+                    logger.info("Enter new address: ");
                     String newAddress = scanner.nextLine();
-                    System.out.print("Enter new contact number: ");
+                    logger.info("Enter new contact number: ");
                     String newContactNumber = scanner.nextLine();
                     testUtility.updateUserDetails(ownerName, oldUsernameToUpdate, newUsername, newAddress, newContactNumber);
                     break;
 
                 case 8:
-                    System.out.print("Enter your current username: ");
+                    logger.info("Enter your current username: ");
                     String currentUsername = scanner.nextLine();
-                    System.out.print("Enter new username: ");
+                    logger.info("Enter new username: ");
                     String newUsername1 = scanner.nextLine();
-                    System.out.print("Enter new address: ");
+                    logger.info("Enter new address: ");
                     String newAddress1 = scanner.nextLine();
-                    System.out.print("Enter new phone number: ");
+                    logger.info("Enter new phone number: ");
                     String newPhone = scanner.nextLine();
-                    System.out.print("Enter new email: ");
+                    logger.info("Enter new email: ");
                     String newEmail = scanner.nextLine();
                     testUtility.updateSupplierDetails(currentUsername, newUsername1, newAddress1, newPhone, newEmail);
                     String confirmationMessage = testUtility.getLastUpdateMessage();
-                    System.out.println(confirmationMessage);
+                    logger.info(confirmationMessage);
                     break;
 
                 case 9:
-                    System.out.print("Enter user type (user/owner): ");
+                    logger.info("Enter user type (user/owner): ");
                     String userType = scanner.nextLine();
-                    System.out.print("Enter your username: ");
+                    logger.info("Enter your username: ");
                     String username = scanner.nextLine();
                     testUtility.viewAndUpdateOrder(userType, username);
                     break;
@@ -175,7 +174,7 @@ public class TESTMAIN {
                     break;
 
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    logger.info("Invalid choice. Please try again.");
             }
         }
     }
