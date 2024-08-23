@@ -8,10 +8,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Product {
+    private static final Logger LOGGER = Logger.getLogger(Product.class.getName());
     private static Map<String, String[]> products = new HashMap<>();
- 
+    
     // Save product data to the file
     private static void saveData() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("product.txt"))) {
@@ -29,7 +32,7 @@ public class Product {
                 writer.newLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error saving product data.", e);
         }
     }
 
@@ -88,7 +91,7 @@ public class Product {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error loading product data.", e);
         }
     }
 
@@ -101,62 +104,62 @@ public class Product {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\n--- Manage Products ---");
-            System.out.println("1. Add Product");
-            System.out.println("2. Update Product");
-            System.out.println("3. Delete Product");
-            System.out.println("4. Exit");
-            System.out.print("Enter your choice: ");
+            LOGGER.info("\n--- Manage Products ---");
+            LOGGER.info("1. Add Product");
+            LOGGER.info("2. Update Product");
+            LOGGER.info("3. Delete Product");
+            LOGGER.info("4. Exit");
+            LOGGER.info("Enter your choice: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
 
             switch (choice) {
                 case 1:
-                    System.out.print("Enter Product ID: ");
+                    LOGGER.info("Enter Product ID: ");
                     String productId = scanner.nextLine();
-                    System.out.print("Enter Product Name: ");
+                    LOGGER.info("Enter Product Name: ");
                     String productName = scanner.nextLine();
-                    System.out.print("Enter Description: ");
+                    LOGGER.info("Enter Description: ");
                     String description = scanner.nextLine();
-                    System.out.print("Enter Price: ");
+                    LOGGER.info("Enter Price: ");
                     String price = scanner.nextLine();
-                    System.out.print("Enter Availability: ");
+                    LOGGER.info("Enter Availability: ");
                     String availability = scanner.nextLine();
                     String addResult = productSystem.addProduct(productId, productName, description, price, availability);
-                    System.out.println(addResult);
+                    LOGGER.info(addResult);
                     break;
 
                 case 2:
-                    System.out.print("Enter Product ID to update: ");
+                    LOGGER.info("Enter Product ID to update: ");
                     String updateId = scanner.nextLine();
                     if (productSystem.productExists(updateId)) {
-                        System.out.print("Enter field to update (Product Name/Description/Price/Availability): ");
+                        LOGGER.info("Enter field to update (Product Name/Description/Price/Availability): ");
                         String field = scanner.nextLine();
-                        System.out.print("Enter new value: ");
+                        LOGGER.info("Enter new value: ");
                         String value = scanner.nextLine();
                         Map<String, String> updatedDetails = new HashMap<>();
                         updatedDetails.put(field, value);
                         String updateResult = productSystem.updateProduct(updateId, updatedDetails);
-                        System.out.println(updateResult);
+                        LOGGER.info(updateResult);
                     } else {
-                        System.out.println("Product ID does not exist.");
+                        LOGGER.info("Product ID does not exist.");
                     }
                     break;
 
                 case 3:
-                    System.out.print("Enter Product ID to delete: ");
+                    LOGGER.info("Enter Product ID to delete: ");
                     String deleteId = scanner.nextLine();
                     String deleteResult = productSystem.deleteProduct(deleteId);
-                    System.out.println(deleteResult);
+                    LOGGER.info(deleteResult);
                     break;
 
                 case 4:
-                    System.out.println("Exiting...");
+                    LOGGER.info("Exiting...");
                     scanner.close();
                     return;
 
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    LOGGER.info("Invalid choice. Please try again.");
             }
         }
     }
