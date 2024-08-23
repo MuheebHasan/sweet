@@ -236,10 +236,4 @@ public class BeneficiaryUsers {
             logger.info(message);
         }
     }
-
-    private void logWarning(String message) {
-        if (logger.isLoggable(Level.WARNING)) {
-            logger.warning(message);
-        }
-    }
 }
