@@ -1,25 +1,29 @@
 package my_sweet_management_system;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class EmailService {
 
-    private EmailDTO lastSentEmail; // لتخزين آخر بريد إلكتروني تم إرساله
+    private static final Logger logger = Logger.getLogger(EmailService.class.getName());
+    private EmailDTO lastSentEmail; // To store the last sent email
 
     public boolean sendEmail(String to, String subject, String body) {
-        lastSentEmail = new EmailDTO(to, subject, body); // تخزين تفاصيل البريد الإلكتروني
-        return sendEmailInternal(to, subject, body); // محاكاة إرسال البريد الإلكتروني
+        lastSentEmail = new EmailDTO(to, subject, body); // Store email details
+        return sendEmailInternal(to, subject, body); // Simulate sending email
     }
 
     public EmailDTO getLastSentEmail() {
-        return lastSentEmail; // إرجاع آخر بريد إلكتروني تم إرساله
+        return lastSentEmail; // Return the last sent email
     }
 
     private boolean sendEmailInternal(String to, String subject, String body) {
-        // طباعة معلومات البريد الإلكتروني
-        System.out.println("Email Sent: To = " + to + ", Subject = " + subject + ", Body = " + body);
-        return true; // افترض أن الإرسال كان ناجحاً
+        // Log email information
+        logger.log(Level.INFO, "Email Sent: To = {0}, Subject = {1}, Body = {2}", new Object[]{to, subject, body});
+        return true; // Assume sending was successful
     }
 
-    // فئة ثابتة لتمثيل تفاصيل البريد الإلكتروني
+    // Static class to represent email details
     public static class EmailDTO {
         private String to;
         private String subject;
@@ -31,7 +35,7 @@ public class EmailService {
             this.body = body;
         }
 
-        // getters
+        // Getters
         public String getTo() { return to; }
         public String getSubject() { return subject; }
         public String getBody() { return body; }
