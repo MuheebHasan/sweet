@@ -80,6 +80,9 @@ public class Product {
             String line;
             reader.readLine(); // Skip the header line
             while ((line = reader.readLine()) != null) {
+                // Log or use the line data
+                LOGGER.info("Read line: " + line);
+                
                 String[] parts = line.split(",");
                 if (parts.length == 5) {
                     String productId = parts[0];
@@ -88,12 +91,15 @@ public class Product {
                     String price = parts[3];
                     String availability = parts[4];
                     products.put(productId, new String[]{productName, description, price, availability});
+                } else {
+                    LOGGER.warning("Invalid line format: " + line);
                 }
             }
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error loading product data.", e);
         }
     }
+
 
     static {
         loadData(); // Load data when class is first used
