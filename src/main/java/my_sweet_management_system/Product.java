@@ -77,13 +77,9 @@ public class Product {
 
     private static void loadData() {
         try (BufferedReader reader = new BufferedReader(new FileReader("product.txt"))) {
-            String line;
-            reader.readLine(); // Skip the header line
+        	 String line = reader.readLine();// Skip the header line
             while ((line = reader.readLine()) != null) {
                 // Use or store the line read from the file
-                if (line.trim().isEmpty()) {
-                    continue; // Skip empty lines
-                }
                 String[] parts = line.split(",");
                 if (parts.length == 5) {
                     String productId = parts[0];
