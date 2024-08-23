@@ -586,17 +586,13 @@ public class MainMenu {
                     logInfo("Enter Order ID to update: ");
                     String updateOrderId = scanner.nextLine();
                     if (ooorder.orders.containsKey(updateOrderId)) {
-                        // الحصول على المعلومات الحالية للطلب
-                        String[] orderInfo = ooorder.orders.get(updateOrderId);
+                         String[] orderInfo = ooorder.orders.get(updateOrderId);
 
-                        // تحديث الحالة فقط إلى "Processing"
-                        orderInfo[5] = "Processing"; // assuming index 5 is the status
+                         orderInfo[5] = "Processing"; // assuming index 5 is the status
 
-                        // تحديث الخريطة
-                        ooorder.orders.put(updateOrderId, orderInfo);
+                         ooorder.orders.put(updateOrderId, orderInfo);
 
-                        // حفظ التحديثات إلى الملف
-                        ooorder.saveOrders();
+                         ooorder.saveOrders();
 
                         logInfo("Order status updated to Processing.");
                     } else {
@@ -613,7 +609,7 @@ public class MainMenu {
 
                 case 4:
                     logInfo("Exiting Order Management.");
-                    return; // Exit the order management menu loop
+                    return;  
 
                 default:
                     logInfo(INVALID_CHOICE_MESSAGE);
@@ -648,8 +644,7 @@ public class MainMenu {
 
             switch (choice) {
                 case 1:
-                    // Display messages for the owner
-                    logInfo("Messages for you:");
+                     logInfo("Messages for you:");
                     for (int i = 0; i < messagesForOwner.size(); i++) {
                         logInfo((i + 1) + ". " + messagesForOwner.get(i));
                     }
@@ -667,12 +662,10 @@ public class MainMenu {
                     String selectedMessage = messagesForOwner.get(messageNumber - 1);
                     logInfo("Selected message: " + selectedMessage);
 
-                    // Get the reply from the store owner
-                    logInfo("Enter your reply: ");
+                     logInfo("Enter your reply: ");
                     String reply = scanner.nextLine();
 
-                    // Append the reply to the message.txt file
-                    supplierService.appendReplyToMessageFile(currentOwner, selectedMessage, reply);
+                     supplierService.appendReplyToMessageFile(currentOwner, selectedMessage, reply);
 
                     logInfo("Reply sent successfully.");
                     break;

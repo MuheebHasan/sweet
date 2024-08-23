@@ -23,14 +23,7 @@ public class PersonAccount {
         }
     }
 
-    private void writeLinesToFile(List<String> lines, File file) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            for (String line : lines) {
-                writer.write(line);
-                writer.newLine();
-            }
-        }
-    }
+ 
 
     public static void searchRecipeByName(String name) {
         try (BufferedReader reader = new BufferedReader(new FileReader(RECIPES_FILE_NAME))) {
@@ -70,33 +63,7 @@ public class PersonAccount {
         }
     }
 
-    private static void filterRecipesByMultipleNutritionalValues(Set<String> criteria) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(RECIPES_FILE_NAME))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(";");
-                if (parts.length == 2) {
-                    String recipeName = parts[0];
-                    String contents = parts[1];
-                    boolean matchesAll = true;
-
-                    // Check if all criteria are present in the contents
-                    for (String criterion : criteria) {
-                        if (!contents.contains(criterion)) {
-                            matchesAll = false;
-                            break;
-                        }
-                    }
-
-                    if (matchesAll) {
-                        System.out.println(recipeName + ": " + contents);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+     
 
     public void filterRecipesByNutritionalValue(Set<String> criteria) {
         try (BufferedReader reader = new BufferedReader(new FileReader(recipesFile))) {
@@ -161,16 +128,7 @@ public class PersonAccount {
         }
     }
 
-    private List<String> readLinesFromFile(File file) throws IOException {
-        List<String> lines = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                lines.add(line);
-            }
-        }
-        return lines;
-    }
+   
 
     public String addRecipe(String name, String ingredient, String quantity) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(recipesFile, true))) {

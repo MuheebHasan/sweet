@@ -43,7 +43,7 @@ public class MonitoringAndReportingww {
                 usersByCity.get(address).add(user);
             }
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error reading user data file.", e);
+            LOGGER.log(Level.SEVERE, "Error reading user data file: {0}", e.getMessage());
         }
     }
 
@@ -63,7 +63,7 @@ public class MonitoringAndReportingww {
                 salesByProduct.put(productName, newQuantity);
             }
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error reading sales data file.", e);
+            LOGGER.log(Level.SEVERE, "Error reading sales data file: {0}", e.getMessage());
         }
     }
 
@@ -90,18 +90,18 @@ public class MonitoringAndReportingww {
         int userCount = getUserCountInCity(cityWithMostUsers);
         String mostOrderedProduct = getMostOrderedProduct();
 
-        LOGGER.info("City with most users: " + cityWithMostUsers + " with " + userCount + " users");
-        LOGGER.info("Most ordered product: " + mostOrderedProduct);
+        LOGGER.info(String.format("City with most users: %s with %d users", cityWithMostUsers, userCount));
+        LOGGER.info(String.format("Most ordered product: %s", mostOrderedProduct));
 
         // Write report to file
         StringBuilder report = new StringBuilder();
-        report.append("City with most users: ").append(cityWithMostUsers).append(" with ").append(userCount).append(" users\n");
-        report.append("Most ordered product: ").append(mostOrderedProduct).append("\n");
+        report.append(String.format("City with most users: %s with %d users%n", cityWithMostUsers, userCount));
+        report.append(String.format("Most ordered product: %s%n", mostOrderedProduct));
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(REPORT_FILE))) {
             writer.write(report.toString());
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error writing to report file.", e);
+            LOGGER.log(Level.SEVERE, "Error writing to report file: {0}", e.getMessage());
         }
     }
 
@@ -109,20 +109,20 @@ public class MonitoringAndReportingww {
     public void displayProductSales() {
         LOGGER.info("Product sales data:");
         salesByProduct.forEach((product, quantity) -> 
-            LOGGER.info("Product: " + product + ", Quantity Sold: " + quantity)
+            LOGGER.info(String.format("Product: %s, Quantity Sold: %d", product, quantity))
         );
 
         // Write product sales data to file
         StringBuilder productSalesReport = new StringBuilder();
         productSalesReport.append("Product Sales Data:\n");
         salesByProduct.forEach((product, quantity) -> 
-            productSalesReport.append("Product: ").append(product).append(", Quantity Sold: ").append(quantity).append("\n")
+            productSalesReport.append(String.format("Product: %s, Quantity Sold: %d%n", product, quantity))
         );
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(REPORT_FILE))) {
             writer.write(productSalesReport.toString());
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error writing to report file.", e);
+            LOGGER.log(Level.SEVERE, "Error writing to report file: {0}", e.getMessage());
         }
     }
 
@@ -137,7 +137,7 @@ public class MonitoringAndReportingww {
                 }
             }
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error reading logsign file.", e);
+            LOGGER.log(Level.SEVERE, "Error reading logsign file: {0}", e.getMessage());
         }
         return "Unknown"; // If role not found
     }
@@ -155,7 +155,7 @@ public class MonitoringAndReportingww {
                 return Integer.parseInt(line.trim());
             }
         } catch (IOException | NumberFormatException e) {
-            LOGGER.log(Level.WARNING, "Error reading feedback counter file. Defaulting to 1.", e);
+            LOGGER.log(Level.WARNING, "Error reading feedback counter file. Defaulting to 1: {0}", e.getMessage());
         }
         return 1; // Default to 1 if there is an error
     }
@@ -165,7 +165,7 @@ public class MonitoringAndReportingww {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(COUNTER_FILE))) {
             writer.write(String.valueOf(newCounter));
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error writing feedback counter file.", e);
+            LOGGER.log(Level.SEVERE, "Error writing feedback counter file: {0}", e.getMessage());
         }
     }
 
@@ -183,11 +183,11 @@ public class MonitoringAndReportingww {
         
         // Write feedback to file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FEEDBACK_FILE, true))) {
-            writer.write(feedbackId + ";" + username + ";" + feedback);
+            writer.write(String.format("%d;%s;%s", feedbackId, username, feedback));
             writer.newLine();
             LOGGER.info("Thank you for your feedback! We appreciate your input.");
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error writing to feedback file.", e);
+            LOGGER.log(Level.SEVERE, "Error writing to feedback file: {0}", e.getMessage());
         }
     }
 
@@ -198,7 +198,7 @@ public class MonitoringAndReportingww {
                 LOGGER.info(line);
             }
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error reading feedback file.", e);
+            LOGGER.log(Level.SEVERE, "Error reading feedback file: {0}", e.getMessage());
         }
     }
 
@@ -210,12 +210,12 @@ public class MonitoringAndReportingww {
                 if (parts[2].equals(email) && parts[1].equals(password)) {
                     loggedInUserEmail = email;  // Set email
                     loggedInUsername = parts[0]; // Set username
-                    LOGGER.info("Logged in user email set to: " + loggedInUserEmail);
+                    LOGGER.info(String.format("Logged in user email set to: %s", loggedInUserEmail));
                     return true;
                 }
             }
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error reading logsign file.", e);
+            LOGGER.log(Level.SEVERE, "Error reading logsign file: {0}", e.getMessage());
         }
         return false;
     }
@@ -254,7 +254,7 @@ public class MonitoringAndReportingww {
             }
 
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error updating logsign file.", e);
+            LOGGER.log(Level.SEVERE, "Error updating logsign file: {0}", e.getMessage());
         }
 
         new File(LOGSIGN_FILE).delete();
