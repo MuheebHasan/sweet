@@ -80,9 +80,7 @@ public class Product {
             String line;
             reader.readLine(); // Skip the header line
             while ((line = reader.readLine()) != null) {
-                // Log or use the line data
-                LOGGER.info("Read line: " + line);
-                
+                // Use or store the line read from the file
                 String[] parts = line.split(",");
                 if (parts.length == 5) {
                     String productId = parts[0];
@@ -92,6 +90,7 @@ public class Product {
                     String availability = parts[4];
                     products.put(productId, new String[]{productName, description, price, availability});
                 } else {
+                    // Log a warning if the line format is invalid
                     LOGGER.warning("Invalid line format: " + line);
                 }
             }
@@ -99,7 +98,6 @@ public class Product {
             LOGGER.log(Level.SEVERE, "Error loading product data.", e);
         }
     }
-
 
     static {
         loadData(); // Load data when class is first used
@@ -131,21 +129,21 @@ public class Product {
                     String price = scanner.nextLine();
                     LOGGER.info("Enter Availability: ");
                     String availability = scanner.nextLine();
-                    String addResult = productSystem.addProduct(productId, productName, description, price, availability);
+                    String addResult = Product.addProduct(productId, productName, description, price, availability);
                     LOGGER.info(addResult);
                     break;
 
                 case 2:
                     LOGGER.info("Enter Product ID to update: ");
                     String updateId = scanner.nextLine();
-                    if (productSystem.productExists(updateId)) {
+                    if (Product.productExists(updateId)) {
                         LOGGER.info("Enter field to update (Product Name/Description/Price/Availability): ");
                         String field = scanner.nextLine();
                         LOGGER.info("Enter new value: ");
                         String value = scanner.nextLine();
                         Map<String, String> updatedDetails = new HashMap<>();
                         updatedDetails.put(field, value);
-                        String updateResult = productSystem.updateProduct(updateId, updatedDetails);
+                        String updateResult = Product.updateProduct(updateId, updatedDetails);
                         LOGGER.info(updateResult);
                     } else {
                         LOGGER.info("Product ID does not exist.");
@@ -155,7 +153,7 @@ public class Product {
                 case 3:
                     LOGGER.info("Enter Product ID to delete: ");
                     String deleteId = scanner.nextLine();
-                    String deleteResult = productSystem.deleteProduct(deleteId);
+                    String deleteResult = Product.deleteProduct(deleteId);
                     LOGGER.info(deleteResult);
                     break;
 
