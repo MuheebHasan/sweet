@@ -12,7 +12,7 @@ public class PersonAccount {
     private static final String POSTS_FILE_NAME = "posts.txt";
     private static final String FEEDBACK_FILE_NAME = "feedback.txt";
     private static final String ERROR_READING_RECIPES_FILE = "Error reading recipes file: {}";
- 
+
     private static final Logger logger = LoggerFactory.getLogger(PersonAccount.class);
 
     private File recipesFile = new File(RECIPES_FILE_NAME);
@@ -21,9 +21,24 @@ public class PersonAccount {
 
     public PersonAccount() {
         try {
-            if (!recipesFile.exists()) recipesFile.createNewFile();
-            if (!postsFile.exists()) postsFile.createNewFile();
-            if (!feedbackFile.exists()) feedbackFile.createNewFile();
+            if (!recipesFile.exists()) {
+                boolean created = recipesFile.createNewFile();
+                if (!created) {
+                    logger.warn("Failed to create recipes file: {}", RECIPES_FILE_NAME);
+                }
+            }
+            if (!postsFile.exists()) {
+                boolean created = postsFile.createNewFile();
+                if (!created) {
+                    logger.warn("Failed to create posts file: {}", POSTS_FILE_NAME);
+                }
+            }
+            if (!feedbackFile.exists()) {
+                boolean created = feedbackFile.createNewFile();
+                if (!created) {
+                    logger.warn("Failed to create feedback file: {}", FEEDBACK_FILE_NAME);
+                }
+            }
         } catch (IOException e) {
             logger.error("Error creating files: {}", e.getMessage());
         }
