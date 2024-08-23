@@ -5,18 +5,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ProductSearchtest {
+    private static final Logger logger = Logger.getLogger(ProductSearchtest.class.getName());
+
     private String productId;
     private String productName;
     private String description;
     private String price;
     private String availability;
 
-    public ProductSearchtest()
-    {
-    	
+    public ProductSearchtest() {
     }
     
     public ProductSearchtest(String productId, String productName, String description, String price, String availability) {
@@ -29,22 +30,21 @@ public class ProductSearchtest {
 
     // Method to display all products
     public static void showAllProducts() {
-        System.out.println("\n--- All Available Products ---");
+        logger.info("\n--- All Available Products ---");
         try (BufferedReader br = new BufferedReader(new FileReader("product.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
+                logger.info(line);
             }
         } catch (IOException e) {
-            System.out.println("Error reading the product file.");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error reading the product file.", e);
         }
     }
 
     // Method to search for a product by ID
     public static List<ProductSearchtest> searchProductById(String productId) {
         List<ProductSearchtest> results = new ArrayList<>();
-        System.out.println("\n--- Searching for Product ID: " + productId + " ---");
+        logger.info("\n--- Searching for Product ID: " + productId + " ---");
         try (BufferedReader br = new BufferedReader(new FileReader("product.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -60,14 +60,13 @@ public class ProductSearchtest {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error reading the product file.");
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error reading the product file.", e);
         }
 
         if (results.isEmpty()) {
-            System.out.println("Product ID " + productId + " not found.");
+            logger.info("Product ID " + productId + " not found.");
         } else {
-            System.out.println("Product Found: " + results.get(0));
+            logger.info("Product Found: " + results.get(0));
         }
         return results;
     }
@@ -109,7 +108,6 @@ public class ProductSearchtest {
         this.availability = availability;
     }
 
-   
     public static List<ProductSearchtest> searchProductByName(String name) {
         return new ArrayList<>();
     }
