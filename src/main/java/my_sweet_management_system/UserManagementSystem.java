@@ -30,10 +30,8 @@ public class UserManagementSystem {
 
     private void loadFromFile(String filename) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            String line;
-            reader.readLine(); // Skip the header line
+            String line = reader.readLine(); // Read the header line and discard it
             while ((line = reader.readLine()) != null) {
-                // Store the line read from the file
                 if (line.trim().isEmpty()) {
                     continue; // Skip empty lines
                 }
