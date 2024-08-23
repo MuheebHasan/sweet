@@ -123,8 +123,13 @@ public class signup {
 
 	    @Then("I will look a popup message indicating the email is already in use")
 	    public void iWillLookAPopupMessageIndicatingTheEmailIsAlreadyInUse() {
-	        assertEquals("Email is already in use", "Email is already in use");
+ 	        String actualMessage = message; // Ensure 'message' holds the actual popup text
+	        
+ 	        String expectedMessage = "Email is already in use";
+	        
+ 	        assertEquals("Email is already in use", expectedMessage, actualMessage);
 	    }
+
 	    @Then("displayeddd ''Information has been entered successfully''")
 	    public void displayedddInformationHasBeenEnteredSuccessfully() {
 	        System.out.println("User should see: " + message);
