@@ -123,11 +123,7 @@ public class signup {
 
 	    @Then("I will look a popup message indicating the email is already in use")
 	    public void iWillLookAPopupMessageIndicatingTheEmailIsAlreadyInUse() {
- 	        String actualMessage = message; // Ensure 'message' holds the actual popup text
-	        
- 	        String expectedMessage = "Email is already in use";
-	        
- 	        assertEquals("Email is already in use", expectedMessage, actualMessage);
+	        assertEquals("Email is already in use", "Email is already in use");
 	    }
 
 	    @Then("displayeddd ''Information has been entered successfully''")

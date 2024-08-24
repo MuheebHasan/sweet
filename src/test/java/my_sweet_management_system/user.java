@@ -3,8 +3,7 @@ package my_sweet_management_system;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import my_sweet_management_system.UserManagementSystem;
-
+ 
 import static org.junit.Assert.*;
 
 import java.util.Map;
@@ -16,8 +15,7 @@ public class user {
 
     @Given("the admin is logged into the system")
     public void the_admin_is_logged_into_the_system() {
-        // Reset system to ensure a clean state before each test
-        system = new UserManagementSystem();
+         system = new UserManagementSystem();
     }
 
     @When("the admin enters the id {string}, the type {string}, the name {string}, the address {string}, and the phone {string}")
@@ -28,8 +26,7 @@ public class user {
 
     @Then("a confirmation message {string} should be displayed")
     public void a_confirmation_message_should_be_displayed(String expectedMessage) {
-     //	 assertEquals(expectedMessage, result);
-    }
+     }
 
     @Then("an error message {string} should be displayed")
     public void an_error_message_should_be_displayed(String expectedMessage) {

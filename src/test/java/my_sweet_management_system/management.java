@@ -5,15 +5,11 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import junit.framework.Assert;
-import my_sweet_management_system.EmailService;
-import my_sweet_management_system.UserManagementSystem;
-import my_sweet_management_system.EmailService.EmailDTO;
-
+ 
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+ import java.util.Map;
 
 public class management {
 	

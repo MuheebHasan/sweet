@@ -2,12 +2,8 @@ package my_sweet_management_system;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import java.util.Map;
-import static org.junit.Assert.assertEquals;
-
-import my_sweet_management_system.MonitoringAndReportingww;
-import my_sweet_management_system.MonitoringandReporting;
-public class MonitoringandReporting {
+  
+ public class MonitoringandReporting {
     
 	MonitoringAndReportingww reportingSystem = new MonitoringAndReportingww();
 

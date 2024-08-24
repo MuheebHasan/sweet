@@ -2,12 +2,8 @@ package my_sweet_management_system;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import my_sweet_management_system.ProductSearchtest;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
+ 
+ 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;

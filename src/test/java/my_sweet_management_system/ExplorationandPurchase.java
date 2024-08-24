@@ -3,8 +3,7 @@ package my_sweet_management_system;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import my_sweet_management_system.BeneficiaryUsers;
-
+ 
 import java.util.Map;
 
 public class ExplorationandPurchase {
