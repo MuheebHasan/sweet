@@ -7,6 +7,7 @@ import java.util.Map;
 public class MessageService {
     private static final String MESSAGE_FILE = "messages.txt";
     private static final String EMAIL_FILE = "emails.txt";
+    private static final boolean DEBUG = false;  // Set to `false` to deactivate debug logs for production
 
     private Map<String, StringBuilder> messages = new HashMap<>();
     private Map<String, String> emails = new HashMap<>();
@@ -24,6 +25,9 @@ public class MessageService {
             messageContent.append(sender).append(": ").append(message).append("\n");
             messages.put(receiver, messageContent);
             saveMessages();
+            if (DEBUG) {
+                System.out.println("Debug: Message sent from " + sender + " to " + receiver);
+            }
             return "Message sent successfully!";
         } else {
             return "Sender or receiver does not exist";
@@ -33,21 +37,29 @@ public class MessageService {
     public String receiveMessage(String recipient) {
         StringBuilder messageContent = messages.get(recipient);
         if (messageContent != null && messageContent.length() > 0) {
+            if (DEBUG) {
+                System.out.println("Debug: Messages retrieved for " + recipient);
+            }
             return messageContent.toString();
         } else {
             return "No new messages for " + recipient;
         }
     }
 
-
     public String sendEmail(String sender, String recipientEmail, String subject, String body) {
         String email = "From: " + sender + "\nSubject: " + subject + "\nBody: " + body;
         emails.put(recipientEmail, email);
         saveEmails();
+        if (DEBUG) {
+            System.out.println("Debug: Email sent from " + sender + " to " + recipientEmail);
+        }
         return "Email sent successfully!";
     }
 
     public String receiveEmail(String recipient) {
+        if (DEBUG) {
+            System.out.println("Debug: Emails retrieved for " + recipient);
+        }
         return emails.getOrDefault(recipient, "No new emails for " + recipient);
     }
 
@@ -68,8 +80,13 @@ public class MessageService {
                     messages.put(recipient, existingMessages);
                 }
             }
+            if (DEBUG) {
+                System.out.println("Debug: Messages loaded from file.");
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            if (DEBUG) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -78,8 +95,13 @@ public class MessageService {
             for (Map.Entry<String, StringBuilder> entry : messages.entrySet()) {
                 writer.write(entry.getKey() + ": " + entry.getValue().toString());
             }
+            if (DEBUG) {
+                System.out.println("Debug: Messages saved to file.");
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            if (DEBUG) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -96,8 +118,13 @@ public class MessageService {
                     emails.put(parts[0], parts[1]);
                 }
             }
+            if (DEBUG) {
+                System.out.println("Debug: Emails loaded from file.");
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            if (DEBUG) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -106,8 +133,13 @@ public class MessageService {
             for (Map.Entry<String, String> entry : emails.entrySet()) {
                 writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
             }
+            if (DEBUG) {
+                System.out.println("Debug: Emails saved to file.");
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            if (DEBUG) {
+                e.printStackTrace();
+            }
         }
     }
 }
