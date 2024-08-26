@@ -6,7 +6,9 @@
 	<artifactId>mySweetmanagementsystem</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+
 	<properties>
+
 
 		<sonar.projectKey>MuheebHasan_sweet</sonar.projectKey>
 
