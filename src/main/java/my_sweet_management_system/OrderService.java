@@ -38,7 +38,7 @@ public class OrderService {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            // Handle exception in production: log or ignore
         }
     }
 
@@ -48,7 +48,7 @@ public class OrderService {
                 writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            // Handle exception in production: log or ignore
         }
     }
 }
