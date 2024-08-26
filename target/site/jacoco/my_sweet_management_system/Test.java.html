@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Test.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mySweetmanagementsystem</a> &gt; <a href="index.source.html" class="el_package">my_sweet_management_system</a> &gt; <span class="el_source">Test.java</span></div><h1>Test.java</h1><pre class="source lang-java linenums">package my_sweet_management_system;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
+<span class="fc" id="L12">public class Test {</span>
+    private static final String FILE_PATH = &quot;logsign.txt&quot;;
+<span class="fc" id="L14">    private static final Logger logger = LoggerFactory.getLogger(Test.class);</span>
+
+    public boolean loginClicked(String email, String passw) {
+<span class="fc" id="L17">        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {</span>
+            String line;
+<span class="fc bfc" id="L19" title="All 2 branches covered.">            while ((line = reader.readLine()) != null) {</span>
+<span class="fc" id="L20">                String[] user = line.split(&quot;,&quot;);</span>
+<span class="pc bpc" id="L21" title="3 of 4 branches missed.">                if (user[2].equals(email) &amp;&amp; user[1].equals(passw)) {</span>
+<span class="nc" id="L22">                    return true; // Email and password match</span>
+                }
+<span class="fc" id="L24">            }</span>
+<span class="nc" id="L25">        } catch (IOException e) {</span>
+<span class="nc" id="L26">            logger.error(&quot;Error reading file: {}&quot;, e.getMessage());</span>
+<span class="fc" id="L27">        }</span>
+<span class="fc" id="L28">        return false; // Return false if no matching user is found</span>
+    }
+
+    public static boolean isValidEmail(String email) {
+<span class="pc bpc" id="L32" title="2 of 4 branches missed.">        return email.contains(&quot;@&quot;) &amp;&amp; email.length() &gt;= 11;</span>
+    }
+
+    public static boolean isValidName(String name) {
+<span class="pc bpc" id="L36" title="1 of 4 branches missed.">        return name != null &amp;&amp; name.trim().length() &gt;= 2;</span>
+    }
+
+    public static boolean isValidPassword(String password) {
+<span class="fc" id="L40">        boolean hasLowerCase = false;</span>
+<span class="fc" id="L41">        boolean hasUpperCase = false;</span>
+<span class="fc" id="L42">        boolean hasDigit = false;</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if (password.length() &lt; 4) return false;</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        for (int i = 0; i &lt; password.length(); i++) {</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            if (Character.isLowerCase(password.charAt(i))) hasLowerCase = true;</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">            if (Character.isUpperCase(password.charAt(i))) hasUpperCase = true;</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">            if (Character.isDigit(password.charAt(i))) hasDigit = true;</span>
+        }
+<span class="pc bpc" id="L49" title="3 of 6 branches missed.">        return hasLowerCase &amp;&amp; hasUpperCase &amp;&amp; hasDigit;</span>
+    }
+
+    public static boolean isValidId(String id) {
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        return id.length() &gt; 2;</span>
+    }
+
+    public static boolean isValidRole(String role) {
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        return role.equalsIgnoreCase(&quot;Admin&quot;) || </span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">               role.equalsIgnoreCase(&quot;Store Owner&quot;) || </span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">               role.equalsIgnoreCase(&quot;Supplier&quot;) ||</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">               role.equalsIgnoreCase(&quot;User&quot;);</span>
+    }
+
+    private static boolean isEmailAlreadyRegistered(String email) {
+<span class="nc" id="L64">        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {</span>
+            String line;
+<span class="nc bnc" id="L66" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L67">                String[] user = line.split(&quot;,&quot;);</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">                if (user[2].equals(email)) {</span>
+<span class="nc" id="L69">                    return true;</span>
+                }
+<span class="nc" id="L71">            }</span>
+<span class="nc" id="L72">        } catch (IOException e) {</span>
+<span class="nc" id="L73">            logger.error(&quot;Error reading file: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L74">        }</span>
+<span class="nc" id="L75">        return false;</span>
+    }
+
+    public boolean registerUser(String username, String password, String email, String role) {
+<span class="pc bpc" id="L79" title="1 of 2 branches missed.">        if (!isValidEmail(email)) {</span>
+<span class="nc" id="L80">            logger.warn(&quot;Email validation failed: {}&quot;, email);</span>
+<span class="nc" id="L81">            return false; // Invalid email format</span>
+        }
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        if (!isValidName(username)) {</span>
+<span class="fc" id="L84">            logger.warn(&quot;Username validation failed: {}&quot;, username);</span>
+<span class="fc" id="L85">            return false; // Invalid name</span>
+        }
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if (!isValidPassword(password)) {</span>
+<span class="fc" id="L88">            logger.warn(&quot;Password validation failed.&quot;);</span>
+<span class="fc" id="L89">            return false; // Invalid password</span>
+        }
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (!isValidRole(role)) {</span>
+<span class="nc" id="L92">            logger.warn(&quot;Role validation failed: {}&quot;, role);</span>
+<span class="nc" id="L93">            return false;</span>
+        }
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (isEmailAlreadyRegistered(email)) {</span>
+<span class="nc" id="L96">            logger.warn(&quot;Email already registered: {}&quot;, email);</span>
+<span class="nc" id="L97">            return false; // Email already registered</span>
+        }
+<span class="nc" id="L99">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {</span>
+<span class="nc" id="L100">            writer.write(username + &quot;,&quot; + password + &quot;,&quot; + email + &quot;,&quot; + role);</span>
+<span class="nc" id="L101">            writer.newLine();</span>
+<span class="nc" id="L102">            logger.info(&quot;User registered successfully: {}&quot;, username);</span>
+<span class="nc" id="L103">            return true;</span>
+<span class="nc" id="L104">        } catch (IOException e) {</span>
+<span class="nc" id="L105">            logger.error(&quot;Error writing to file: {}&quot;, e.getMessage());</span>
+        }
+<span class="nc" id="L107">        return false;</span>
+    }
+
+    public String getRoleByEmail(String email) {
+<span class="nc" id="L111">        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {</span>
+            String line;
+<span class="nc bnc" id="L113" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L114">                String[] user = line.split(&quot;,&quot;);</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">                if (user[2].equals(email)) {</span>
+<span class="nc" id="L116">                    return user[3]; // Return role</span>
+                }
+<span class="nc" id="L118">            }</span>
+<span class="nc" id="L119">        } catch (IOException e) {</span>
+<span class="nc" id="L120">            logger.error(&quot;Error reading file: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L121">        }</span>
+<span class="nc" id="L122">        return null; // User not found</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

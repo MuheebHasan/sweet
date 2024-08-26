@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AccountService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mySweetmanagementsystem</a> &gt; <a href="index.source.html" class="el_package">my_sweet_management_system</a> &gt; <span class="el_source">AccountService.java</span></div><h1>AccountService.java</h1><pre class="source lang-java linenums">package my_sweet_management_system;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class AccountService {
+<span class="nc" id="L10">    private static final Logger logger = Logger.getLogger(AccountService.class.getName());</span>
+<span class="nc" id="L11">    private Map&lt;String, UserAccount&gt; accounts = new HashMap&lt;&gt;();</span>
+    private static final String ACCOUNT_FILE = &quot;accounts.txt&quot;;
+
+<span class="nc" id="L14">    public AccountService() {</span>
+<span class="nc" id="L15">        loadAccountsIfNeeded();</span>
+<span class="nc" id="L16">    }</span>
+
+    public void addAccount(String name, String email) {
+<span class="nc bnc" id="L19" title="All 2 branches missed.">        if (!accounts.containsKey(name)) {</span>
+<span class="nc" id="L20">            accounts.put(name, new UserAccount(name, email));</span>
+<span class="nc" id="L21">            saveAccountsIfNeeded(); // Save only if an account is added</span>
+<span class="nc" id="L22">            logInfo(&quot;Added account: &quot; + name);</span>
+        } else {
+<span class="nc" id="L24">            logWarning(&quot;Account already exists: &quot; + name);</span>
+        }
+<span class="nc" id="L26">    }</span>
+
+    public UserAccount getAccountDetail(String name) {
+<span class="nc" id="L29">        UserAccount account = accounts.get(name);</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        if (account == null) {</span>
+<span class="nc" id="L31">            logWarning(&quot;Account not found: &quot; + name);</span>
+        }
+<span class="nc" id="L33">        return account;</span>
+    }
+
+    public boolean accountExists(String name) {
+<span class="nc" id="L37">        boolean exists = accounts.containsKey(name);</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        if (!exists) {</span>
+<span class="nc" id="L39">            logWarning(&quot;Account does not exist: &quot; + name);</span>
+        }
+<span class="nc" id="L41">        return exists;</span>
+    }
+
+    public String updateAccount(String name, String field, String value) {
+<span class="nc" id="L45">        UserAccount account = accounts.get(name);</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        if (account == null) {</span>
+<span class="nc" id="L47">            logWarning(&quot;Account not found for update: &quot; + name);</span>
+<span class="nc" id="L48">            return &quot;Account not found&quot;;</span>
+        }
+
+<span class="nc" id="L51">        boolean updated = false;</span>
+<span class="nc bnc" id="L52" title="All 3 branches missed.">        switch (field.toLowerCase()) {</span>
+            case &quot;email&quot;:
+<span class="nc" id="L54">                account.setEmail(value);</span>
+<span class="nc" id="L55">                updated = true;</span>
+<span class="nc" id="L56">                break;</span>
+            case &quot;phone&quot;:
+<span class="nc" id="L58">                account.setPhone(value);</span>
+<span class="nc" id="L59">                updated = true;</span>
+<span class="nc" id="L60">                break;</span>
+            default:
+<span class="nc" id="L62">                logWarning(&quot;Invalid field for update: &quot; + field);</span>
+<span class="nc" id="L63">                return &quot;Field does not exist&quot;;</span>
+        }
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (updated) {</span>
+<span class="nc" id="L67">            saveAccountsIfNeeded(); // Save only if there is an update</span>
+<span class="nc" id="L68">            logInfo(&quot;Updated account: &quot; + name + &quot;, Field: &quot; + field);</span>
+<span class="nc" id="L69">            return &quot;Account details updated successfully&quot;;</span>
+        } else {
+<span class="nc" id="L71">            return &quot;No changes made&quot;;</span>
+        }
+    }
+
+    private void loadAccountsIfNeeded() {
+<span class="nc" id="L76">        File file = new File(ACCOUNT_FILE);</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (file.exists()) {</span>
+<span class="nc" id="L78">            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {</span>
+                String line;
+<span class="nc bnc" id="L80" title="All 2 branches missed.">                while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L81">                    String[] parts = line.split(&quot;, &quot;);</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">                    if (parts.length == 2) {</span>
+<span class="nc" id="L83">                        accounts.put(parts[0], new UserAccount(parts[0], parts[1]));</span>
+                    } else {
+<span class="nc" id="L85">                        logWarning(&quot;Malformed line in accounts file: &quot; + line);</span>
+                    }
+<span class="nc" id="L87">                }</span>
+<span class="nc" id="L88">            } catch (IOException e) {</span>
+<span class="nc" id="L89">                logger.log(Level.SEVERE, &quot;Error loading accounts&quot;, e);</span>
+<span class="nc" id="L90">            }</span>
+        } else {
+<span class="nc" id="L92">            logInfo(&quot;No accounts file found. Creating a new file.&quot;);</span>
+<span class="nc" id="L93">            saveAccountsIfNeeded(); // Create a new file only if it does not exist</span>
+        }
+<span class="nc" id="L95">    }</span>
+
+    private void saveAccountsIfNeeded() {
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        if (!accounts.isEmpty()) { // Save only if there are accounts to save</span>
+<span class="nc" id="L99">            try (BufferedWriter writer = new BufferedWriter(new FileWriter(ACCOUNT_FILE))) {</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">                for (Map.Entry&lt;String, UserAccount&gt; entry : accounts.entrySet()) {</span>
+<span class="nc" id="L101">                    UserAccount account = entry.getValue();</span>
+<span class="nc" id="L102">                    writer.write(entry.getKey() + &quot;, &quot; + account.getEmail() + System.lineSeparator());</span>
+<span class="nc" id="L103">                }</span>
+<span class="nc" id="L104">            } catch (IOException e) {</span>
+<span class="nc" id="L105">                logger.log(Level.SEVERE, &quot;Error saving accounts&quot;, e);</span>
+<span class="nc" id="L106">            }</span>
+        }
+<span class="nc" id="L108">    }</span>
+
+    private void logInfo(String message) {
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (logger.isLoggable(Level.INFO)) {</span>
+<span class="nc" id="L112">            logger.info(message);</span>
+        }
+<span class="nc" id="L114">    }</span>
+
+    private void logWarning(String message) {
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (logger.isLoggable(Level.WARNING)) {</span>
+<span class="nc" id="L118">            logger.warning(message);</span>
+        }
+<span class="nc" id="L120">    }</span>
+
+    public static class UserAccount {
+        private String name;
+        private String email;
+        private String phone;
+
+<span class="nc" id="L127">        public UserAccount(String name, String email) {</span>
+<span class="nc" id="L128">            this.name = name;</span>
+<span class="nc" id="L129">            this.email = email;</span>
+<span class="nc" id="L130">        }</span>
+
+<span class="nc" id="L132">        public String getName() { return name; }</span>
+<span class="nc" id="L133">        public String getEmail() { return email; }</span>
+<span class="nc" id="L134">        public String getPhone() { return phone; }</span>
+
+<span class="nc" id="L136">        public void setEmail(String email) { this.email = email; }</span>
+<span class="nc" id="L137">        public void setPhone(String phone) { this.phone = phone; }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

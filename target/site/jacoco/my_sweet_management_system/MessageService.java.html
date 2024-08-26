@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MessageService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mySweetmanagementsystem</a> &gt; <a href="index.source.html" class="el_package">my_sweet_management_system</a> &gt; <span class="el_source">MessageService.java</span></div><h1>MessageService.java</h1><pre class="source lang-java linenums">package my_sweet_management_system;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+
+public class MessageService {
+    private static final String MESSAGE_FILE = &quot;messages.txt&quot;;
+    private static final String EMAIL_FILE = &quot;emails.txt&quot;;
+
+<span class="nc" id="L11">    private Map&lt;String, StringBuilder&gt; messages = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L12">    private Map&lt;String, String&gt; emails = new HashMap&lt;&gt;();</span>
+    private AccountService accountService;
+
+<span class="nc" id="L15">    public MessageService() {</span>
+<span class="nc" id="L16">        this.accountService = new AccountService();</span>
+<span class="nc" id="L17">        loadMessages();</span>
+<span class="nc" id="L18">        loadEmails();</span>
+<span class="nc" id="L19">    }</span>
+
+    public String sendMessage(String sender, String receiver, String message) {
+<span class="nc bnc" id="L22" title="All 4 branches missed.">        if (accountService.accountExists(sender) &amp;&amp; accountService.accountExists(receiver)) {</span>
+<span class="nc" id="L23">            StringBuilder messageContent = messages.getOrDefault(receiver, new StringBuilder());</span>
+<span class="nc" id="L24">            messageContent.append(sender).append(&quot;: &quot;).append(message).append(&quot;\n&quot;);</span>
+<span class="nc" id="L25">            messages.put(receiver, messageContent);</span>
+<span class="nc" id="L26">            saveMessages();</span>
+<span class="nc" id="L27">            return &quot;Message sent successfully!&quot;;</span>
+        } else {
+<span class="nc" id="L29">            return &quot;Sender or receiver does not exist&quot;;</span>
+        }
+    }
+
+    public String receiveMessage(String recipient) {
+<span class="nc" id="L34">        StringBuilder messageContent = messages.get(recipient);</span>
+<span class="nc bnc" id="L35" title="All 4 branches missed.">        if (messageContent != null &amp;&amp; messageContent.length() &gt; 0) {</span>
+<span class="nc" id="L36">            return messageContent.toString();</span>
+        } else {
+<span class="nc" id="L38">            return &quot;No new messages for &quot; + recipient;</span>
+        }
+    }
+
+    public String sendEmail(String sender, String recipientEmail, String subject, String body) {
+<span class="nc" id="L43">        String email = &quot;From: &quot; + sender + &quot;\nSubject: &quot; + subject + &quot;\nBody: &quot; + body;</span>
+<span class="nc" id="L44">        emails.put(recipientEmail, email);</span>
+<span class="nc" id="L45">        saveEmails();</span>
+<span class="nc" id="L46">        return &quot;Email sent successfully!&quot;;</span>
+    }
+
+    public String receiveEmail(String recipient) {
+<span class="nc" id="L50">        return emails.getOrDefault(recipient, &quot;No new emails for &quot; + recipient);</span>
+    }
+
+    private void loadMessages() {
+<span class="nc" id="L54">        File file = new File(MESSAGE_FILE);</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (!file.exists()) {</span>
+<span class="nc" id="L56">            return; // No messages to load</span>
+        }
+<span class="nc" id="L58">        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {</span>
+            String line;
+<span class="nc bnc" id="L60" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L61">                String[] parts = line.split(&quot;: &quot;, 3);</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                if (parts.length == 3) {</span>
+<span class="nc" id="L63">                    String recipient = parts[0].trim();</span>
+<span class="nc" id="L64">                    String senderAndMessage = parts[1].trim() + &quot;: &quot; + parts[2].trim();</span>
+<span class="nc" id="L65">                    StringBuilder existingMessages = messages.getOrDefault(recipient, new StringBuilder());</span>
+<span class="nc" id="L66">                    existingMessages.append(senderAndMessage).append(&quot;\n&quot;);</span>
+<span class="nc" id="L67">                    messages.put(recipient, existingMessages);</span>
+                }
+<span class="nc" id="L69">            }</span>
+<span class="nc" id="L70">        } catch (IOException e) {</span>
+            // Handle exception in production: log or ignore
+<span class="nc" id="L72">        }</span>
+<span class="nc" id="L73">    }</span>
+
+    private void saveMessages() {
+<span class="nc" id="L76">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MESSAGE_FILE))) {</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">            for (Map.Entry&lt;String, StringBuilder&gt; entry : messages.entrySet()) {</span>
+<span class="nc" id="L78">                writer.write(entry.getKey() + &quot;: &quot; + entry.getValue().toString());</span>
+<span class="nc" id="L79">            }</span>
+<span class="nc" id="L80">        } catch (IOException e) {</span>
+            // Handle exception in production: log or ignore
+<span class="nc" id="L82">        }</span>
+<span class="nc" id="L83">    }</span>
+
+    private void loadEmails() {
+<span class="nc" id="L86">        File file = new File(EMAIL_FILE);</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (!file.exists()) {</span>
+<span class="nc" id="L88">            return; // No emails to load</span>
+        }
+<span class="nc" id="L90">        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {</span>
+            String line;
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L93">                String[] parts = line.split(&quot;: &quot;, 2);</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">                if (parts.length == 2) {</span>
+<span class="nc" id="L95">                    emails.put(parts[0], parts[1]);</span>
+                }
+<span class="nc" id="L97">            }</span>
+<span class="nc" id="L98">        } catch (IOException e) {</span>
+            // Handle exception in production: log or ignore
+<span class="nc" id="L100">        }</span>
+<span class="nc" id="L101">    }</span>
+
+    private void saveEmails() {
+<span class="nc" id="L104">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(EMAIL_FILE))) {</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">            for (Map.Entry&lt;String, String&gt; entry : emails.entrySet()) {</span>
+<span class="nc" id="L106">                writer.write(entry.getKey() + &quot;: &quot; + entry.getValue() + &quot;\n&quot;);</span>
+<span class="nc" id="L107">            }</span>
+<span class="nc" id="L108">        } catch (IOException e) {</span>
+            // Handle exception in production: log or ignore
+<span class="nc" id="L110">        }</span>
+<span class="nc" id="L111">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

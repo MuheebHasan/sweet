@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ooorder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mySweetmanagementsystem</a> &gt; <a href="index.source.html" class="el_package">my_sweet_management_system</a> &gt; <span class="el_source">ooorder.java</span></div><h1>ooorder.java</h1><pre class="source lang-java linenums">package my_sweet_management_system;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Scanner;
+ import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class ooorder {
+<span class="fc" id="L18">    private static final Logger logger = Logger.getLogger(ooorder.class.getName());</span>
+
+<span class="fc" id="L20">    static Map&lt;String, String[]&gt; orders = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L21">    private static Map&lt;String, String[]&gt; products = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L22">    private static Map&lt;String, Double&gt; discounts = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L23">    private static List&lt;Integer&gt; availableOrderIds = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L25">    public ooorder() {</span>
+<span class="nc" id="L26">        loadOrders();</span>
+<span class="nc" id="L27">        loadProducts();</span>
+<span class="nc" id="L28">        loadDiscounts();</span>
+<span class="nc" id="L29">        initializeOrderIds(); // Initialize order IDs</span>
+<span class="nc" id="L30">    }</span>
+
+    private static void initializeOrderIds() {
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        for (int i = 1; i &lt;= 100; i++) {</span>
+<span class="nc" id="L34">            availableOrderIds.add(i);</span>
+        }
+<span class="nc" id="L36">        Collections.shuffle(availableOrderIds); // Shuffle to randomize</span>
+<span class="nc" id="L37">    }</span>
+
+    private static int generateRandomOrderId() {
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if (availableOrderIds.isEmpty()) {</span>
+<span class="nc" id="L41">            throw new IllegalStateException(&quot;No more available order IDs.&quot;);</span>
+        }
+<span class="nc" id="L43">        return availableOrderIds.remove(0); // Remove and return the first element</span>
+    }
+
+    public static String addOrder(String productId, int quantity) {
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        if (!products.containsKey(productId)) {</span>
+<span class="nc" id="L48">            return &quot;Product ID does not exist&quot;;</span>
+        }
+        
+<span class="nc" id="L51">        int orderId = generateRandomOrderId(); // Generate random order ID</span>
+        
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        if (orders.containsKey(String.valueOf(orderId))) {</span>
+<span class="nc" id="L54">            return &quot;Order ID already exists&quot;;</span>
+        }
+
+<span class="nc" id="L57">        String[] productInfo = products.get(productId);</span>
+<span class="nc" id="L58">        int availableQuantity = Integer.parseInt(productInfo[3]);</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (quantity &gt; availableQuantity) {</span>
+<span class="nc" id="L60">            return &quot;Not enough quantity available&quot;;</span>
+        }
+
+<span class="nc" id="L63">        double pricePerUnit = Double.parseDouble(productInfo[2]);</span>
+<span class="nc" id="L64">        double totalPrice = pricePerUnit * quantity;</span>
+
+        // Adding order with a default status of &quot;Pending&quot;
+<span class="nc" id="L67">        orders.put(String.valueOf(orderId), new String[]{productId, productInfo[0], productInfo[1], String.valueOf(quantity), String.valueOf(totalPrice), &quot;Pending&quot;});</span>
+
+<span class="nc" id="L69">        productInfo[3] = String.valueOf(availableQuantity - quantity);</span>
+<span class="nc" id="L70">        products.put(productId, productInfo);</span>
+
+<span class="nc" id="L72">        saveOrders();</span>
+<span class="nc" id="L73">        saveProducts();</span>
+<span class="nc" id="L74">        return &quot;Order added successfully with Order ID: &quot; + orderId;</span>
+    }
+
+    public static void saveOrders() {
+<span class="nc" id="L78">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(&quot;order.txt&quot;))) {</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">            for (Map.Entry&lt;String, String[]&gt; entry : orders.entrySet()) {</span>
+<span class="nc" id="L80">                String orderId = entry.getKey();</span>
+<span class="nc" id="L81">                String[] orderInfo = entry.getValue();</span>
+<span class="nc" id="L82">                writer.write(String.join(&quot;,&quot;, orderId, orderInfo[0], orderInfo[1], orderInfo[2], orderInfo[3], orderInfo[4], orderInfo[5]));</span>
+<span class="nc" id="L83">                writer.newLine();</span>
+<span class="nc" id="L84">            }</span>
+<span class="nc" id="L85">        } catch (IOException e) {</span>
+<span class="nc" id="L86">            logger.log(Level.SEVERE, &quot;Error saving orders.&quot;, e);</span>
+<span class="nc" id="L87">        }</span>
+<span class="nc" id="L88">    }</span>
+
+    public static void updateOrderStatus(String orderId, String newStatus) {
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (orders.containsKey(orderId)) {</span>
+<span class="nc" id="L92">            String[] orderInfo = orders.get(orderId);</span>
+<span class="nc" id="L93">            orderInfo[5] = newStatus;</span>
+<span class="nc" id="L94">            orders.put(orderId, orderInfo);</span>
+<span class="nc" id="L95">            saveOrders(); // Save the updates to the file</span>
+<span class="nc" id="L96">        } else {</span>
+<span class="nc" id="L97">            logger.info(&quot;Order ID not found.&quot;);</span>
+        }
+<span class="nc" id="L99">    }</span>
+
+    private static void loadOrders() {
+<span class="nc" id="L102">        loadFromFile(&quot;order.txt&quot;, (line) -&gt; {</span>
+<span class="nc" id="L103">            String[] parts = line.split(&quot;,&quot;);</span>
+            
+            // Ignore the header line or any incorrect line
+<span class="nc bnc" id="L106" title="All 4 branches missed.">            if (parts[0].equals(&quot;Order ID&quot;) || parts.length != 7) {</span>
+<span class="nc" id="L107">                return;</span>
+            }
+            
+            try {
+<span class="nc" id="L111">                String orderId = parts[0];</span>
+<span class="nc" id="L112">                String productId = parts[1];</span>
+<span class="nc" id="L113">                String productName = parts[2];</span>
+<span class="nc" id="L114">                String description = parts[3];</span>
+<span class="nc" id="L115">                String quantity = parts[4];</span>
+<span class="nc" id="L116">                String totalPrice = parts[5];</span>
+<span class="nc" id="L117">                String status = parts[6];</span>
+<span class="nc" id="L118">                orders.put(orderId, new String[]{productId, productName, description, quantity, totalPrice, status});</span>
+<span class="nc" id="L119">            } catch (NumberFormatException e) {</span>
+<span class="nc" id="L120">                logger.info(&quot;Error parsing order: &quot; + line);</span>
+<span class="nc" id="L121">            }</span>
+<span class="nc" id="L122">        });</span>
+<span class="nc" id="L123">    }</span>
+
+    private static void loadFromFile(String filename, LineProcessor processor) {
+<span class="nc" id="L126">        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {</span>
+            String line;
+<span class="nc bnc" id="L128" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L129">                processor.process(line);</span>
+            }
+<span class="nc" id="L131">        } catch (IOException e) {</span>
+<span class="nc" id="L132">            logger.log(Level.SEVERE, &quot;Error loading file: &quot; + filename, e);</span>
+<span class="nc" id="L133">        }</span>
+<span class="nc" id="L134">    }</span>
+
+    public void viewOrders() {
+<span class="nc" id="L137">        logger.info(&quot;Order List:&quot;);</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        for (Map.Entry&lt;String, String[]&gt; entry : orders.entrySet()) {</span>
+<span class="nc" id="L139">            String orderId = entry.getKey();</span>
+<span class="nc" id="L140">            String[] orderInfo = entry.getValue();</span>
+<span class="nc" id="L141">            logger.info(String.format(&quot;Order ID: %s, Product ID: %s, Product Name: %s, Description: %s, Quantity: %s, Total Price: %s, Status: %s&quot;,</span>
+                    orderId, orderInfo[0], orderInfo[1], orderInfo[2], orderInfo[3], orderInfo[4], orderInfo[5]));
+<span class="nc" id="L143">        }</span>
+<span class="nc" id="L144">    }</span>
+
+    private static void saveProducts() {
+<span class="nc" id="L147">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(&quot;product.txt&quot;, false))) {</span>
+<span class="nc" id="L148">            writer.write(&quot;Product ID,Product Name,Description,Price,Availability&quot;);</span>
+<span class="nc" id="L149">            writer.newLine();</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">            for (Map.Entry&lt;String, String[]&gt; entry : products.entrySet()) {</span>
+<span class="nc" id="L151">                String productId = entry.getKey();</span>
+<span class="nc" id="L152">                String[] productInfo = entry.getValue();</span>
+<span class="nc" id="L153">                writer.write(String.format(&quot;%s,%s,%s,%s,%s&quot;,</span>
+                        productId,
+                        productInfo[0],
+                        productInfo[1],
+                        productInfo[2],
+                        productInfo[3]));
+<span class="nc" id="L159">                writer.newLine();</span>
+<span class="nc" id="L160">            }</span>
+<span class="nc" id="L161">        } catch (IOException e) {</span>
+<span class="nc" id="L162">            logger.log(Level.SEVERE, &quot;Error saving products.&quot;, e);</span>
+<span class="nc" id="L163">        }</span>
+<span class="nc" id="L164">    }</span>
+
+    private static void saveDiscounts() {
+<span class="nc" id="L167">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(&quot;discounts.txt&quot;, false))) {</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">            for (Map.Entry&lt;String, Double&gt; entry : discounts.entrySet()) {</span>
+<span class="nc" id="L169">                String discountName = entry.getKey();</span>
+<span class="nc" id="L170">                Double discountRate = entry.getValue();</span>
+<span class="nc" id="L171">                writer.write(String.format(&quot;%s,%s&quot;, discountName, discountRate));</span>
+<span class="nc" id="L172">                writer.newLine();</span>
+<span class="nc" id="L173">            }</span>
+<span class="nc" id="L174">        } catch (IOException e) {</span>
+<span class="nc" id="L175">            logger.log(Level.SEVERE, &quot;Error saving discounts.&quot;, e);</span>
+<span class="nc" id="L176">        }</span>
+<span class="nc" id="L177">    }</span>
+
+    public static String addDiscount(String discountName, double discountRate) {
+<span class="nc bnc" id="L180" title="All 2 branches missed.">        if (discounts.containsKey(discountName)) {</span>
+<span class="nc" id="L181">            return &quot;Discount already exists&quot;;</span>
+        }
+
+<span class="nc" id="L184">        discounts.put(discountName, discountRate);</span>
+<span class="nc" id="L185">        saveDiscounts(); // Save new discount</span>
+<span class="nc" id="L186">        return &quot;Discount added successfully&quot;;</span>
+    }
+
+    public static String applyDiscount(String discountName) {
+<span class="nc bnc" id="L190" title="All 2 branches missed.">        if (!discounts.containsKey(discountName)) {</span>
+<span class="nc" id="L191">            return &quot;Discount does not exist&quot;;</span>
+        }
+
+<span class="nc" id="L194">        double discountRate = discounts.get(discountName);</span>
+<span class="nc" id="L195">        applyDiscountToAllOrders(discountName, discountRate);</span>
+<span class="nc" id="L196">        return &quot;Discount applied successfully&quot;;</span>
+    }
+
+    private static void applyDiscountToAllOrders(String discountName, double discountRate) {
+<span class="nc bnc" id="L200" title="All 2 branches missed.">        for (Map.Entry&lt;String, String[]&gt; entry : orders.entrySet()) {</span>
+<span class="nc" id="L201">            String[] orderInfo = entry.getValue();</span>
+            // Parse the original price and apply the discount
+<span class="nc" id="L203">            double originalPrice = Double.parseDouble(orderInfo[4]);</span>
+<span class="nc" id="L204">            double discountedPrice = originalPrice * (1 - discountRate / 100);</span>
+<span class="nc" id="L205">            orderInfo[4] = String.valueOf(discountedPrice);</span>
+            // Update the order in the map
+<span class="nc" id="L207">            orders.put(entry.getKey(), orderInfo);</span>
+<span class="nc" id="L208">        }</span>
+
+<span class="nc" id="L210">        saveOrders(); // Save updated orders</span>
+<span class="nc" id="L211">    }</span>
+
+    public static void printOrders(String message, Map&lt;String, String[]&gt; orders) {
+<span class="nc" id="L214">        logger.info(message);</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">        for (Map.Entry&lt;String, String[]&gt; entry : orders.entrySet()) {</span>
+<span class="nc" id="L216">            String orderId = entry.getKey();</span>
+<span class="nc" id="L217">            String[] orderInfo = entry.getValue();</span>
+<span class="nc" id="L218">            logger.info(String.format(&quot;Order ID: %s, Product ID: %s, Product Name: %s, Description: %s, Quantity: %s, Total Price: %s, Status: %s&quot;,</span>
+                    orderId, orderInfo[0], orderInfo[1], orderInfo[2], orderInfo[3], orderInfo[4], orderInfo[5]));
+<span class="nc" id="L220">        }</span>
+<span class="nc" id="L221">    }</span>
+
+    public static String addOrder(String orderId, String productId, int quantity) {
+<span class="pc bpc" id="L224" title="1 of 2 branches missed.">        if (!products.containsKey(productId)) {</span>
+<span class="fc" id="L225">            return &quot;Product ID does not exist&quot;;</span>
+        }
+<span class="nc bnc" id="L227" title="All 2 branches missed.">        if (orders.containsKey(orderId)) {</span>
+<span class="nc" id="L228">            return &quot;Order ID already exists&quot;;</span>
+        }
+
+<span class="nc" id="L231">        String[] productInfo = products.get(productId);</span>
+<span class="nc" id="L232">        int availableQuantity = Integer.parseInt(productInfo[3]);</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">        if (quantity &gt; availableQuantity) {</span>
+<span class="nc" id="L234">            return &quot;Not enough quantity available&quot;;</span>
+        }
+
+<span class="nc" id="L237">        double pricePerUnit = Double.parseDouble(productInfo[2]);</span>
+<span class="nc" id="L238">        double totalPrice = pricePerUnit * quantity;</span>
+
+        // Adding order with a default status of &quot;Pending&quot;
+<span class="nc" id="L241">        orders.put(orderId, new String[]{productId, productInfo[0], productInfo[1], String.valueOf(quantity), String.valueOf(totalPrice), &quot;Pending&quot;});</span>
+
+<span class="nc" id="L243">        productInfo[3] = String.valueOf(availableQuantity - quantity);</span>
+<span class="nc" id="L244">        products.put(productId, productInfo);</span>
+
+<span class="nc" id="L246">        saveOrders();</span>
+<span class="nc" id="L247">        saveProducts();</span>
+<span class="nc" id="L248">        return &quot;Order added successfully&quot;;</span>
+    }
+
+    public static String deleteOrder(String orderId) {
+<span class="pc bpc" id="L252" title="1 of 2 branches missed.">        if (orders.containsKey(orderId)) {</span>
+<span class="nc" id="L253">            String[] orderInfo = orders.get(orderId);</span>
+<span class="nc" id="L254">            String productId = orderInfo[0];</span>
+<span class="nc" id="L255">            int quantity = Integer.parseInt(orderInfo[3]);</span>
+
+<span class="nc bnc" id="L257" title="All 2 branches missed.">            if (products.containsKey(productId)) {</span>
+<span class="nc" id="L258">                String[] productInfo = products.get(productId);</span>
+<span class="nc" id="L259">                int availableQuantity = Integer.parseInt(productInfo[3]);</span>
+<span class="nc" id="L260">                productInfo[3] = String.valueOf(availableQuantity + quantity);</span>
+<span class="nc" id="L261">                products.put(productId, productInfo);</span>
+            }
+
+<span class="nc" id="L264">            orders.remove(orderId);</span>
+<span class="nc" id="L265">            saveOrders();</span>
+<span class="nc" id="L266">            saveProducts();</span>
+<span class="nc" id="L267">            return &quot;Order deleted successfully&quot;;</span>
+        } else {
+<span class="fc" id="L269">            return &quot;Order ID does not exist&quot;;</span>
+        }
+    }
+
+    private static void loadDiscounts() {
+<span class="nc" id="L274">        loadFromFile(&quot;discounts.txt&quot;, (line) -&gt; {</span>
+<span class="nc" id="L275">            String[] parts = line.split(&quot;,&quot;);</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">            if (parts.length == 2) {</span>
+                try {
+<span class="nc" id="L278">                    String discountName = parts[0];</span>
+<span class="nc" id="L279">                    double discountRate = Double.parseDouble(parts[1]);</span>
+<span class="nc" id="L280">                    discounts.put(discountName, discountRate);</span>
+<span class="nc" id="L281">                } catch (NumberFormatException e) {</span>
+<span class="nc" id="L282">                    logger.info(&quot;Error parsing discount: &quot; + line);</span>
+<span class="nc" id="L283">                }</span>
+            }
+<span class="nc" id="L285">        });</span>
+<span class="nc" id="L286">    }</span>
+
+    public static String updateOrder(String orderId, Map&lt;String, String&gt; updatedDetails) {
+<span class="pc bpc" id="L289" title="1 of 2 branches missed.">        if (!orders.containsKey(orderId)) {</span>
+<span class="fc" id="L290">            return &quot;Order ID does not exist&quot;;</span>
+        }
+
+<span class="nc" id="L293">        String[] orderInfo = orders.get(orderId);</span>
+<span class="nc" id="L294">        String oldProductId = orderInfo[0];</span>
+<span class="nc" id="L295">        int oldQuantity = Integer.parseInt(orderInfo[3]);</span>
+
+<span class="nc" id="L297">        String[] oldProductInfo = products.get(oldProductId);</span>
+<span class="nc" id="L298">        int availableQuantity = Integer.parseInt(oldProductInfo[3]);</span>
+<span class="nc" id="L299">        oldProductInfo[3] = String.valueOf(availableQuantity + oldQuantity);</span>
+<span class="nc" id="L300">        products.put(oldProductId, oldProductInfo);</span>
+
+<span class="nc" id="L302">        String newProductId = updatedDetails.getOrDefault(&quot;Product ID&quot;, oldProductId);</span>
+<span class="nc" id="L303">        String[] newProductInfo = products.get(newProductId);</span>
+
+<span class="nc bnc" id="L305" title="All 2 branches missed.">        if (newProductInfo == null) {</span>
+<span class="nc" id="L306">            return &quot;New Product ID does not exist&quot;;</span>
+        }
+
+<span class="nc" id="L309">        int newQuantity = Integer.parseInt(updatedDetails.getOrDefault(&quot;Quantity&quot;, orderInfo[3]));</span>
+<span class="nc bnc" id="L310" title="All 2 branches missed.">        if (newQuantity &gt; Integer.parseInt(newProductInfo[3])) {</span>
+<span class="nc" id="L311">            return &quot;Not enough quantity available for the new product&quot;;</span>
+        }
+
+<span class="nc" id="L314">        double pricePerUnit = Double.parseDouble(newProductInfo[2]);</span>
+<span class="nc" id="L315">        double newTotalPrice = pricePerUnit * newQuantity;</span>
+
+<span class="nc" id="L317">        orderInfo[0] = newProductId;</span>
+<span class="nc" id="L318">        orderInfo[1] = newProductInfo[0];</span>
+<span class="nc" id="L319">        orderInfo[2] = newProductInfo[1];</span>
+<span class="nc" id="L320">        orderInfo[3] = String.valueOf(newQuantity);</span>
+<span class="nc" id="L321">        orderInfo[4] = String.valueOf(newTotalPrice);</span>
+
+<span class="nc" id="L323">        newProductInfo[3] = String.valueOf(Integer.parseInt(newProductInfo[3]) - newQuantity);</span>
+<span class="nc" id="L324">        products.put(newProductId, newProductInfo);</span>
+
+<span class="nc" id="L326">        orders.put(orderId, orderInfo);</span>
+
+<span class="nc" id="L328">        saveOrders();</span>
+<span class="nc" id="L329">        saveProducts();</span>
+<span class="nc" id="L330">        return &quot;Order details updated successfully&quot;;</span>
+    }
+
+    public static boolean orderExists(String orderId) {
+<span class="nc" id="L334">        return orders.containsKey(orderId);</span>
+    }
+
+    private static void loadProducts() {
+<span class="nc" id="L338">        loadFromFile(&quot;product.txt&quot;, (line) -&gt; {</span>
+<span class="nc" id="L339">            String[] parts = line.split(&quot;,&quot;);</span>
+<span class="nc bnc" id="L340" title="All 2 branches missed.">            if (parts.length == 5) {</span>
+<span class="nc" id="L341">                String productId = parts[0];</span>
+<span class="nc" id="L342">                String productName = parts[1];</span>
+<span class="nc" id="L343">                String description = parts[2];</span>
+<span class="nc" id="L344">                String price = parts[3];</span>
+<span class="nc" id="L345">                String availability = parts[4];</span>
+<span class="nc" id="L346">                products.put(productId, new String[]{productName, description, price, availability});</span>
+            }
+<span class="nc" id="L348">        });</span>
+<span class="nc" id="L349">    }</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L352">        ooorder orderManager = new ooorder();</span>
+
+<span class="nc" id="L354">        try (Scanner scanner = new Scanner(System.in)) {</span>
+			while (true) {
+<span class="nc" id="L356">			    logger.info(&quot;\n1. View Orders&quot;);</span>
+<span class="nc" id="L357">			    logger.info(&quot;2. Add Order&quot;);</span>
+<span class="nc" id="L358">			    logger.info(&quot;3. Delete Order&quot;);</span>
+<span class="nc" id="L359">			    logger.info(&quot;4. Update Order&quot;);</span>
+<span class="nc" id="L360">			    logger.info(&quot;5. Apply Discount&quot;);</span>
+<span class="nc" id="L361">			    logger.info(&quot;6. Add Discount&quot;);</span>
+<span class="nc" id="L362">			    logger.info(&quot;7. Update Order Status&quot;);</span>
+<span class="nc" id="L363">			    logger.info(&quot;8. Exit&quot;);</span>
+
+<span class="nc" id="L365">			    logger.info(&quot;Enter your choice: &quot;);</span>
+<span class="nc" id="L366">			    int choice = scanner.nextInt();</span>
+<span class="nc" id="L367">			    scanner.nextLine();</span>
+
+<span class="nc bnc" id="L369" title="All 9 branches missed.">			    switch (choice) {</span>
+			        case 1:
+<span class="nc" id="L371">			            orderManager.viewOrders();</span>
+<span class="nc" id="L372">			            break;</span>
+			        case 2:
+<span class="nc" id="L374">			            logger.info(&quot;Enter Order ID: &quot;);</span>
+<span class="nc" id="L375">			            String orderId = scanner.nextLine();</span>
+<span class="nc" id="L376">			            logger.info(&quot;Enter Product ID: &quot;);</span>
+<span class="nc" id="L377">			            String productId = scanner.nextLine();</span>
+<span class="nc" id="L378">			            logger.info(&quot;Enter Quantity: &quot;);</span>
+<span class="nc" id="L379">			            int quantity = scanner.nextInt();</span>
+<span class="nc" id="L380">			            scanner.nextLine();</span>
+<span class="nc" id="L381">			            String result = addOrder(orderId, productId, quantity);</span>
+<span class="nc" id="L382">			            logger.info(result);</span>
+<span class="nc" id="L383">			            break;</span>
+			        case 3:
+<span class="nc" id="L385">			            logger.info(&quot;Enter Order ID: &quot;);</span>
+<span class="nc" id="L386">			            String deleteOrderId = scanner.nextLine();</span>
+<span class="nc" id="L387">			            String deleteResult = deleteOrder(deleteOrderId);</span>
+<span class="nc" id="L388">			            logger.info(deleteResult);</span>
+<span class="nc" id="L389">			            break;</span>
+			        case 4:
+<span class="nc" id="L391">			            logger.info(&quot;Enter Order ID: &quot;);</span>
+<span class="nc" id="L392">			            String updateOrderId = scanner.nextLine();</span>
+<span class="nc" id="L393">			            Map&lt;String, String&gt; updatedDetails = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L394">			            logger.info(&quot;Enter new Product ID (or press Enter to keep current): &quot;);</span>
+<span class="nc" id="L395">			            String newProductId = scanner.nextLine();</span>
+<span class="nc bnc" id="L396" title="All 2 branches missed.">			            if (!newProductId.isEmpty()) {</span>
+<span class="nc" id="L397">			                updatedDetails.put(&quot;Product ID&quot;, newProductId);</span>
+			            }
+<span class="nc" id="L399">			            logger.info(&quot;Enter new Quantity (or press Enter to keep current): &quot;);</span>
+<span class="nc" id="L400">			            String newQuantityStr = scanner.nextLine();</span>
+<span class="nc bnc" id="L401" title="All 2 branches missed.">			            if (!newQuantityStr.isEmpty()) {</span>
+<span class="nc" id="L402">			                updatedDetails.put(&quot;Quantity&quot;, newQuantityStr);</span>
+			            }
+<span class="nc" id="L404">			            String updateResult = updateOrder(updateOrderId, updatedDetails);</span>
+<span class="nc" id="L405">			            logger.info(updateResult);</span>
+<span class="nc" id="L406">			            break;</span>
+			        case 5:
+<span class="nc" id="L408">			            logger.info(&quot;Enter Discount Name: &quot;);</span>
+<span class="nc" id="L409">			            String discountName = scanner.nextLine();</span>
+<span class="nc" id="L410">			            String applyDiscountResult = applyDiscount(discountName);</span>
+<span class="nc" id="L411">			            logger.info(applyDiscountResult);</span>
+<span class="nc" id="L412">			            break;</span>
+			        case 6:
+<span class="nc" id="L414">			            logger.info(&quot;Enter Discount Name: &quot;);</span>
+<span class="nc" id="L415">			            String discountNameAdd = scanner.nextLine();</span>
+<span class="nc" id="L416">			            logger.info(&quot;Enter Discount Rate: &quot;);</span>
+<span class="nc" id="L417">			            double discountRate = scanner.nextDouble();</span>
+<span class="nc" id="L418">			            scanner.nextLine();</span>
+<span class="nc" id="L419">			            String addDiscountResult = addDiscount(discountNameAdd, discountRate);</span>
+<span class="nc" id="L420">			            logger.info(addDiscountResult);</span>
+<span class="nc" id="L421">			            break;</span>
+			        case 7:
+<span class="nc" id="L423">			            logger.info(&quot;Enter Order ID: &quot;);</span>
+<span class="nc" id="L424">			            String statusOrderId = scanner.nextLine();</span>
+<span class="nc" id="L425">			            logger.info(&quot;Enter New Status: &quot;);</span>
+<span class="nc" id="L426">			            String newStatus = scanner.nextLine();</span>
+<span class="nc" id="L427">			            updateOrderStatus(statusOrderId, newStatus);</span>
+<span class="nc" id="L428">			            break;</span>
+			        case 8:
+<span class="nc" id="L430">			            logger.info(&quot;Exiting...&quot;);</span>
+<span class="nc" id="L431">			            System.exit(0);</span>
+<span class="nc" id="L432">			            break;</span>
+			        default:
+<span class="nc" id="L434">			            logger.info(&quot;Invalid choice, please try again.&quot;);</span>
+			    }
+<span class="nc" id="L436">			}</span>
+		}
+    }
+
+    @FunctionalInterface
+    private interface LineProcessor {
+        void process(String line);
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,912 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MainMenu.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mySweetmanagementsystem</a> &gt; <a href="index.source.html" class="el_package">my_sweet_management_system</a> &gt; <span class="el_source">MainMenu.java</span></div><h1>MainMenu.java</h1><pre class="source lang-java linenums">package my_sweet_management_system;
+
+import java.util.Scanner;
+import java.util.Set;
+
+ 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+ 
+<span class="nc" id="L12">public class MainMenu {</span>
+     private static final String INVALID_CHOICE_MESSAGE = &quot;Invalid choice. Please try again.&quot;;
+    private static final String ENTER_YOUR_CHOICE= &quot;Enter your choice: &quot;;
+    private static final String BACK_TO_USER_MENUE= &quot;3. Back to User Menu&quot;;
+
+<span class="nc" id="L17">      private static Test userAuth = new Test();</span>
+<span class="nc" id="L18">    private static UserManagementSystem system = new UserManagementSystem(); // Assuming you have this class for managing users</span>
+<span class="nc" id="L19">    private static MonitoringAndReportingww reporting = new MonitoringAndReportingww(); // Assuming you have this class for reporting</span>
+<span class="nc" id="L20">    private static Product productSystem = new Product(); // Assuming you have this class for managing products</span>
+<span class="nc" id="L21">    private static PersonAccount Post = new PersonAccount();</span>
+<span class="nc" id="L22">    static PersonAccount account = new PersonAccount();</span>
+    private static ProductSearchtest pp ;
+    
+    private static void logInfo(String message) {
+<span class="nc" id="L26">        System.out.println(message);</span>
+<span class="nc" id="L27">    }</span>
+    
+    public static void main(String[] args) {
+<span class="nc" id="L30">        Scanner scanner = new Scanner(System.in);</span>
+<span class="nc" id="L31">        boolean running = true;</span>
+
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        while (running) {</span>
+<span class="nc" id="L34">        	 logInfo(&quot;Welcome to Sweet Management System&quot;);</span>
+<span class="nc" id="L35">             logInfo(&quot;1. Login&quot;);</span>
+<span class="nc" id="L36">             logInfo(&quot;2. Signup&quot;);</span>
+<span class="nc" id="L37">             logInfo(&quot;3. Exit&quot;);</span>
+<span class="nc" id="L38">             logInfo(&quot;Choose an option: &quot;);</span>
+<span class="nc" id="L39">            int choice = scanner.nextInt();</span>
+<span class="nc" id="L40">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L42" title="All 4 branches missed.">            switch (choice) {</span>
+                case 1:
+<span class="nc" id="L44">                    handleLogin(scanner);</span>
+<span class="nc" id="L45">                    break;</span>
+
+                case 2:
+<span class="nc" id="L48">                    handleSignup(scanner);</span>
+<span class="nc" id="L49">                    break;</span>
+
+                case 3:
+<span class="nc" id="L52">                    running = false;</span>
+<span class="nc" id="L53">                    logInfo(&quot;Exiting the system. Goodbye!&quot;);                    break;</span>
+
+                default:
+<span class="nc" id="L56">                    logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L58">        }</span>
+
+<span class="nc" id="L60">        scanner.close();</span>
+<span class="nc" id="L61">    }</span>
+    
+<span class="nc" id="L63">    private static String currentLoggedInUser = null;</span>
+
+
+    
+    private static void handleLogin(Scanner scanner) {
+<span class="nc" id="L68">        logInfo(&quot;Enter your email: &quot;);</span>
+<span class="nc" id="L69">        String email = scanner.nextLine();</span>
+<span class="nc" id="L70">        logInfo(&quot;Enter your password: &quot;);</span>
+<span class="nc" id="L71">        String password = scanner.nextLine();</span>
+
+        // Check login using the MonitoringAndReportingww class
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (reporting.login(email, password)) {</span>
+<span class="nc" id="L75">            logInfo(&quot;Login successful!&quot;);</span>
+
+            // Set the current logged-in user
+<span class="nc" id="L78">            currentLoggedInUser = email;</span>
+
+            // Show the appropriate menu based on the role
+<span class="nc" id="L81">            String role = reporting.getRoleByEmail(email);</span>
+<span class="nc bnc" id="L82" title="All 5 branches missed.">            switch (role) {</span>
+                case &quot;Admin&quot;:
+<span class="nc" id="L84">                    handleAdminMenu(scanner);</span>
+<span class="nc" id="L85">                    break;</span>
+                case &quot;Store Owner&quot;:
+<span class="nc" id="L87">                    handleStoreOwnerMenu(scanner);</span>
+<span class="nc" id="L88">                    break;</span>
+                case &quot;User&quot;:
+<span class="nc" id="L90">                    handleUserMenu(scanner);</span>
+<span class="nc" id="L91">                    break;</span>
+                case &quot;Supplier&quot;:
+<span class="nc" id="L93">                    handleSupplierMenu(scanner, currentLoggedInUser);</span>
+<span class="nc" id="L94">                    break;</span>
+                default:
+<span class="nc" id="L96">                    logInfo(&quot;Welcome, &quot; + role + &quot;!&quot;); // For unexpected roles</span>
+                    break;
+            }
+<span class="nc" id="L99">        } else {</span>
+<span class="nc" id="L100">            logInfo(&quot;Invalid email or password.&quot;);</span>
+        }
+<span class="nc" id="L102">    }</span>
+
+
+
+
+    private static void handleSignup(Scanner scanner) {
+<span class="nc" id="L108">        logInfo(&quot;Select your role:&quot;);</span>
+<span class="nc" id="L109">        logInfo(&quot;1. Admin&quot;);</span>
+<span class="nc" id="L110">        logInfo(&quot;2. Store Owner&quot;);</span>
+<span class="nc" id="L111">        logInfo(&quot;3. Supplier&quot;);</span>
+<span class="nc" id="L112">        logInfo(&quot;4. User&quot;);</span>
+<span class="nc" id="L113">        logInfo(&quot;Enter the number corresponding to your role: &quot;);</span>
+<span class="nc" id="L114">        int roleChoice = scanner.nextInt();</span>
+<span class="nc" id="L115">        scanner.nextLine();</span>
+
+        String role;
+<span class="nc bnc" id="L118" title="All 5 branches missed.">        switch (roleChoice) {</span>
+            case 1:
+<span class="nc" id="L120">                role = &quot;Admin&quot;;</span>
+<span class="nc" id="L121">                break;</span>
+            case 2:
+<span class="nc" id="L123">                role = &quot;Store Owner&quot;;</span>
+<span class="nc" id="L124">                break;</span>
+            case 3:
+<span class="nc" id="L126">                role = &quot;Supplier&quot;;</span>
+<span class="nc" id="L127">                break;</span>
+            case 4:
+<span class="nc" id="L129">                role = &quot;User&quot;;</span>
+<span class="nc" id="L130">                break;</span>
+            default:
+<span class="nc" id="L132">                logInfo(&quot;Invalid choice. Role set to 'User' by default.&quot;);</span>
+<span class="nc" id="L133">                role = &quot;User&quot;;</span>
+        }
+
+        // Input user details after selecting role
+<span class="nc" id="L137">        logInfo(&quot;Enter your username: &quot;);</span>
+<span class="nc" id="L138">        String username = scanner.nextLine();</span>
+<span class="nc" id="L139">        logInfo(&quot;Enter your password: &quot;);</span>
+<span class="nc" id="L140">        String password = scanner.nextLine();</span>
+<span class="nc" id="L141">        logInfo(&quot;Enter your email: &quot;);</span>
+<span class="nc" id="L142">        String email = scanner.nextLine();</span>
+
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        if (userAuth.registerUser(username, password, email, role)) {</span>
+<span class="nc" id="L145">            logInfo(&quot;Signup successful!&quot;);</span>
+        } else {
+<span class="nc" id="L147">            logInfo(&quot;Signup failed. Please check your details and try again.&quot;);</span>
+        }
+<span class="nc" id="L149">    }</span>
+    
+    private static void handleSupplierMenu(Scanner scanner, String loggedInUser) {
+        // Example Supplier Menu implementation
+        while (true) {
+<span class="nc" id="L154">        	logInfo(&quot;\n** Supplier Menu **&quot;);</span>
+<span class="nc" id="L155">            logInfo(&quot;1. Messaging system to communicate&quot;);</span>
+<span class="nc" id="L156">            logInfo(&quot;2. Logout&quot;);</span>
+<span class="nc" id="L157">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L158">            int choice = scanner.nextInt();</span>
+<span class="nc" id="L159">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L161" title="All 3 branches missed.">            switch (choice) {</span>
+                case 1:
+<span class="nc" id="L163">                    handleMessaging(scanner, loggedInUser);</span>
+<span class="nc" id="L164">                    break;</span>
+                case 2:
+<span class="nc" id="L166">                	  logInfo(&quot;Logging out...&quot;);</span>
+<span class="nc" id="L167">                      return;</span>
+                  default:
+<span class="nc" id="L169">                      logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L171">        }</span>
+    }
+    private static void handleAdminMenu(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L175">            logInfo(&quot;\n** Admin Menu **&quot;);</span>
+<span class="nc" id="L176">            logInfo(&quot;1. User Management System&quot;);</span>
+<span class="nc" id="L177">            logInfo(&quot;2. View Statistics&quot;);</span>
+<span class="nc" id="L178">            logInfo(&quot;3. Manage Recipes&quot;);</span>
+<span class="nc" id="L179">            logInfo(&quot;4. Manage Posts&quot;);</span>
+<span class="nc" id="L180">            logInfo(&quot;5. Manage Feedback&quot;);</span>
+<span class="nc" id="L181">            logInfo(&quot;6. Logout&quot;);</span>
+<span class="nc" id="L182">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L183">            int adminChoice = scanner.nextInt();</span>
+<span class="nc" id="L184">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L186" title="All 7 branches missed.">            switch (adminChoice) {</span>
+                case 1:
+<span class="nc" id="L188">                    handleUserManagement(scanner);</span>
+<span class="nc" id="L189">                    break;</span>
+
+                case 2:
+<span class="nc" id="L192">                    reporting.displayStatistics();</span>
+<span class="nc" id="L193">                    reporting.displayProductSales();</span>
+<span class="nc" id="L194">                    break;</span>
+                case 3:
+<span class="nc" id="L196">                    handleManageRecipes(scanner);</span>
+<span class="nc" id="L197">                    break;</span>
+                case 4:
+<span class="nc" id="L199">                    handleManagePosts(scanner);</span>
+<span class="nc" id="L200">                    break;</span>
+                case 5:
+<span class="nc" id="L202">                    handleManageFeedback(scanner);</span>
+<span class="nc" id="L203">                    break;</span>
+
+                case 6:
+<span class="nc" id="L206">                    logInfo(&quot;Logging out...&quot;);</span>
+<span class="nc" id="L207">                    return;</span>
+
+                default:
+<span class="nc" id="L210">                    logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L212">        }</span>
+    }
+
+    private static void handleStoreOwnerMenu(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L217">        	logInfo(&quot;\n** Store Owner Menu **&quot;);</span>
+<span class="nc" id="L218">            logInfo(&quot;1. Manage Products&quot;);</span>
+<span class="nc" id="L219">            logInfo(&quot;2. Best-selling products and profits&quot;);</span>
+<span class="nc" id="L220">            logInfo(&quot;3. Manage Discounts&quot;);</span>
+<span class="nc" id="L221">            logInfo(&quot;4. Manage Orders&quot;);</span>
+<span class="nc" id="L222">            logInfo(&quot;5. Communication and Notification&quot;);</span>
+<span class="nc" id="L223">            logInfo(&quot;6. Logout&quot;);</span>
+<span class="nc" id="L224">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L225">            int ownerChoice = scanner.nextInt();</span>
+<span class="nc" id="L226">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L228" title="All 7 branches missed.">            switch (ownerChoice) {</span>
+                case 1:
+<span class="nc" id="L230">                    handleProductManagement(scanner);</span>
+<span class="nc" id="L231">                    break;</span>
+
+                case 2:
+<span class="nc" id="L234">                    reporting.displayStatistics();</span>
+<span class="nc" id="L235">                    reporting.displayProductSales();</span>
+<span class="nc" id="L236">                    break;</span>
+
+                case 3:
+<span class="nc" id="L239">                    handleDiscountManagement(scanner);</span>
+<span class="nc" id="L240">                    break;</span>
+
+                case 4:
+<span class="nc" id="L243">                    handleOrderManagement(scanner);</span>
+<span class="nc" id="L244">                    break;</span>
+
+                case 5:
+                    // Ensure currentLoggedInUser is properly set to the logged-in user's email
+<span class="nc" id="L248">                    handleCommunicationAndNotification(scanner, currentLoggedInUser);</span>
+<span class="nc" id="L249">                    break;</span>
+
+
+                case 6:
+<span class="nc" id="L253">                    logInfo(&quot;Logging out...&quot;);</span>
+<span class="nc" id="L254">                    return;</span>
+
+                default:
+<span class="nc" id="L257">                    logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L259">        }</span>
+    }
+
+    private static void handleUserManagement(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L264">        	logInfo(&quot;\n** User Management System **&quot;);</span>
+<span class="nc" id="L265">            logInfo(&quot;1. Add User&quot;);</span>
+<span class="nc" id="L266">            logInfo(&quot;2. Update User&quot;);</span>
+<span class="nc" id="L267">            logInfo(&quot;3. Delete User&quot;);</span>
+<span class="nc" id="L268">             logInfo(&quot;4. Back to Admin Menu&quot;);</span>
+<span class="nc" id="L269">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L270">            int userMgmtChoice = scanner.nextInt();</span>
+<span class="nc" id="L271">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L273" title="All 5 branches missed.">            switch (userMgmtChoice) {</span>
+                case 1:
+<span class="nc" id="L275">                	  logInfo(&quot;Enter User ID: &quot;);</span>
+<span class="nc" id="L276">                      String id = scanner.nextLine();</span>
+<span class="nc" id="L277">                      logInfo(&quot;Enter User Type (User/Owner/Supplier): &quot;);</span>
+<span class="nc" id="L278">                      String type = scanner.nextLine().toLowerCase();</span>
+<span class="nc" id="L279">                      logInfo(&quot;Enter User Name: &quot;);</span>
+<span class="nc" id="L280">                      String name = scanner.nextLine();</span>
+<span class="nc" id="L281">                      logInfo(&quot;Enter User Address: &quot;);</span>
+<span class="nc" id="L282">                      String address = scanner.nextLine();</span>
+<span class="nc" id="L283">                      logInfo(&quot;Enter User Phone: &quot;);</span>
+<span class="nc" id="L284">                    String phone = scanner.nextLine();</span>
+<span class="nc" id="L285">                    String addResult = system.addUser(id, type, name, address, phone);</span>
+<span class="nc" id="L286">                    System.out.println(addResult);</span>
+<span class="nc" id="L287">                    break;</span>
+
+                case 2:
+<span class="nc" id="L290">                	   logInfo(&quot;Enter User ID to update: &quot;);</span>
+<span class="nc" id="L291">                       String updateId = scanner.nextLine();</span>
+<span class="nc" id="L292">                       system.setCurrentId(updateId);</span>
+<span class="nc" id="L293">                       logInfo(&quot;Enter field to update (Name/Address/Phone): &quot;);</span>
+<span class="nc" id="L294">                       String field = scanner.nextLine();</span>
+<span class="nc" id="L295">                       logInfo(&quot;Enter new value: &quot;);</span>
+<span class="nc" id="L296">                       String value = scanner.nextLine();</span>
+<span class="nc" id="L297">                       String updateResult = system.updateUser(field, value);</span>
+<span class="nc" id="L298">                       logInfo(updateResult);</span>
+<span class="nc" id="L299">                       break;</span>
+                case 3:
+<span class="nc" id="L301">                	  logInfo(&quot;Enter User ID to delete: &quot;);</span>
+<span class="nc" id="L302">                      String deleteId = scanner.nextLine();</span>
+<span class="nc" id="L303">                      system.setCurrentId(deleteId);</span>
+<span class="nc" id="L304">                      String deleteResult = system.deleteUser();</span>
+<span class="nc" id="L305">                      logInfo(deleteResult);</span>
+<span class="nc" id="L306">                      break;</span>
+
+                case 4:
+<span class="nc" id="L309">                    logInfo(&quot;Returning to Admin Menu...&quot;);</span>
+<span class="nc" id="L310">                    return;</span>
+
+                default:
+<span class="nc" id="L313">                    logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L315">        }</span>
+    }
+
+    private static void handleManageRecipes(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L320">            logInfo(&quot;\n--- Manage Recipes ---&quot;);</span>
+<span class="nc" id="L321">            logInfo(&quot;1. Add Recipe&quot;);</span>
+<span class="nc" id="L322">            logInfo(&quot;2. Update Recipe&quot;);</span>
+<span class="nc" id="L323">            logInfo(&quot;3. Delete Recipe&quot;);</span>
+<span class="nc" id="L324">            logInfo(&quot;4. View Recipe&quot;);</span>
+<span class="nc" id="L325">            logInfo(&quot;5. Back to Menu Admin &quot;);</span>
+<span class="nc" id="L326">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L327">            int recipeChoice = scanner.nextInt();</span>
+<span class="nc" id="L328">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L330" title="All 6 branches missed.">            switch (recipeChoice) {</span>
+                case 1:
+<span class="nc" id="L332">                    logInfo(&quot;Enter Recipe Name: &quot;);</span>
+<span class="nc" id="L333">                    String recipeName = scanner.nextLine();</span>
+<span class="nc" id="L334">                    logInfo(&quot;Enter Recipe Description: &quot;);</span>
+<span class="nc" id="L335">                    String recipeDesc = scanner.nextLine();</span>
+<span class="nc" id="L336">                    String resultAdd = account.addRecipe(recipeName, recipeDesc, &quot;&quot;); // assuming you have a third parameter</span>
+<span class="nc" id="L337">                    logInfo(resultAdd);</span>
+<span class="nc" id="L338">                    break;</span>
+
+                case 2:
+<span class="nc" id="L341">                    logInfo(&quot;Enter Recipe Name to update: &quot;);</span>
+<span class="nc" id="L342">                    String updateRecipeName = scanner.nextLine();</span>
+<span class="nc" id="L343">                    logInfo(&quot;Enter new Recipe Description: &quot;);</span>
+<span class="nc" id="L344">                    String updateRecipeDesc = scanner.nextLine();</span>
+<span class="nc" id="L345">                    String resultUpdate = account.updateRecipe(updateRecipeName, updateRecipeDesc); // Only two parameters</span>
+<span class="nc" id="L346">                    logInfo(resultUpdate);</span>
+<span class="nc" id="L347">                    break;</span>
+
+                case 3:
+<span class="nc" id="L350">                    logInfo(&quot;Enter Recipe Name to delete: &quot;);</span>
+<span class="nc" id="L351">                    String deleteRecipeName = scanner.nextLine();</span>
+<span class="nc" id="L352">                    String resultDelete = account.deleteRecipe(deleteRecipeName);</span>
+<span class="nc" id="L353">                    logInfo(resultDelete);</span>
+<span class="nc" id="L354">                    break;</span>
+
+                case 4:
+<span class="nc" id="L357">                    logInfo(&quot;Enter Recipe Name to view: &quot;);</span>
+<span class="nc" id="L358">                    String viewRecipeName = scanner.nextLine();</span>
+<span class="nc" id="L359">                    String recipeDetails = account.viewRecipe(viewRecipeName);</span>
+<span class="nc" id="L360">                    logInfo(recipeDetails);</span>
+<span class="nc" id="L361">                    break;</span>
+
+                case 5:
+<span class="nc" id="L364">                    logInfo(&quot;Returning to Admin Menu...&quot;);</span>
+<span class="nc" id="L365">                    return;</span>
+
+                default:
+<span class="nc" id="L368">                    logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L370">        }</span>
+    }
+
+    private static void handleManagePosts(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L375">            logInfo(&quot;\n--- Manage Posts ---&quot;);</span>
+<span class="nc" id="L376">            logInfo(&quot;1. Add Post&quot;);</span>
+<span class="nc" id="L377">            logInfo(&quot;2. Update Post&quot;);</span>
+<span class="nc" id="L378">            logInfo(&quot;3. Delete Post&quot;);</span>
+<span class="nc" id="L379">            logInfo(&quot;4. View All Posts&quot;);</span>
+<span class="nc" id="L380">            logInfo(&quot;5. Back to Admin Menu&quot;);</span>
+<span class="nc" id="L381">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L382">            int postChoice = scanner.nextInt();</span>
+<span class="nc" id="L383">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L385" title="All 6 branches missed.">            switch (postChoice) {</span>
+                case 1:
+<span class="nc" id="L387">                    logInfo(&quot;Enter Post Title: &quot;);</span>
+<span class="nc" id="L388">                    String title = scanner.nextLine();</span>
+<span class="nc" id="L389">                    logInfo(&quot;Enter Post Content: &quot;);</span>
+<span class="nc" id="L390">                    String content = scanner.nextLine();</span>
+<span class="nc" id="L391">                    String addResult = Post.addPost(title, content);</span>
+<span class="nc" id="L392">                    logInfo(addResult);</span>
+<span class="nc" id="L393">                    break;</span>
+
+                case 2:
+<span class="nc" id="L396">                    logInfo(&quot;Enter Post Title to update: &quot;);</span>
+<span class="nc" id="L397">                    String updateTitle = scanner.nextLine();</span>
+<span class="nc" id="L398">                    logInfo(&quot;Enter New Content: &quot;);</span>
+<span class="nc" id="L399">                    String newContent = scanner.nextLine();</span>
+<span class="nc" id="L400">                    String updateResult = Post.updatePost(updateTitle, newContent);</span>
+<span class="nc" id="L401">                    logInfo(updateResult);</span>
+<span class="nc" id="L402">                    break;</span>
+
+                case 3:
+<span class="nc" id="L405">                    logInfo(&quot;Enter Post Title to delete: &quot;);</span>
+<span class="nc" id="L406">                    String deleteTitle = scanner.nextLine();</span>
+<span class="nc" id="L407">                    String deleteResult = Post.deletePost(deleteTitle);</span>
+<span class="nc" id="L408">                    logInfo(deleteResult);</span>
+<span class="nc" id="L409">                    break;</span>
+
+                case 4:
+<span class="nc" id="L412">                    String allPosts = Post.viewAllPosts();</span>
+<span class="nc" id="L413">                    logInfo(allPosts);</span>
+<span class="nc" id="L414">                    break;</span>
+
+                case 5:
+<span class="nc" id="L417">                    logInfo(&quot;Returning to Admin Menu...&quot;);</span>
+<span class="nc" id="L418">                    return;</span>
+
+                default:
+<span class="nc" id="L421">                    logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L423">        }</span>
+    }
+
+    private static void handleManageFeedback(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L428">            logInfo(&quot;\n--- Manage Feedback ---&quot;);</span>
+<span class="nc" id="L429">            logInfo(&quot;1. View Feedback&quot;);</span>
+<span class="nc" id="L430">            logInfo(&quot;2. Respond to Feedback&quot;);</span>
+<span class="nc" id="L431">            logInfo(&quot;3. Delete Feedback&quot;);</span>
+<span class="nc" id="L432">            logInfo(&quot;4. Back to Admin Menu&quot;);</span>
+<span class="nc" id="L433">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L434">            int feedbackChoice = scanner.nextInt();</span>
+<span class="nc" id="L435">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L437" title="All 5 branches missed.">            switch (feedbackChoice) {</span>
+                case 1:
+<span class="nc" id="L439">                    logInfo(account.viewFeedback()); // استدعاء الدالة من personaccount</span>
+<span class="nc" id="L440">                    break;</span>
+                case 2:
+<span class="nc" id="L442">                    logInfo(&quot;Enter feedback ID to respond to: &quot;);</span>
+<span class="nc" id="L443">                    int feedbackId = scanner.nextInt();</span>
+<span class="nc" id="L444">                    scanner.nextLine(); // Consume newline</span>
+<span class="nc" id="L445">                    logInfo(&quot;Enter your response: &quot;);</span>
+<span class="nc" id="L446">                    String response = scanner.nextLine();</span>
+<span class="nc" id="L447">                    logInfo(account.respondToFeedback(feedbackId, response)); // استدعاء الدالة من personaccount</span>
+<span class="nc" id="L448">                    break;</span>
+                case 3:
+<span class="nc" id="L450">                    logInfo(&quot;Enter feedback ID to delete: &quot;);</span>
+<span class="nc" id="L451">                    int deleteFeedbackId = scanner.nextInt();</span>
+<span class="nc" id="L452">                    logInfo(account.deleteFeedback(deleteFeedbackId)); // استدعاء الدالة من personaccount</span>
+<span class="nc" id="L453">                    break;</span>
+
+                case 4:
+<span class="nc" id="L456">                    logInfo(&quot;Returning to Admin Menu...&quot;);</span>
+<span class="nc" id="L457">                    return;</span>
+
+                default:
+<span class="nc" id="L460">                    logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L462">        }</span>
+    }
+
+    private static void handleProductManagement(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L467">            logInfo(&quot;\n--- Manage Products ---&quot;);</span>
+<span class="nc" id="L468">            logInfo(&quot;1. Add Product&quot;);</span>
+<span class="nc" id="L469">            logInfo(&quot;2. Update Product&quot;);</span>
+<span class="nc" id="L470">            logInfo(&quot;3. Delete Product&quot;);</span>
+<span class="nc" id="L471">            logInfo(&quot;4. Exit&quot;);</span>
+<span class="nc" id="L472">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L473">            int productChoice = scanner.nextInt();</span>
+<span class="nc" id="L474">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L476" title="All 5 branches missed.">            switch (productChoice) {</span>
+                case 1:
+<span class="nc" id="L478">                    logInfo(&quot;Enter Product ID: &quot;);</span>
+<span class="nc" id="L479">                    String productId = scanner.nextLine();</span>
+<span class="nc" id="L480">                    logInfo(&quot;Enter Product Name: &quot;);</span>
+<span class="nc" id="L481">                    String productName = scanner.nextLine();</span>
+<span class="nc" id="L482">                    logInfo(&quot;Enter Description: &quot;);</span>
+<span class="nc" id="L483">                    String description = scanner.nextLine();</span>
+<span class="nc" id="L484">                    logInfo(&quot;Enter Price: &quot;);</span>
+<span class="nc" id="L485">                    String price = scanner.nextLine();</span>
+<span class="nc" id="L486">                    logInfo(&quot;Enter Availability: &quot;);</span>
+<span class="nc" id="L487">                    String availability = scanner.nextLine();</span>
+<span class="nc" id="L488">                    String addResult = productSystem.addProduct(productId, productName, description, price, availability);</span>
+<span class="nc" id="L489">                    logInfo(addResult);</span>
+<span class="nc" id="L490">                    break;</span>
+
+                case 2:
+<span class="nc" id="L493">                    logInfo(&quot;Enter Product ID to update: &quot;);</span>
+<span class="nc" id="L494">                    String updateId = scanner.nextLine();</span>
+<span class="nc bnc" id="L495" title="All 2 branches missed.">                    if (productSystem.productExists(updateId)) {</span>
+<span class="nc" id="L496">                        logInfo(&quot;Enter field to update (Product Name/Description/Price/Availability): &quot;);</span>
+<span class="nc" id="L497">                        String field = scanner.nextLine();</span>
+<span class="nc" id="L498">                        logInfo(&quot;Enter new value: &quot;);</span>
+<span class="nc" id="L499">                        String value = scanner.nextLine();</span>
+<span class="nc" id="L500">                        Map&lt;String, String&gt; updatedDetails = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L501">                        updatedDetails.put(field, value);</span>
+<span class="nc" id="L502">                        String updateResult = productSystem.updateProduct(updateId, updatedDetails);</span>
+<span class="nc" id="L503">                        logInfo(updateResult);</span>
+<span class="nc" id="L504">                    } else {</span>
+<span class="nc" id="L505">                        logInfo(&quot;Product ID does not exist.&quot;);</span>
+                    }
+<span class="nc" id="L507">                    break;</span>
+
+                case 3:
+<span class="nc" id="L510">                    logInfo(&quot;Enter Product ID to delete: &quot;);</span>
+<span class="nc" id="L511">                    String deleteProdId = scanner.nextLine();</span>
+<span class="nc" id="L512">                    productSystem.deleteProduct(deleteProdId);</span>
+<span class="nc" id="L513">                    break;</span>
+
+                case 4:
+<span class="nc" id="L516">                    logInfo(&quot;Exiting Product Management.&quot;);</span>
+<span class="nc" id="L517">                    return; // Exit the product management menu loop</span>
+
+                default:
+<span class="nc" id="L520">                    logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L522">        }</span>
+    }
+
+    private static void handleDiscountManagement(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L527">            logInfo(&quot;\n--- Manage Discounts and Orders ---&quot;);</span>
+<span class="nc" id="L528">            logInfo(&quot;1. Add Discount&quot;);</span>
+<span class="nc" id="L529">            logInfo(&quot;2. Apply Discount&quot;);</span>
+<span class="nc" id="L530">            logInfo(&quot;3. Print Orders&quot;);</span>
+<span class="nc" id="L531">            logInfo(&quot;4. Exit&quot;);</span>
+<span class="nc" id="L532">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L533">            int choice = scanner.nextInt();</span>
+<span class="nc" id="L534">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L536" title="All 5 branches missed.">            switch (choice) {</span>
+                case 1:
+<span class="nc" id="L538">                    logInfo(&quot;Enter Discount Name: &quot;);</span>
+<span class="nc" id="L539">                    String discountName = scanner.nextLine();</span>
+<span class="nc" id="L540">                    logInfo(&quot;Enter Discount Rate (in percentage): &quot;);</span>
+<span class="nc" id="L541">                    double discountRate = Double.parseDouble(scanner.nextLine());</span>
+<span class="nc" id="L542">                    logInfo(ooorder.addDiscount(discountName, discountRate));</span>
+<span class="nc" id="L543">                    break;</span>
+
+                case 2:
+<span class="nc" id="L546">                    logInfo(&quot;Enter Discount Name to Apply: &quot;);</span>
+<span class="nc" id="L547">                    String applyDiscountName = scanner.nextLine();</span>
+<span class="nc" id="L548">                    logInfo(ooorder.applyDiscount(applyDiscountName));</span>
+<span class="nc" id="L549">                    break;</span>
+
+                case 3:
+<span class="nc" id="L552">                    ooorder.printOrders(&quot;Order List:&quot;, ooorder.orders);</span>
+<span class="nc" id="L553">                    break;</span>
+
+                case 4:
+<span class="nc" id="L556">                    logInfo(&quot;Exiting Discount Management.&quot;);</span>
+<span class="nc" id="L557">                    return; // Exit the discount management menu loop</span>
+
+                default:
+<span class="nc" id="L560">                    logInfo(&quot;Invalid option. Please try again.&quot;);</span>
+                    break;
+            }
+<span class="nc" id="L563">        }</span>
+    }
+
+    private static void handleOrderManagement(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L568">            logInfo(&quot;\n--- Manage Orders ---&quot;);</span>
+<span class="nc" id="L569">            logInfo(&quot;1. View Order&quot;);</span>
+<span class="nc" id="L570">            logInfo(&quot;2. Update Order&quot;);</span>
+<span class="nc" id="L571">            logInfo(&quot;3. Delete Order&quot;);</span>
+<span class="nc" id="L572">            logInfo(&quot;4. Exit&quot;);</span>
+<span class="nc" id="L573">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L574">            int orderChoice = scanner.nextInt();</span>
+<span class="nc" id="L575">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L577" title="All 5 branches missed.">            switch (orderChoice) {</span>
+                case 1:
+<span class="nc" id="L579">                    ooorder.printOrders(&quot;Order List:&quot;, ooorder.orders);</span>
+<span class="nc" id="L580">                    break;</span>
+
+                case 2:
+<span class="nc" id="L583">                    logInfo(&quot;Enter Order ID to update: &quot;);</span>
+<span class="nc" id="L584">                    String updateOrderId = scanner.nextLine();</span>
+<span class="nc bnc" id="L585" title="All 2 branches missed.">                    if (ooorder.orders.containsKey(updateOrderId)) {</span>
+<span class="nc" id="L586">                         String[] orderInfo = ooorder.orders.get(updateOrderId);</span>
+
+<span class="nc" id="L588">                         orderInfo[5] = &quot;Processing&quot;; // assuming index 5 is the status</span>
+
+<span class="nc" id="L590">                         ooorder.orders.put(updateOrderId, orderInfo);</span>
+
+<span class="nc" id="L592">                         ooorder.saveOrders();</span>
+
+<span class="nc" id="L594">                        logInfo(&quot;Order status updated to Processing.&quot;);</span>
+<span class="nc" id="L595">                    } else {</span>
+<span class="nc" id="L596">                        logInfo(&quot;Order ID not found.&quot;);</span>
+                    }
+<span class="nc" id="L598">                    break;</span>
+
+                case 3:
+<span class="nc" id="L601">                    logInfo(&quot;Enter Order ID to delete: &quot;);</span>
+<span class="nc" id="L602">                    String deleteOrderId = scanner.nextLine();</span>
+<span class="nc" id="L603">                    String result = ooorder.deleteOrder(deleteOrderId);</span>
+<span class="nc" id="L604">                    logInfo(result);</span>
+<span class="nc" id="L605">                    break;</span>
+
+                case 4:
+<span class="nc" id="L608">                    logInfo(&quot;Exiting Order Management.&quot;);</span>
+<span class="nc" id="L609">                    return;  </span>
+
+                default:
+<span class="nc" id="L612">                    logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L614">        }</span>
+    }
+
+    private static void handleCommunicationAndNotification(Scanner scanner, String currentLoggedInUser) {
+<span class="nc" id="L618">        SupplierService supplierService = new SupplierService(currentLoggedInUser);</span>
+
+<span class="nc" id="L620">        String currentOwner = supplierService.getStoreOwnerNameFromEmail(currentLoggedInUser);</span>
+
+<span class="nc bnc" id="L622" title="All 2 branches missed.">        if (currentOwner.isEmpty()) {</span>
+<span class="nc" id="L623">            logInfo(&quot;No messages to reply to.&quot;);</span>
+<span class="nc" id="L624">            return;</span>
+        }
+
+<span class="nc" id="L627">        List&lt;String&gt; messagesForOwner = supplierService.loadMessagesForOwner(currentOwner);</span>
+
+<span class="nc bnc" id="L629" title="All 2 branches missed.">        if (messagesForOwner.isEmpty()) {</span>
+<span class="nc" id="L630">            logInfo(&quot;No messages to reply to.&quot;);</span>
+<span class="nc" id="L631">            return;</span>
+        }
+
+        while (true) {
+<span class="nc" id="L635">            logInfo(&quot;\n** Communication and Notification **&quot;);</span>
+<span class="nc" id="L636">            logInfo(&quot;1. Reply to Message&quot;);</span>
+<span class="nc" id="L637">            logInfo(&quot;2. Back to Store Owner Menu&quot;);</span>
+<span class="nc" id="L638">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L639">            int choice = scanner.nextInt();</span>
+<span class="nc" id="L640">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L642" title="All 3 branches missed.">            switch (choice) {</span>
+                case 1:
+<span class="nc" id="L644">                     logInfo(&quot;Messages for you:&quot;);</span>
+<span class="nc bnc" id="L645" title="All 2 branches missed.">                    for (int i = 0; i &lt; messagesForOwner.size(); i++) {</span>
+<span class="nc" id="L646">                        logInfo((i + 1) + &quot;. &quot; + messagesForOwner.get(i));</span>
+                    }
+
+                    // Get the message to reply to
+<span class="nc" id="L650">                    logInfo(&quot;Enter the number of the message you want to reply to: &quot;);</span>
+<span class="nc" id="L651">                    int messageNumber = scanner.nextInt();</span>
+<span class="nc" id="L652">                    scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L654" title="All 4 branches missed.">                    if (messageNumber &lt; 1 || messageNumber &gt; messagesForOwner.size()) {</span>
+<span class="nc" id="L655">                        logInfo(&quot;Invalid message number.&quot;);</span>
+<span class="nc" id="L656">                        break;</span>
+                    }
+
+<span class="nc" id="L659">                    String selectedMessage = messagesForOwner.get(messageNumber - 1);</span>
+<span class="nc" id="L660">                    logInfo(&quot;Selected message: &quot; + selectedMessage);</span>
+
+<span class="nc" id="L662">                     logInfo(&quot;Enter your reply: &quot;);</span>
+<span class="nc" id="L663">                    String reply = scanner.nextLine();</span>
+
+<span class="nc" id="L665">                     supplierService.appendReplyToMessageFile(currentOwner, selectedMessage, reply);</span>
+
+<span class="nc" id="L667">                    logInfo(&quot;Reply sent successfully.&quot;);</span>
+<span class="nc" id="L668">                    break;</span>
+
+                case 2:
+<span class="nc" id="L671">                    logInfo(&quot;Returning to Store Owner Menu...&quot;);</span>
+<span class="nc" id="L672">                    return; // Exit Communication and Notification Menu and return to the Store Owner Menu</span>
+
+                default:
+<span class="nc" id="L675">                    logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L677">        }</span>
+    }
+
+
+
+
+    private static void handleUserMenu(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L685">            logInfo(&quot;\n** User Menu **&quot;);</span>
+<span class="nc" id="L686">            logInfo(&quot;1. Product Browsing Menu&quot;);</span>
+<span class="nc" id="L687">            logInfo(&quot;2. Update Account Details&quot;);</span>
+<span class="nc" id="L688">            logInfo(&quot;3. Make purchases &quot;);</span>
+<span class="nc" id="L689">            logInfo(&quot;4. search for dessert recipes&quot;);</span>
+<span class="nc" id="L690">            logInfo(&quot;5. Provide feedback&quot;);</span>
+<span class="nc" id="L691">            logInfo(&quot;6. Logout&quot;);</span>
+<span class="nc" id="L692">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L693">            int userChoice = scanner.nextInt();</span>
+<span class="nc" id="L694">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L696" title="All 7 branches missed.">            switch (userChoice) {</span>
+                case 1:
+<span class="nc" id="L698">                    handleBrowseproducts(scanner);</span>
+<span class="nc" id="L699">                    break;</span>
+                case 2:
+<span class="nc" id="L701">                    handleManageUserAccount(scanner, reporting); // Pass the correct instance here</span>
+<span class="nc" id="L702">                    break;</span>
+                case 3:
+<span class="nc" id="L704">                    handleMakepurchases(scanner);</span>
+<span class="nc" id="L705">                    break;</span>
+                case 4:
+<span class="nc" id="L707">                    handleSearchForDessertRecipes(scanner);</span>
+<span class="nc" id="L708">                    break;</span>
+                case 5:
+<span class="nc" id="L710">                    handleProvidefeedback(scanner);</span>
+<span class="nc" id="L711">                    break;</span>
+                case 6:
+<span class="nc" id="L713">                    logInfo(&quot;Logging out...&quot;);</span>
+<span class="nc" id="L714">                    return;</span>
+                default:
+<span class="nc" id="L716">                    logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L718">        }</span>
+    }
+
+    public static void handleBrowseproducts(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L723">            logInfo(&quot;\n--- Welcome to the Product Browsing Menu ---&quot;);</span>
+<span class="nc" id="L724">            logInfo(&quot;1. Show all products&quot;);</span>
+<span class="nc" id="L725">            logInfo(&quot;2. Search for a product by ID&quot;);</span>
+<span class="nc" id="L726">            logInfo(BACK_TO_USER_MENUE);</span>
+<span class="nc" id="L727">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L728">            int accountChoice = scanner.nextInt();</span>
+<span class="nc" id="L729">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L731" title="All 4 branches missed.">            switch (accountChoice) {</span>
+                case 1:
+<span class="nc" id="L733">                    ProductSearchtest.showAllProducts();</span>
+<span class="nc" id="L734">                    break;</span>
+                case 2:
+<span class="nc" id="L736">                    logInfo(&quot;Enter the Product ID to search: &quot;);</span>
+<span class="nc" id="L737">                    String productId = scanner.nextLine();</span>
+<span class="nc" id="L738">                    pp.searchProductById(productId);</span>
+<span class="nc" id="L739">                    break;</span>
+                case 3:
+<span class="nc" id="L741">                    logInfo(&quot;Returning to User Menu...&quot;);</span>
+<span class="nc" id="L742">                    return;</span>
+                default:
+<span class="nc" id="L744">                    logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L746">        }</span>
+    }
+
+    public static void handleMakepurchases(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L751">            logInfo(&quot;\n--- Welcome to the Purchase Menu ---&quot;);</span>
+<span class="nc" id="L752">            logInfo(&quot;1. Add Order&quot;);</span>
+<span class="nc" id="L753">            logInfo(&quot;2. Cancel Order&quot;);</span>
+<span class="nc" id="L754">            logInfo(BACK_TO_USER_MENUE);</span>
+
+<span class="nc" id="L756">            int accountChoice = scanner.nextInt();</span>
+<span class="nc" id="L757">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L759" title="All 4 branches missed.">            switch (accountChoice) {</span>
+                case 1:
+<span class="nc" id="L761">                    logInfo(&quot;Great choice! Let's proceed to add your order.&quot;);</span>
+<span class="nc" id="L762">                    logInfo(&quot;Enter Product ID: &quot;);</span>
+<span class="nc" id="L763">                    String productId = scanner.nextLine();</span>
+<span class="nc" id="L764">                    logInfo(&quot;Enter Quantity: &quot;);</span>
+<span class="nc" id="L765">                    int quantity = scanner.nextInt();</span>
+<span class="nc" id="L766">                    scanner.nextLine(); // Consume newline</span>
+<span class="nc" id="L767">                    String addOrderResult = ooorder.addOrder(productId, quantity);</span>
+<span class="nc" id="L768">                    logInfo(addOrderResult);</span>
+<span class="nc" id="L769">                    break;</span>
+                case 2:
+<span class="nc" id="L771">                    logInfo(&quot;Need to cancel an order? We’ll help you with that.&quot;);</span>
+<span class="nc" id="L772">                    logInfo(&quot;Enter Order ID to cancel: &quot;);</span>
+<span class="nc" id="L773">                    String deleteOrderId = scanner.nextLine();</span>
+<span class="nc" id="L774">                    String result = ooorder.deleteOrder(deleteOrderId);</span>
+<span class="nc" id="L775">                    logInfo(result);</span>
+<span class="nc" id="L776">                    break;</span>
+                case 3:
+<span class="nc" id="L778">                    logInfo(&quot;Returning to the User Menu. Have a great day!&quot;);</span>
+<span class="nc" id="L779">                    return;</span>
+                default:
+<span class="nc" id="L781">                    logInfo(&quot;Oops! It looks like you've entered an invalid option. Please choose a number between 1 and 4.&quot;);</span>
+            }
+<span class="nc" id="L783">        }</span>
+    }
+
+    public static void handleSearchForDessertRecipes(Scanner scanner) {
+        while (true) {
+<span class="nc" id="L788">            logInfo(&quot;\n--- Recipe Filter Menu ---&quot;);</span>
+<span class="nc" id="L789">            logInfo(&quot;1. Search for a Recipe by Name&quot;);</span>
+<span class="nc" id="L790">            logInfo(&quot;2. Filter Recipes by Allergies&quot;);</span>
+<span class="nc" id="L791">            logInfo(&quot;3. Filter Recipes by Nutritional Value&quot;);</span>
+<span class="nc" id="L792">            logInfo(&quot;4. Exit&quot;);</span>
+
+<span class="nc" id="L794">            int choice = scanner.nextInt();</span>
+<span class="nc" id="L795">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L797" title="All 5 branches missed.">            switch (choice) {</span>
+                case 1:
+<span class="nc" id="L799">                    logInfo(&quot;Enter the name of the recipe to search for: &quot;);</span>
+<span class="nc" id="L800">                    String name = scanner.nextLine();</span>
+<span class="nc" id="L801">                    account.searchRecipeByName(name);</span>
+<span class="nc" id="L802">                    break;</span>
+                case 2:
+<span class="nc" id="L804">                    logInfo(&quot;\nRecipes containing dairy:&quot;);</span>
+<span class="nc" id="L805">                    account.filterRecipesByAllergies(&quot;Contains dairy&quot;);</span>
+<span class="nc" id="L806">                    break;</span>
+                case 3:
+<span class="nc" id="L808">                    logInfo(&quot;Recipes matching all nutritional values:&quot;);</span>
+<span class="nc" id="L809">                    Set&lt;String&gt; criteria = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L810">                    criteria.add(&quot;Contains nuts&quot;);</span>
+<span class="nc" id="L811">                    criteria.add(&quot;Contains dairy&quot;);</span>
+<span class="nc" id="L812">                    account.filterRecipesByNutritionalValue(criteria);</span>
+<span class="nc" id="L813">                    break;</span>
+                case 4:
+<span class="nc" id="L815">                    logInfo(&quot;Exiting...&quot;);</span>
+<span class="nc" id="L816">                    return;</span>
+                default:
+<span class="nc" id="L818">                    logInfo(&quot;Invalid choice, please try again.&quot;);</span>
+            }
+<span class="nc" id="L820">        }</span>
+    }
+
+    private static void handleManageUserAccount(Scanner scanner, MonitoringAndReportingww manager) {
+<span class="nc bnc" id="L824" title="All 2 branches missed.">        if (manager.getLoggedInUsername() == null) {</span>
+<span class="nc" id="L825">            logInfo(&quot;Error: No user is currently logged in.&quot;);</span>
+<span class="nc" id="L826">            return;</span>
+        }
+
+        while (true) {
+<span class="nc" id="L830">            logInfo(&quot;\n--- Manage Account ---&quot;);</span>
+<span class="nc" id="L831">            logInfo(&quot;1. Change Password&quot;);</span>
+<span class="nc" id="L832">            logInfo(&quot;2. Change Email&quot;);</span>
+<span class="nc" id="L833">            logInfo(BACK_TO_USER_MENUE);</span>
+<span class="nc" id="L834">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L835">            int accountChoice = scanner.nextInt();</span>
+<span class="nc" id="L836">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L838" title="All 4 branches missed.">            switch (accountChoice) {</span>
+                case 1:
+<span class="nc" id="L840">                    logInfo(&quot;Enter your new password: &quot;);</span>
+<span class="nc" id="L841">                    String newPassword = scanner.nextLine();</span>
+<span class="nc" id="L842">                    manager.updateLogsignFile(null, newPassword);</span>
+<span class="nc" id="L843">                    logInfo(&quot;Password updated successfully.&quot;);</span>
+<span class="nc" id="L844">                    break;</span>
+                case 2:
+<span class="nc" id="L846">                    logInfo(&quot;Enter your new email: &quot;);</span>
+<span class="nc" id="L847">                    String newEmail = scanner.nextLine();</span>
+<span class="nc" id="L848">                    manager.updateLogsignFile(newEmail, null);</span>
+<span class="nc" id="L849">                    logInfo(&quot;Email updated successfully.&quot;);</span>
+<span class="nc" id="L850">                    break;</span>
+                case 3:
+<span class="nc" id="L852">                    logInfo(&quot;Returning to User Menu...&quot;);</span>
+<span class="nc" id="L853">                    return;</span>
+                default:
+<span class="nc" id="L855">                    logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L857">        }</span>
+    }
+
+    private static void handleProvidefeedback(Scanner scanner) {
+<span class="nc" id="L861">        logInfo(&quot;We’d love to hear your thoughts! Please choose an option:&quot;);</span>
+<span class="nc" id="L862">        logInfo(&quot;1. Add Feedback&quot;);</span>
+<span class="nc" id="L863">        logInfo(&quot;2. Back to User Menu&quot;);</span>
+
+<span class="nc" id="L865">        int feedbackChoice = scanner.nextInt();</span>
+<span class="nc" id="L866">        scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L868" title="All 3 branches missed.">        switch (feedbackChoice) {</span>
+            case 1:
+<span class="nc" id="L870">                reporting.addFeedback(scanner);</span>
+<span class="nc" id="L871">                break;</span>
+            case 2:
+<span class="nc" id="L873">                logInfo(&quot;Returning to the User Menu. We hope you find what you're looking for!&quot;);</span>
+<span class="nc" id="L874">                return; // Exit the feedback menu and return to the purchase menu</span>
+            default:
+<span class="nc" id="L876">                logInfo(&quot;Oops! It seems you entered an invalid choice. Please try again.&quot;);</span>
+        }
+<span class="nc" id="L878">    }</span>
+
+    private static void handleMessaging(Scanner scanner, String loggedInUser) {
+        // Create or get the SupplierService instance with the logged-in user
+<span class="nc" id="L882">        SupplierService supplierService = new SupplierService(loggedInUser);</span>
+
+        while (true) {
+<span class="nc" id="L885">            logInfo(&quot;\n** Messaging System **&quot;);</span>
+<span class="nc" id="L886">            logInfo(&quot;1. Send a message to a store owner&quot;);</span>
+<span class="nc" id="L887">            logInfo(&quot;2. Back to Supplier Menu&quot;);</span>
+<span class="nc" id="L888">            logInfo(ENTER_YOUR_CHOICE);</span>
+<span class="nc" id="L889">            int choice = scanner.nextInt();</span>
+<span class="nc" id="L890">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L892" title="All 3 branches missed.">            switch (choice) {</span>
+                case 1:
+                    // Get the owner's name and the message from the supplier
+<span class="nc" id="L895">                    logInfo(&quot;Enter the store owner's name: &quot;);</span>
+<span class="nc" id="L896">                    String ownerName = scanner.nextLine();</span>
+<span class="nc" id="L897">                    logInfo(&quot;Enter your message: &quot;);</span>
+<span class="nc" id="L898">                    String message = scanner.nextLine();</span>
+
+                    // Send the message
+<span class="nc" id="L901">                    String result = supplierService.sendMessage(ownerName, message);</span>
+<span class="nc" id="L902">                    logInfo(result);</span>
+<span class="nc" id="L903">                    break;</span>
+                case 2:
+<span class="nc" id="L905">                    logInfo(&quot;Returning to Supplier Menu...&quot;);</span>
+<span class="nc" id="L906">                    return;</span>
+                default:
+<span class="nc" id="L908">                    logInfo(INVALID_CHOICE_MESSAGE);</span>
+            }
+<span class="nc" id="L910">        }</span>
+    }}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

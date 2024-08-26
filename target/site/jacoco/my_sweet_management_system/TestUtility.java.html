@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TestUtility.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mySweetmanagementsystem</a> &gt; <a href="index.source.html" class="el_package">my_sweet_management_system</a> &gt; <span class="el_source">TestUtility.java</span></div><h1>TestUtility.java</h1><pre class="source lang-java linenums">package my_sweet_management_system;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class TestUtility {
+
+<span class="nc" id="L14">    private static final Logger LOGGER = Logger.getLogger(TestUtility.class.getName());</span>
+
+    private static final String OWNER_FILE = &quot;owner.txt&quot;;
+    private static final String USER_FILE = &quot;user.txt&quot;;
+    private static final String SUPPLIER_FILE = &quot;supplier.txt&quot;;
+    private static final String MESSAGE_FILE = &quot;messages.txt&quot;;
+    private static final String EMAIL_FILE = &quot;emails.txt&quot;;
+<span class="nc" id="L21">    Scanner scanner = new Scanner(System.in);</span>
+
+    private Set&lt;String&gt; owners;
+    private Set&lt;String&gt; users;
+    private Set&lt;String&gt; suppliers;
+    private Map&lt;String, String&gt; orders;
+    private String lastUpdateMessage;
+
+<span class="nc" id="L29">    public TestUtility() {</span>
+<span class="nc" id="L30">        owners = loadNamesFromFile(OWNER_FILE);</span>
+<span class="nc" id="L31">        users = loadNamesFromFile(USER_FILE);</span>
+<span class="nc" id="L32">        suppliers = loadNamesFromFile(SUPPLIER_FILE);</span>
+<span class="nc" id="L33">        orders = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L34">        lastUpdateMessage = &quot;&quot;;</span>
+<span class="nc" id="L35">        loadOrdersFromFile(&quot;order.txt&quot;);</span>
+<span class="nc" id="L36">    }</span>
+
+    private void loadOrdersFromFile(String filename) {
+<span class="nc" id="L39">        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {</span>
+            String line;
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L42">                String[] parts = line.split(&quot;,&quot;, 2);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">                if (parts.length == 2) {</span>
+<span class="nc" id="L44">                    String orderId = parts[0].trim();</span>
+<span class="nc" id="L45">                    String details = parts[1].trim();</span>
+<span class="nc" id="L46">                    orders.put(orderId, details);</span>
+                }
+<span class="nc" id="L48">            }</span>
+<span class="nc" id="L49">        } catch (IOException e) {</span>
+<span class="nc" id="L50">            LOGGER.log(Level.SEVERE, &quot;Error reading order file.&quot;, e);</span>
+<span class="nc" id="L51">        }</span>
+<span class="nc" id="L52">    }</span>
+
+    private Set&lt;String&gt; loadNamesFromFile(String fileName) {
+<span class="nc" id="L55">        Set&lt;String&gt; names = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L56">        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {</span>
+            String line;
+<span class="nc bnc" id="L58" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L59">                names.add(line.trim());</span>
+            }
+<span class="nc" id="L61">        } catch (IOException e) {</span>
+<span class="nc" id="L62">            LOGGER.log(Level.SEVERE, &quot;Error reading file: &quot; + fileName, e);</span>
+<span class="nc" id="L63">        }</span>
+<span class="nc" id="L64">        return names;</span>
+    }
+
+    public void sendMessage(String sender, String recipient, String message) {
+<span class="nc bnc" id="L68" title="All 4 branches missed.">        if (isValidSender(sender) &amp;&amp; isValidRecipient(recipient)) {</span>
+<span class="nc" id="L69">            try (BufferedWriter writer = new BufferedWriter(new FileWriter(MESSAGE_FILE, true))) {</span>
+<span class="nc" id="L70">                writer.write(recipient + &quot;: &quot; + sender + &quot;: &quot; + message + &quot;\n&quot;);</span>
+<span class="nc" id="L71">                writer.flush();</span>
+<span class="nc" id="L72">                LOGGER.info(&quot;Message sent successfully!&quot;);</span>
+<span class="nc" id="L73">            } catch (IOException e) {</span>
+<span class="nc" id="L74">                LOGGER.log(Level.SEVERE, &quot;Error writing to message file.&quot;, e);</span>
+<span class="nc" id="L75">            }</span>
+        } else {
+<span class="nc" id="L77">            LOGGER.warning(&quot;Invalid sender or recipient.&quot;);</span>
+        }
+<span class="nc" id="L79">    }</span>
+
+    private boolean isValidSender(String sender) {
+<span class="nc bnc" id="L82" title="All 6 branches missed.">        return owners.contains(sender) || users.contains(sender) || suppliers.contains(sender);</span>
+    }
+
+    private boolean isValidRecipient(String recipient) {
+<span class="nc bnc" id="L86" title="All 4 branches missed.">        return users.contains(recipient) || suppliers.contains(recipient);</span>
+    }
+
+    public String receiveMessage(String recipient) {
+<span class="nc" id="L90">        StringBuilder messages = new StringBuilder();</span>
+<span class="nc" id="L91">        try (BufferedReader reader = new BufferedReader(new FileReader(MESSAGE_FILE))) {</span>
+            String line;
+<span class="nc bnc" id="L93" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L94">                String[] parts = line.split(&quot;: &quot;, 3);</span>
+<span class="nc bnc" id="L95" title="All 4 branches missed.">                if (parts.length == 3 &amp;&amp; parts[0].trim().equals(recipient)) {</span>
+<span class="nc" id="L96">                    messages.append(parts[1].trim()).append(&quot;: &quot;).append(parts[2].trim()).append(&quot;\n&quot;);</span>
+                }
+<span class="nc" id="L98">            }</span>
+<span class="nc" id="L99">        } catch (IOException e) {</span>
+<span class="nc" id="L100">            LOGGER.log(Level.SEVERE, &quot;Error reading from message file.&quot;, e);</span>
+<span class="nc" id="L101">        }</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (messages.length() &gt; 0) {</span>
+<span class="nc" id="L103">            return messages.toString();</span>
+        } else {
+<span class="nc" id="L105">            return &quot;No new messages for &quot; + recipient;</span>
+        }
+    }
+
+    public void sendEmail(String sender, String recipientEmail, String subject, String body) {
+<span class="nc" id="L110">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(EMAIL_FILE, true))) {</span>
+<span class="nc" id="L111">            writer.write(recipientEmail + &quot;: &quot; + sender + &quot;: &quot; + subject + &quot;: &quot; + body + &quot;\n&quot;);</span>
+<span class="nc" id="L112">            writer.flush();</span>
+<span class="nc" id="L113">            LOGGER.info(&quot;Email sent from &quot; + sender + &quot; to &quot; + recipientEmail + &quot; with subject: &quot; + subject);</span>
+<span class="nc" id="L114">        } catch (IOException e) {</span>
+<span class="nc" id="L115">            LOGGER.log(Level.SEVERE, &quot;Error writing to email file.&quot;, e);</span>
+<span class="nc" id="L116">        }</span>
+<span class="nc" id="L117">    }</span>
+
+    public String receiveEmail(String recipientEmail) {
+<span class="nc" id="L120">        StringBuilder emails = new StringBuilder();</span>
+<span class="nc" id="L121">        try (BufferedReader reader = new BufferedReader(new FileReader(EMAIL_FILE))) {</span>
+            String line;
+<span class="nc bnc" id="L123" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L124">                String[] parts = line.split(&quot;: &quot;, 4);</span>
+<span class="nc bnc" id="L125" title="All 4 branches missed.">                if (parts.length == 4 &amp;&amp; parts[0].trim().equals(recipientEmail)) {</span>
+<span class="nc" id="L126">                    emails.append(&quot;From &quot;).append(parts[1].trim()).append(&quot; with subject: &quot;)</span>
+<span class="nc" id="L127">                        .append(parts[2].trim()).append(&quot; - &quot;).append(parts[3].trim()).append(&quot;\n&quot;);</span>
+                }
+<span class="nc" id="L129">            }</span>
+<span class="nc" id="L130">        } catch (IOException e) {</span>
+<span class="nc" id="L131">            LOGGER.log(Level.SEVERE, &quot;Error reading from email file.&quot;, e);</span>
+<span class="nc" id="L132">        }</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        if (emails.length() &gt; 0) {</span>
+<span class="nc" id="L134">            return emails.toString();</span>
+        } else {
+<span class="nc" id="L136">            return &quot;No new emails for &quot; + recipientEmail;</span>
+        }
+    }
+
+    public void updateUserDetails(String owner, String oldUsername, String newUsername, String newAddress, String newPhone) {
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if (!owners.contains(owner)) {</span>
+<span class="nc" id="L142">            LOGGER.warning(&quot;You are not authorized to update user details.&quot;);</span>
+<span class="nc" id="L143">            return;</span>
+        }
+
+<span class="nc" id="L146">        File userFile = new File(USER_FILE);</span>
+<span class="nc" id="L147">        File tempFile = new File(&quot;user_temp.txt&quot;);</span>
+<span class="nc" id="L148">        boolean userFound = false;</span>
+
+<span class="nc" id="L150">        try (BufferedReader reader = new BufferedReader(new FileReader(userFile));</span>
+<span class="nc" id="L151">             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {</span>
+
+            String line;
+
+<span class="nc bnc" id="L155" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L156">                String[] parts = line.split(&quot;,&quot;);</span>
+<span class="nc bnc" id="L157" title="All 4 branches missed.">                if (parts.length == 5 &amp;&amp; parts[2].trim().equals(oldUsername)) {</span>
+<span class="nc" id="L158">                    line = parts[0] + &quot;,&quot; + parts[1] + &quot;,&quot; + newUsername + &quot;,&quot; + newAddress + &quot;,&quot; + newPhone;</span>
+<span class="nc" id="L159">                    userFound = true;</span>
+                }
+<span class="nc" id="L161">                writer.write(line + &quot;\n&quot;);</span>
+<span class="nc" id="L162">            }</span>
+
+<span class="nc" id="L164">        } catch (IOException e) {</span>
+<span class="nc" id="L165">            LOGGER.log(Level.SEVERE, &quot;Error updating user details.&quot;, e);</span>
+<span class="nc" id="L166">            return;</span>
+<span class="nc" id="L167">        }</span>
+
+<span class="nc bnc" id="L169" title="All 2 branches missed.">        if (userFound) {</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">            if (!userFile.delete()) {</span>
+<span class="nc" id="L171">                LOGGER.warning(&quot;Error deleting original file.&quot;);</span>
+<span class="nc" id="L172">                return;</span>
+            }
+
+<span class="nc bnc" id="L175" title="All 2 branches missed.">            if (!tempFile.renameTo(userFile)) {</span>
+<span class="nc" id="L176">                LOGGER.warning(&quot;Error renaming temporary file to the original file.&quot;);</span>
+            } else {
+<span class="nc" id="L178">                LOGGER.info(&quot;User details updated successfully.&quot;);</span>
+            }
+        } else {
+<span class="nc bnc" id="L181" title="All 2 branches missed.">            if (!tempFile.delete()) {</span>
+<span class="nc" id="L182">                LOGGER.warning(&quot;Error deleting temporary file.&quot;);</span>
+            }
+<span class="nc" id="L184">            LOGGER.info(&quot;Username not found.&quot;);</span>
+        }
+<span class="nc" id="L186">    }</span>
+
+    public void updateSupplierDetails(String currentUsername, String newUsername, String newAddress, String newPhone, String newEmail) {
+<span class="nc" id="L189">        File supplierFile = new File(SUPPLIER_FILE);</span>
+<span class="nc" id="L190">        File tempFile = new File(&quot;supplier_temp.txt&quot;);</span>
+
+<span class="nc" id="L192">        try (BufferedReader reader = new BufferedReader(new FileReader(supplierFile));</span>
+<span class="nc" id="L193">             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {</span>
+
+            String line;
+<span class="nc" id="L196">            boolean supplierFound = false;</span>
+
+<span class="nc bnc" id="L198" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L199">                String[] parts = line.split(&quot;,&quot;);</span>
+<span class="nc bnc" id="L200" title="All 4 branches missed.">                if (parts.length == 6 &amp;&amp; parts[2].trim().equals(currentUsername)) {</span>
+<span class="nc" id="L201">                    line = parts[0] + &quot;,&quot; + parts[1] + &quot;,&quot; + newUsername + &quot;,&quot; + newAddress + &quot;,&quot; + newPhone + &quot;,&quot; + newEmail;</span>
+<span class="nc" id="L202">                    supplierFound = true;</span>
+                }
+<span class="nc" id="L204">                writer.write(line + &quot;\n&quot;);</span>
+<span class="nc" id="L205">            }</span>
+
+<span class="nc bnc" id="L207" title="All 2 branches missed.">            if (!supplierFound) {</span>
+<span class="nc" id="L208">                lastUpdateMessage = &quot;Supplier username not found.&quot;;</span>
+            } else {
+<span class="nc" id="L210">                lastUpdateMessage = &quot;Supplier details updated successfully.&quot;;</span>
+            }
+
+<span class="nc" id="L213">        } catch (IOException e) {</span>
+<span class="nc" id="L214">            lastUpdateMessage = &quot;Error updating supplier details: &quot; + e.getMessage();</span>
+<span class="nc" id="L215">            LOGGER.log(Level.SEVERE, lastUpdateMessage, e);</span>
+<span class="nc" id="L216">            return;</span>
+<span class="nc" id="L217">        }</span>
+
+<span class="nc bnc" id="L219" title="All 2 branches missed.">        if (!supplierFile.delete()) {</span>
+<span class="nc" id="L220">            lastUpdateMessage = &quot;Error deleting original file.&quot;;</span>
+<span class="nc" id="L221">            LOGGER.warning(lastUpdateMessage);</span>
+<span class="nc" id="L222">            return;</span>
+        }
+
+<span class="nc bnc" id="L225" title="All 2 branches missed.">        if (!tempFile.renameTo(supplierFile)) {</span>
+<span class="nc" id="L226">            lastUpdateMessage = &quot;Error renaming temporary file to the original file.&quot;;</span>
+<span class="nc" id="L227">            LOGGER.warning(lastUpdateMessage);</span>
+        }
+<span class="nc" id="L229">    }</span>
+
+    public String getLastUpdateMessage() {
+<span class="nc" id="L232">        return lastUpdateMessage;</span>
+    }
+
+    public void viewAndUpdateOrder(String userType, String username) {
+
+<span class="nc bnc" id="L237" title="All 2 branches missed.">        if (&quot;owner&quot;.equalsIgnoreCase(userType)) {</span>
+<span class="nc" id="L238">            LOGGER.info(&quot;Viewing and updating orders:&quot;);</span>
+<span class="nc" id="L239">            boolean hasOrders = false;</span>
+
+<span class="nc bnc" id="L241" title="All 2 branches missed.">            for (Map.Entry&lt;String, String&gt; entry : orders.entrySet()) {</span>
+<span class="nc" id="L242">                LOGGER.info(&quot;Order ID: &quot; + entry.getKey() + &quot; - &quot; + entry.getValue());</span>
+<span class="nc" id="L243">                hasOrders = true;</span>
+<span class="nc" id="L244">            }</span>
+
+<span class="nc bnc" id="L246" title="All 2 branches missed.">            if (!hasOrders) {</span>
+<span class="nc" id="L247">                LOGGER.info(&quot;No orders found.&quot;);</span>
+<span class="nc" id="L248">                return;</span>
+            }
+
+<span class="nc" id="L251">            LOGGER.info(&quot;Enter the Order ID to update (e.g., to mark as 'Ready'): &quot;);</span>
+<span class="nc" id="L252">            String orderId = scanner.nextLine().trim();</span>
+
+<span class="nc bnc" id="L254" title="All 2 branches missed.">            if (orders.containsKey(orderId)) {</span>
+<span class="nc" id="L255">                LOGGER.info(&quot;Updating order ID &quot; + orderId);</span>
+<span class="nc" id="L256">                String[] parts = orders.get(orderId).split(&quot;,&quot;, 2);</span>
+<span class="nc" id="L257">                String newDescription = parts[0] + &quot;, Process&quot;;</span>
+<span class="nc" id="L258">                orders.put(orderId, newDescription);</span>
+<span class="nc" id="L259">                LOGGER.info(&quot;Order updated to 'Ready'.&quot;);</span>
+<span class="nc" id="L260">                updateOrderInFile(orderId, newDescription);</span>
+<span class="nc" id="L261">            } else {</span>
+<span class="nc" id="L262">                LOGGER.info(&quot;Order ID not found.&quot;);</span>
+            }
+
+<span class="nc bnc" id="L265" title="All 2 branches missed.">        } else if (&quot;user&quot;.equalsIgnoreCase(userType)) {</span>
+<span class="nc bnc" id="L266" title="All 2 branches missed.">            if (!users.contains(username)) {</span>
+<span class="nc" id="L267">                LOGGER.info(&quot;User not found. No updates will be made.&quot;);</span>
+<span class="nc" id="L268">                return;</span>
+            }
+
+<span class="nc" id="L271">            LOGGER.info(&quot;Viewing all available orders:&quot;);</span>
+<span class="nc" id="L272">            boolean hasOrders = false;</span>
+
+<span class="nc bnc" id="L274" title="All 2 branches missed.">            for (Map.Entry&lt;String, String&gt; entry : orders.entrySet()) {</span>
+<span class="nc" id="L275">                LOGGER.info(&quot;Order ID: &quot; + entry.getKey() + &quot; - &quot; + entry.getValue());</span>
+<span class="nc" id="L276">                hasOrders = true;</span>
+<span class="nc" id="L277">            }</span>
+
+<span class="nc bnc" id="L279" title="All 2 branches missed.">            if (!hasOrders) {</span>
+<span class="nc" id="L280">                LOGGER.info(&quot;No orders found.&quot;);</span>
+<span class="nc" id="L281">                return;</span>
+            }
+
+<span class="nc" id="L284">            LOGGER.info(&quot;Enter the Order ID to bind to yourself: &quot;);</span>
+<span class="nc" id="L285">            String orderId = scanner.nextLine().trim();</span>
+
+<span class="nc bnc" id="L287" title="All 2 branches missed.">            if (orders.containsKey(orderId)) {</span>
+<span class="nc" id="L288">                String[] parts = orders.get(orderId).split(&quot;,&quot;, 2);</span>
+<span class="nc" id="L289">                String newDescription = parts[0] + &quot;, Reserved by &quot; + username;</span>
+<span class="nc" id="L290">                orders.put(orderId, newDescription);</span>
+<span class="nc" id="L291">                LOGGER.info(&quot;Order ID &quot; + orderId + &quot; has been bound to you.&quot;);</span>
+<span class="nc" id="L292">                updateOrderInFile(orderId, newDescription);</span>
+<span class="nc" id="L293">            } else {</span>
+<span class="nc" id="L294">                LOGGER.info(&quot;Order ID not found.&quot;);</span>
+            }
+<span class="nc" id="L296">        } else {</span>
+<span class="nc" id="L297">            LOGGER.info(&quot;Invalid user type.&quot;);</span>
+        }
+<span class="nc" id="L299">    }</span>
+
+    private void updateOrderInFile(String orderId, String updatedOrderDetails) {
+<span class="nc" id="L302">        File orderFile = new File(&quot;order.txt&quot;);</span>
+<span class="nc" id="L303">        File tempFile = new File(&quot;order_temp.txt&quot;);</span>
+
+<span class="nc" id="L305">        try (BufferedReader reader = new BufferedReader(new FileReader(orderFile));</span>
+<span class="nc" id="L306">             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {</span>
+
+            String line;
+<span class="nc" id="L309">            boolean updated = false;</span>
+
+<span class="nc bnc" id="L311" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L312">                String[] parts = line.split(&quot;,&quot;, 2);</span>
+<span class="nc bnc" id="L313" title="All 4 branches missed.">                if (parts.length &gt; 0 &amp;&amp; parts[0].trim().equals(orderId)) {</span>
+<span class="nc" id="L314">                    writer.write(updatedOrderDetails + &quot;\n&quot;);</span>
+<span class="nc" id="L315">                    updated = true;</span>
+                } else {
+<span class="nc" id="L317">                    writer.write(line + &quot;\n&quot;);</span>
+                }
+<span class="nc" id="L319">            }</span>
+
+<span class="nc bnc" id="L321" title="All 2 branches missed.">            if (!updated) {</span>
+<span class="nc" id="L322">                LOGGER.info(&quot;Order ID &quot; + orderId + &quot; not found in the file.&quot;);</span>
+            }
+
+<span class="nc" id="L325">        } catch (IOException e) {</span>
+<span class="nc" id="L326">            LOGGER.log(Level.SEVERE, &quot;Error updating order in file.&quot;, e);</span>
+<span class="nc" id="L327">            return;</span>
+<span class="nc" id="L328">        }</span>
+
+<span class="nc bnc" id="L330" title="All 2 branches missed.">        if (!orderFile.delete()) {</span>
+<span class="nc" id="L331">            LOGGER.severe(&quot;Error deleting original file.&quot;);</span>
+<span class="nc" id="L332">            return;</span>
+        }
+
+<span class="nc bnc" id="L335" title="All 2 branches missed.">        if (!tempFile.renameTo(orderFile)) {</span>
+<span class="nc" id="L336">            LOGGER.severe(&quot;Error renaming temporary file to the original file.&quot;);</span>
+        } else {
+<span class="nc" id="L338">            LOGGER.info(&quot;Order file updated successfully.&quot;);</span>
+        }
+<span class="nc" id="L340">    }</span>
+
+  
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

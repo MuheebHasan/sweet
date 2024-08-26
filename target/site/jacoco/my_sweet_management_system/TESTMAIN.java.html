@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TESTMAIN.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mySweetmanagementsystem</a> &gt; <a href="index.source.html" class="el_package">my_sweet_management_system</a> &gt; <span class="el_source">TESTMAIN.java</span></div><h1>TESTMAIN.java</h1><pre class="source lang-java linenums">package my_sweet_management_system;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.logging.Logger;
+
+<span class="nc" id="L8">public class TESTMAIN {</span>
+<span class="nc" id="L9">    private static final Logger logger = Logger.getLogger(TESTMAIN.class.getName());</span>
+
+<span class="nc" id="L11">    private static Map&lt;String, String&gt; messages = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L12">    private static Map&lt;String, String&gt; emails = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L13">    static Scanner scanner = new Scanner(System.in);</span>
+
+
+    public void sendMessage(String sender, String recipient, String message) {
+<span class="nc" id="L17">        messages.put(recipient, &quot;From &quot; + sender + &quot;: &quot; + message);</span>
+<span class="nc" id="L18">        logger.info(&quot;Message sent.&quot;);</span>
+<span class="nc" id="L19">    }</span>
+
+    public String receiveMessage(String recipient) {
+<span class="nc" id="L22">        return messages.getOrDefault(recipient, &quot;No new messages.&quot;);</span>
+    }
+
+    public void sendEmail(String sender, String recipient, String subject, String body) {
+<span class="nc" id="L26">        emails.put(recipient, &quot;From: &quot; + sender + &quot;\nSubject: &quot; + subject + &quot;\nBody: &quot; + body);</span>
+<span class="nc" id="L27">        logger.info(&quot;Email sent.&quot;);</span>
+<span class="nc" id="L28">    }</span>
+
+    public String receiveEmail(String recipient) {
+<span class="nc" id="L31">        return emails.getOrDefault(recipient, &quot;No new emails.&quot;);</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L35">        TestUtility testUtility = new TestUtility();</span>
+<span class="nc" id="L36">        boolean running = true;</span>
+
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        while (running) {</span>
+<span class="nc" id="L39">            logger.info(&quot;Welcome to Sweet Management System&quot;);</span>
+<span class="nc" id="L40">            logger.info(&quot;1. Test Utilities&quot;);</span>
+<span class="nc" id="L41">            logger.info(&quot;2. Exit&quot;);</span>
+<span class="nc" id="L42">            logger.info(&quot;Choose an option: &quot;);</span>
+<span class="nc" id="L43">            int choice = scanner.nextInt();</span>
+<span class="nc" id="L44">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L46" title="All 3 branches missed.">            switch (choice) {</span>
+                case 1:
+<span class="nc" id="L48">                    testUtilities(scanner, testUtility);</span>
+<span class="nc" id="L49">                    break;</span>
+                case 2:
+<span class="nc" id="L51">                    running = false; // Exit the program</span>
+<span class="nc" id="L52">                    break;</span>
+                default:
+<span class="nc" id="L54">                    logger.info(&quot;Invalid choice. Please try again.&quot;);</span>
+            }
+<span class="nc" id="L56">        }</span>
+
+<span class="nc" id="L58">        scanner.close(); // Close the scanner when done</span>
+<span class="nc" id="L59">    }</span>
+
+    private static void testUtilities(Scanner scanner, TestUtility testUtility) {
+<span class="nc" id="L62">        boolean testMenuRunning = true;</span>
+
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        while (testMenuRunning) {</span>
+<span class="nc" id="L65">            logger.info(&quot;\n** Test Utilities **&quot;);</span>
+<span class="nc" id="L66">            logger.info(&quot;1. Send Message&quot;);</span>
+<span class="nc" id="L67">            logger.info(&quot;2. Receive Message&quot;);</span>
+<span class="nc" id="L68">            logger.info(&quot;3. Update User Details&quot;);</span>
+<span class="nc" id="L69">            logger.info(&quot;4. View and Update Orders&quot;);</span>
+<span class="nc" id="L70">            logger.info(&quot;5. Back to Main Menu&quot;);</span>
+<span class="nc" id="L71">            logger.info(&quot;Enter your choice: &quot;);</span>
+<span class="nc" id="L72">            int testChoice = scanner.nextInt();</span>
+<span class="nc" id="L73">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L75" title="All 6 branches missed.">            switch (testChoice) {</span>
+                case 1:
+<span class="nc" id="L77">                    logger.info(&quot;Enter sender name: &quot;);</span>
+<span class="nc" id="L78">                    String sender = scanner.nextLine();</span>
+<span class="nc" id="L79">                    logger.info(&quot;Enter recipient name: &quot;);</span>
+<span class="nc" id="L80">                    String recipient = scanner.nextLine();</span>
+<span class="nc" id="L81">                    logger.info(&quot;Enter message: &quot;);</span>
+<span class="nc" id="L82">                    String message = scanner.nextLine();</span>
+<span class="nc" id="L83">                    testUtility.sendMessage(sender, recipient, message);</span>
+<span class="nc" id="L84">                    break;</span>
+
+                case 2:
+<span class="nc" id="L87">                    logger.info(&quot;Enter recipient name: &quot;);</span>
+<span class="nc" id="L88">                    String recipientForMessage = scanner.nextLine();</span>
+<span class="nc" id="L89">                    String receivedMessage = testUtility.receiveMessage(recipientForMessage);</span>
+<span class="nc" id="L90">                    logger.info(receivedMessage);</span>
+<span class="nc" id="L91">                    break;</span>
+
+                case 3:
+<span class="nc" id="L94">                    logger.info(&quot;Enter your name (owner) to authorize update: &quot;);</span>
+<span class="nc" id="L95">                    String ownerName = scanner.nextLine();</span>
+<span class="nc" id="L96">                    logger.info(&quot;Enter current username to update: &quot;);</span>
+<span class="nc" id="L97">                    String oldUsernameToUpdate = scanner.nextLine();</span>
+<span class="nc" id="L98">                    logger.info(&quot;Enter new username: &quot;);</span>
+<span class="nc" id="L99">                    String newUsername = scanner.nextLine();</span>
+<span class="nc" id="L100">                    logger.info(&quot;Enter new address: &quot;);</span>
+<span class="nc" id="L101">                    String newAddress = scanner.nextLine();</span>
+<span class="nc" id="L102">                    logger.info(&quot;Enter new contact number: &quot;);</span>
+<span class="nc" id="L103">                    String newContactNumber = scanner.nextLine();</span>
+<span class="nc" id="L104">                    testUtility.updateUserDetails(ownerName, oldUsernameToUpdate, newUsername, newAddress, newContactNumber);</span>
+<span class="nc" id="L105">                    break;</span>
+
+        
+                case 4:
+<span class="nc" id="L109">                    logger.info(&quot;Enter user type (user/owner): &quot;);</span>
+<span class="nc" id="L110">                    String userType = scanner.nextLine();</span>
+<span class="nc" id="L111">                    logger.info(&quot;Enter your username: &quot;);</span>
+<span class="nc" id="L112">                    String username = scanner.nextLine();</span>
+<span class="nc" id="L113">                    testUtility.viewAndUpdateOrder(userType, username);</span>
+<span class="nc" id="L114">                    break;</span>
+
+                case 5:
+<span class="nc" id="L117">                    testMenuRunning = false;</span>
+<span class="nc" id="L118">                    break;</span>
+
+                default:
+<span class="nc" id="L121">                    logger.info(&quot;Invalid choice. Please try again.&quot;);</span>
+            }
+<span class="nc" id="L123">        }</span>
+<span class="nc" id="L124">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

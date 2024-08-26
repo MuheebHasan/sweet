@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Product.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mySweetmanagementsystem</a> &gt; <a href="index.source.html" class="el_package">my_sweet_management_system</a> &gt; <span class="el_source">Product.java</span></div><h1>Product.java</h1><pre class="source lang-java linenums">package my_sweet_management_system;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+<span class="nc" id="L14">public class Product {</span>
+<span class="fc" id="L15">    private static final Logger LOGGER = Logger.getLogger(Product.class.getName());</span>
+<span class="fc" id="L16">    private static Map&lt;String, String[]&gt; products = new HashMap&lt;&gt;();</span>
+    
+    // Save product data to the file
+    private static void saveData() {
+<span class="nc" id="L20">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(&quot;product.txt&quot;))) {</span>
+<span class="nc" id="L21">            writer.write(&quot;Product ID,Product Name,Description,Price,Availability&quot;);</span>
+<span class="nc" id="L22">            writer.newLine();</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">            for (Map.Entry&lt;String, String[]&gt; entry : products.entrySet()) {</span>
+<span class="nc" id="L24">                String productId = entry.getKey();</span>
+<span class="nc" id="L25">                String[] productInfo = entry.getValue();</span>
+<span class="nc" id="L26">                writer.write(String.format(&quot;%s,%s,%s,%s,%s&quot;,</span>
+                        productId,
+                        productInfo[0],
+                        productInfo[1],
+                        productInfo[2],
+                        productInfo[3]));
+<span class="nc" id="L32">                writer.newLine();</span>
+<span class="nc" id="L33">            }</span>
+<span class="nc" id="L34">        } catch (IOException e) {</span>
+<span class="nc" id="L35">            LOGGER.log(Level.SEVERE, &quot;Error saving product data.&quot;, e);</span>
+<span class="nc" id="L36">        }</span>
+<span class="nc" id="L37">    }</span>
+
+    public static String addProduct(String productId, String productName, String description, String price, String availability) {
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if (products.containsKey(productId)) {</span>
+<span class="nc" id="L41">            return &quot;Product ID already exists&quot;;</span>
+        } else {
+<span class="nc" id="L43">            products.put(productId, new String[]{productName, description, price, availability});</span>
+<span class="nc" id="L44">            saveData();</span>
+<span class="nc" id="L45">            return &quot;Product added successfully&quot;;</span>
+        }
+    }
+
+    public static String deleteProduct(String productId) {
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        if (products.containsKey(productId)) {</span>
+<span class="nc" id="L51">            products.remove(productId);</span>
+<span class="nc" id="L52">            saveData();</span>
+<span class="nc" id="L53">            return &quot;Product deleted successfully&quot;;</span>
+        } else {
+<span class="fc" id="L55">            return &quot;Product ID does not exist&quot;;</span>
+        }
+    }
+
+    public static String updateProduct(String productId, Map&lt;String, String&gt; updatedDetails) {
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if (products.containsKey(productId)) {</span>
+<span class="nc" id="L61">            String[] productInfo = products.get(productId);</span>
+<span class="nc" id="L62">            productInfo[0] = updatedDetails.getOrDefault(&quot;Product Name&quot;, productInfo[0]);</span>
+<span class="nc" id="L63">            productInfo[1] = updatedDetails.getOrDefault(&quot;Description&quot;, productInfo[1]);</span>
+<span class="nc" id="L64">            productInfo[2] = updatedDetails.getOrDefault(&quot;Price&quot;, productInfo[2]);</span>
+<span class="nc" id="L65">            productInfo[3] = updatedDetails.getOrDefault(&quot;Availability&quot;, productInfo[3]);</span>
+<span class="nc" id="L66">            products.put(productId, productInfo);</span>
+<span class="nc" id="L67">            saveData();</span>
+<span class="nc" id="L68">            return &quot;Product details updated successfully&quot;;</span>
+        } else {
+<span class="fc" id="L70">            return &quot;Product ID does not exist&quot;;</span>
+        }
+    }
+
+    public static boolean productExists(String productId) {
+<span class="nc" id="L75">        return products.containsKey(productId);</span>
+    }
+
+    private static void loadData() {
+<span class="fc" id="L79">        try (BufferedReader reader = new BufferedReader(new FileReader(&quot;product.txt&quot;))) {</span>
+<span class="fc" id="L80">        	 String line = reader.readLine();// Skip the header line</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">            while ((line = reader.readLine()) != null) {</span>
+                // Use or store the line read from the file
+<span class="fc" id="L83">                String[] parts = line.split(&quot;,&quot;);</span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">                if (parts.length == 5) {</span>
+<span class="fc" id="L85">                    String productId = parts[0];</span>
+<span class="fc" id="L86">                    String productName = parts[1];</span>
+<span class="fc" id="L87">                    String description = parts[2];</span>
+<span class="fc" id="L88">                    String price = parts[3];</span>
+<span class="fc" id="L89">                    String availability = parts[4];</span>
+<span class="fc" id="L90">                    products.put(productId, new String[]{productName, description, price, availability});</span>
+<span class="fc" id="L91">                } else {</span>
+                    // Log a warning if the line format is invalid
+<span class="nc" id="L93">                    LOGGER.warning(&quot;Invalid line format: &quot; + line);</span>
+                }
+<span class="fc" id="L95">            }</span>
+<span class="nc" id="L96">        } catch (IOException e) {</span>
+<span class="nc" id="L97">            LOGGER.log(Level.SEVERE, &quot;Error loading product data.&quot;, e);</span>
+<span class="fc" id="L98">        }</span>
+<span class="fc" id="L99">    }</span>
+
+    static {
+<span class="fc" id="L102">        loadData(); // Load data when class is first used</span>
+<span class="fc" id="L103">    }</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L106">        Product productSystem = new Product();</span>
+<span class="nc" id="L107">        Scanner scanner = new Scanner(System.in);</span>
+
+        while (true) {
+<span class="nc" id="L110">            LOGGER.info(&quot;\n--- Manage Products ---&quot;);</span>
+<span class="nc" id="L111">            LOGGER.info(&quot;1. Add Product&quot;);</span>
+<span class="nc" id="L112">            LOGGER.info(&quot;2. Update Product&quot;);</span>
+<span class="nc" id="L113">            LOGGER.info(&quot;3. Delete Product&quot;);</span>
+<span class="nc" id="L114">            LOGGER.info(&quot;4. Exit&quot;);</span>
+<span class="nc" id="L115">            LOGGER.info(&quot;Enter your choice: &quot;);</span>
+<span class="nc" id="L116">            int choice = scanner.nextInt();</span>
+<span class="nc" id="L117">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L119" title="All 5 branches missed.">            switch (choice) {</span>
+                case 1:
+<span class="nc" id="L121">                    LOGGER.info(&quot;Enter Product ID: &quot;);</span>
+<span class="nc" id="L122">                    String productId = scanner.nextLine();</span>
+<span class="nc" id="L123">                    LOGGER.info(&quot;Enter Product Name: &quot;);</span>
+<span class="nc" id="L124">                    String productName = scanner.nextLine();</span>
+<span class="nc" id="L125">                    LOGGER.info(&quot;Enter Description: &quot;);</span>
+<span class="nc" id="L126">                    String description = scanner.nextLine();</span>
+<span class="nc" id="L127">                    LOGGER.info(&quot;Enter Price: &quot;);</span>
+<span class="nc" id="L128">                    String price = scanner.nextLine();</span>
+<span class="nc" id="L129">                    LOGGER.info(&quot;Enter Availability: &quot;);</span>
+<span class="nc" id="L130">                    String availability = scanner.nextLine();</span>
+<span class="nc" id="L131">                    String addResult = Product.addProduct(productId, productName, description, price, availability);</span>
+<span class="nc" id="L132">                    LOGGER.info(addResult);</span>
+<span class="nc" id="L133">                    break;</span>
+
+                case 2:
+<span class="nc" id="L136">                    LOGGER.info(&quot;Enter Product ID to update: &quot;);</span>
+<span class="nc" id="L137">                    String updateId = scanner.nextLine();</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">                    if (Product.productExists(updateId)) {</span>
+<span class="nc" id="L139">                        LOGGER.info(&quot;Enter field to update (Product Name/Description/Price/Availability): &quot;);</span>
+<span class="nc" id="L140">                        String field = scanner.nextLine();</span>
+<span class="nc" id="L141">                        LOGGER.info(&quot;Enter new value: &quot;);</span>
+<span class="nc" id="L142">                        String value = scanner.nextLine();</span>
+<span class="nc" id="L143">                        Map&lt;String, String&gt; updatedDetails = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L144">                        updatedDetails.put(field, value);</span>
+<span class="nc" id="L145">                        String updateResult = Product.updateProduct(updateId, updatedDetails);</span>
+<span class="nc" id="L146">                        LOGGER.info(updateResult);</span>
+<span class="nc" id="L147">                    } else {</span>
+<span class="nc" id="L148">                        LOGGER.info(&quot;Product ID does not exist.&quot;);</span>
+                    }
+<span class="nc" id="L150">                    break;</span>
+
+                case 3:
+<span class="nc" id="L153">                    LOGGER.info(&quot;Enter Product ID to delete: &quot;);</span>
+<span class="nc" id="L154">                    String deleteId = scanner.nextLine();</span>
+<span class="nc" id="L155">                    String deleteResult = Product.deleteProduct(deleteId);</span>
+<span class="nc" id="L156">                    LOGGER.info(deleteResult);</span>
+<span class="nc" id="L157">                    break;</span>
+
+                case 4:
+<span class="nc" id="L160">                    LOGGER.info(&quot;Exiting...&quot;);</span>
+<span class="nc" id="L161">                    scanner.close();</span>
+<span class="nc" id="L162">                    return;</span>
+
+                default:
+<span class="nc" id="L165">                    LOGGER.info(&quot;Invalid choice. Please try again.&quot;);</span>
+            }
+<span class="nc" id="L167">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

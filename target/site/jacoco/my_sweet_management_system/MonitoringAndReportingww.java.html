@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MonitoringAndReportingww.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mySweetmanagementsystem</a> &gt; <a href="index.source.html" class="el_package">my_sweet_management_system</a> &gt; <span class="el_source">MonitoringAndReportingww.java</span></div><h1>MonitoringAndReportingww.java</h1><pre class="source lang-java linenums">package my_sweet_management_system;
+
+import java.io.*;
+import java.util.*;
+import java.util.logging.*;
+
+public class MonitoringAndReportingww {
+
+<span class="fc" id="L9">    private static final Logger LOGGER = Logger.getLogger(MonitoringAndReportingww.class.getName());</span>
+
+    private Map&lt;String, List&lt;String&gt;&gt; usersByCity;
+    private Map&lt;String, Integer&gt; salesByProduct;
+
+    // Define constants for file names
+    private static final String USER_DATA_FILE = &quot;user.txt&quot;;
+    private static final String SALES_DATA_FILE = &quot;order.txt&quot;;
+    private static final String REPORT_FILE = &quot;report.txt&quot;;
+    private static final String FEEDBACK_FILE = &quot;feedback.txt&quot;;
+    private static final String COUNTER_FILE = &quot;feedback_counter.txt&quot;;
+    private static final String LOGSIGN_FILE = &quot;logsign.txt&quot;;
+
+    private String loggedInUserEmail; // To store email after login
+    private String loggedInUsername;  // To store username after login
+
+<span class="fc" id="L25">    public MonitoringAndReportingww() {</span>
+<span class="fc" id="L26">        this.usersByCity = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L27">        this.salesByProduct = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L28">        loadUserData(USER_DATA_FILE);</span>
+<span class="fc" id="L29">        loadSalesData(SALES_DATA_FILE);</span>
+<span class="fc" id="L30">    }</span>
+
+    private void loadUserData(String filename) {
+<span class="fc" id="L33">        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {</span>
+<span class="fc" id="L34">            String line = br.readLine(); // Skip header</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">            while ((line = br.readLine()) != null) {</span>
+<span class="fc" id="L36">                String[] parts = line.split(&quot;,&quot;);</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">                if (parts.length &lt; 5) continue; // Validate data length</span>
+<span class="fc" id="L38">                String address = parts[3]; // Extract city</span>
+<span class="fc" id="L39">                String user = parts[2]; // Extract user name</span>
+
+<span class="fc" id="L41">                usersByCity.putIfAbsent(address, new ArrayList&lt;&gt;());</span>
+<span class="fc" id="L42">                usersByCity.get(address).add(user);</span>
+<span class="fc" id="L43">            }</span>
+<span class="nc" id="L44">        } catch (IOException e) {</span>
+<span class="nc" id="L45">            LOGGER.log(Level.SEVERE, &quot;Error reading user data file: {0}&quot;, e.getMessage());</span>
+<span class="fc" id="L46">        }</span>
+<span class="fc" id="L47">    }</span>
+
+    private void loadSalesData(String filename) {
+<span class="fc" id="L50">        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {</span>
+<span class="fc" id="L51">            String line = br.readLine(); // Skip header</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">            while ((line = br.readLine()) != null) {</span>
+<span class="fc" id="L53">                String[] parts = line.split(&quot;,&quot;);</span>
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">                if (parts.length &lt; 6) continue; // Validate data length</span>
+<span class="fc" id="L55">                String productName = parts[2]; // Extract product name</span>
+<span class="fc" id="L56">                int quantity = Integer.parseInt(parts[4]); // Extract quantity</span>
+
+                // Ensure quantity is accumulated correctly
+<span class="fc" id="L59">                int currentQuantity = salesByProduct.getOrDefault(productName, 0);</span>
+<span class="fc" id="L60">                int newQuantity = currentQuantity + quantity;</span>
+<span class="fc" id="L61">                salesByProduct.put(productName, newQuantity);</span>
+<span class="fc" id="L62">            }</span>
+<span class="nc" id="L63">        } catch (IOException e) {</span>
+<span class="nc" id="L64">            LOGGER.log(Level.SEVERE, &quot;Error reading sales data file: {0}&quot;, e.getMessage());</span>
+<span class="fc" id="L65">        }</span>
+<span class="fc" id="L66">    }</span>
+
+    public String getCityWithMostUsers() {
+<span class="fc" id="L69">        return usersByCity.entrySet().stream()</span>
+<span class="pc" id="L70">                .max(Comparator.comparingInt(e -&gt; e.getValue().size()))</span>
+<span class="fc" id="L71">                .map(Map.Entry::getKey)</span>
+<span class="fc" id="L72">                .orElse(&quot;No Data&quot;);</span>
+    }
+
+    public int getUserCountInCity(String city) {
+<span class="fc" id="L76">        return usersByCity.getOrDefault(city, new ArrayList&lt;&gt;()).size();</span>
+    }
+
+    public String getMostOrderedProduct() {
+<span class="fc" id="L80">        return salesByProduct.entrySet().stream()</span>
+<span class="fc" id="L81">                .max(Comparator.comparingInt(Map.Entry::getValue))</span>
+<span class="fc" id="L82">                .map(Map.Entry::getKey)</span>
+<span class="fc" id="L83">                .orElse(&quot;No Sales Data&quot;);</span>
+    }
+
+    public void displayStatistics() {
+<span class="fc" id="L87">        String cityWithMostUsers = getCityWithMostUsers();</span>
+<span class="fc" id="L88">        int userCount = getUserCountInCity(cityWithMostUsers);</span>
+<span class="fc" id="L89">        String mostOrderedProduct = getMostOrderedProduct();</span>
+
+<span class="fc" id="L91">        LOGGER.info(String.format(&quot;City with most users: %s with %d users&quot;, cityWithMostUsers, userCount));</span>
+<span class="fc" id="L92">        LOGGER.info(String.format(&quot;Most ordered product: %s&quot;, mostOrderedProduct));</span>
+
+        // Write report to file
+<span class="fc" id="L95">        StringBuilder report = new StringBuilder();</span>
+<span class="fc" id="L96">        report.append(String.format(&quot;City with most users: %s with %d users%n&quot;, cityWithMostUsers, userCount));</span>
+<span class="fc" id="L97">        report.append(String.format(&quot;Most ordered product: %s%n&quot;, mostOrderedProduct));</span>
+
+<span class="fc" id="L99">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(REPORT_FILE))) {</span>
+<span class="fc" id="L100">            writer.write(report.toString());</span>
+<span class="nc" id="L101">        } catch (IOException e) {</span>
+<span class="nc" id="L102">            LOGGER.log(Level.SEVERE, &quot;Error writing to report file: {0}&quot;, e.getMessage());</span>
+<span class="fc" id="L103">        }</span>
+<span class="fc" id="L104">    }</span>
+
+    // New method to display each product and its total sales
+    public void displayProductSales() {
+<span class="nc" id="L108">        LOGGER.info(&quot;Product sales data:&quot;);</span>
+<span class="nc" id="L109">        salesByProduct.forEach((product, quantity) -&gt; </span>
+<span class="nc" id="L110">            LOGGER.info(String.format(&quot;Product: %s, Quantity Sold: %d&quot;, product, quantity))</span>
+        );
+
+        // Write product sales data to file
+<span class="nc" id="L114">        StringBuilder productSalesReport = new StringBuilder();</span>
+<span class="nc" id="L115">        productSalesReport.append(&quot;Product Sales Data:\n&quot;);</span>
+<span class="nc" id="L116">        salesByProduct.forEach((product, quantity) -&gt; </span>
+<span class="nc" id="L117">            productSalesReport.append(String.format(&quot;Product: %s, Quantity Sold: %d%n&quot;, product, quantity))</span>
+        );
+
+<span class="nc" id="L120">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(REPORT_FILE))) {</span>
+<span class="nc" id="L121">            writer.write(productSalesReport.toString());</span>
+<span class="nc" id="L122">        } catch (IOException e) {</span>
+<span class="nc" id="L123">            LOGGER.log(Level.SEVERE, &quot;Error writing to report file: {0}&quot;, e.getMessage());</span>
+<span class="nc" id="L124">        }</span>
+<span class="nc" id="L125">    }</span>
+
+    // Method to get role by email
+    public String getRoleByEmail(String email) {
+<span class="nc" id="L129">        try (BufferedReader reader = new BufferedReader(new FileReader(LOGSIGN_FILE))) {</span>
+            String line;
+<span class="nc bnc" id="L131" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L132">                String[] parts = line.split(&quot;,&quot;);</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">                if (parts[2].equals(email)) {</span>
+<span class="nc" id="L134">                    return parts[3]; // Return role</span>
+                }
+<span class="nc" id="L136">            }</span>
+<span class="nc" id="L137">        } catch (IOException e) {</span>
+<span class="nc" id="L138">            LOGGER.log(Level.SEVERE, &quot;Error reading logsign file: {0}&quot;, e.getMessage());</span>
+<span class="nc" id="L139">        }</span>
+<span class="nc" id="L140">        return &quot;Unknown&quot;; // If role not found</span>
+    }
+
+    // Method to get logged-in username
+    public String getLoggedInUsername() {
+<span class="nc" id="L145">        return loggedInUsername;</span>
+    }
+
+    // Method to get the current feedback ID counter
+    private int getFeedbackIdCounter() {
+<span class="nc" id="L150">        try (BufferedReader reader = new BufferedReader(new FileReader(COUNTER_FILE))) {</span>
+<span class="nc" id="L151">            String line = reader.readLine();</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">            if (line != null) {</span>
+<span class="nc" id="L153">                return Integer.parseInt(line.trim());</span>
+            }
+<span class="nc" id="L155">        } catch (IOException | NumberFormatException e) {</span>
+<span class="nc" id="L156">            LOGGER.log(Level.WARNING, &quot;Error reading feedback counter file. Defaulting to 1: {0}&quot;, e.getMessage());</span>
+<span class="nc" id="L157">        }</span>
+<span class="nc" id="L158">        return 1; // Default to 1 if there is an error</span>
+    }
+
+    // Method to update the feedback ID counter
+    private void updateFeedbackIdCounter(int newCounter) {
+<span class="nc" id="L163">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(COUNTER_FILE))) {</span>
+<span class="nc" id="L164">            writer.write(String.valueOf(newCounter));</span>
+<span class="nc" id="L165">        } catch (IOException e) {</span>
+<span class="nc" id="L166">            LOGGER.log(Level.SEVERE, &quot;Error writing feedback counter file: {0}&quot;, e.getMessage());</span>
+<span class="nc" id="L167">        }</span>
+<span class="nc" id="L168">    }</span>
+
+    // Method to add feedback
+    public void addFeedback(Scanner scanner) {
+<span class="nc" id="L172">        LOGGER.info(&quot;Please enter your feedback:&quot;);</span>
+<span class="nc" id="L173">        String feedback = scanner.nextLine();</span>
+        
+        // Get the current feedback ID counter and increment it
+<span class="nc" id="L176">        int feedbackId = getFeedbackIdCounter();</span>
+<span class="nc" id="L177">        updateFeedbackIdCounter(feedbackId + 1);</span>
+        
+        // Get the username of the logged-in user
+<span class="nc" id="L180">        String username = getLoggedInUsername();</span>
+        
+        // Write feedback to file
+<span class="nc" id="L183">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FEEDBACK_FILE, true))) {</span>
+<span class="nc" id="L184">            writer.write(String.format(&quot;%d;%s;%s&quot;, feedbackId, username, feedback));</span>
+<span class="nc" id="L185">            writer.newLine();</span>
+<span class="nc" id="L186">            LOGGER.info(&quot;Thank you for your feedback! We appreciate your input.&quot;);</span>
+<span class="nc" id="L187">        } catch (IOException e) {</span>
+<span class="nc" id="L188">            LOGGER.log(Level.SEVERE, &quot;Error writing to feedback file: {0}&quot;, e.getMessage());</span>
+<span class="nc" id="L189">        }</span>
+<span class="nc" id="L190">    }</span>
+
+    public static void displayFeedback() {
+<span class="nc" id="L193">        try (BufferedReader reader = new BufferedReader(new FileReader(FEEDBACK_FILE))) {</span>
+            String line;
+<span class="nc bnc" id="L195" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L196">                LOGGER.info(line);</span>
+            }
+<span class="nc" id="L198">        } catch (IOException e) {</span>
+<span class="nc" id="L199">            LOGGER.log(Level.SEVERE, &quot;Error reading feedback file: {0}&quot;, e.getMessage());</span>
+<span class="nc" id="L200">        }</span>
+<span class="nc" id="L201">    }</span>
+
+    public boolean login(String email, String password) {
+<span class="nc" id="L204">        try (BufferedReader reader = new BufferedReader(new FileReader(LOGSIGN_FILE))) {</span>
+            String line;
+<span class="nc bnc" id="L206" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L207">                String[] parts = line.split(&quot;,&quot;);</span>
+<span class="nc bnc" id="L208" title="All 4 branches missed.">                if (parts[2].equals(email) &amp;&amp; parts[1].equals(password)) {</span>
+<span class="nc" id="L209">                    loggedInUserEmail = email;  // Set email</span>
+<span class="nc" id="L210">                    loggedInUsername = parts[0]; // Set username</span>
+<span class="nc" id="L211">                    LOGGER.info(String.format(&quot;Logged in user email set to: %s&quot;, loggedInUserEmail));</span>
+<span class="nc" id="L212">                    return true;</span>
+                }
+<span class="nc" id="L214">            }</span>
+<span class="nc" id="L215">        } catch (IOException e) {</span>
+<span class="nc" id="L216">            LOGGER.log(Level.SEVERE, &quot;Error reading logsign file: {0}&quot;, e.getMessage());</span>
+<span class="nc" id="L217">        }</span>
+<span class="nc" id="L218">        return false;</span>
+    }
+
+    public void updateLogsignFile(String newEmail, String newPassword) {
+<span class="nc bnc" id="L222" title="All 2 branches missed.">        if (loggedInUserEmail == null) {</span>
+<span class="nc" id="L223">            LOGGER.warning(&quot;Error: No user is currently logged in.&quot;);</span>
+<span class="nc" id="L224">            return;</span>
+        }
+
+<span class="nc" id="L227">        File tempFile = new File(&quot;logsign_temp.txt&quot;);</span>
+
+<span class="nc" id="L229">        try (BufferedReader reader = new BufferedReader(new FileReader(LOGSIGN_FILE));</span>
+<span class="nc" id="L230">             BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {</span>
+
+            String line;
+<span class="nc" id="L233">            boolean updated = false;</span>
+
+<span class="nc bnc" id="L235" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L236">                String[] parts = line.split(&quot;,&quot;);</span>
+<span class="nc bnc" id="L237" title="All 2 branches missed.">                if (parts[2].equals(loggedInUserEmail)) {</span>
+<span class="nc bnc" id="L238" title="All 4 branches missed.">                    if (newEmail != null &amp;&amp; !newEmail.isEmpty()) {</span>
+<span class="nc" id="L239">                        parts[2] = newEmail;</span>
+                    }
+<span class="nc bnc" id="L241" title="All 4 branches missed.">                    if (newPassword != null &amp;&amp; !newPassword.isEmpty()) {</span>
+<span class="nc" id="L242">                        parts[1] = newPassword;</span>
+                    }
+<span class="nc" id="L244">                    updated = true;</span>
+                }
+<span class="nc" id="L246">                writer.write(String.join(&quot;,&quot;, parts));</span>
+<span class="nc" id="L247">                writer.newLine();</span>
+<span class="nc" id="L248">            }</span>
+
+<span class="nc bnc" id="L250" title="All 2 branches missed.">            if (updated) {</span>
+<span class="nc" id="L251">                LOGGER.info(&quot;Account details updated.&quot;);</span>
+            } else {
+<span class="nc" id="L253">                LOGGER.warning(&quot;No matching record found for the logged-in user.&quot;);</span>
+            }
+
+<span class="nc" id="L256">        } catch (IOException e) {</span>
+<span class="nc" id="L257">            LOGGER.log(Level.SEVERE, &quot;Error updating logsign file: {0}&quot;, e.getMessage());</span>
+<span class="nc" id="L258">        }</span>
+
+<span class="nc" id="L260">        boolean deleteSuccessful = new File(LOGSIGN_FILE).delete();</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">        if (!deleteSuccessful) {</span>
+<span class="nc" id="L262">            LOGGER.warning(&quot;Failed to delete the original logsign file.&quot;);</span>
+        }
+
+<span class="nc" id="L265">        boolean renameSuccessful = tempFile.renameTo(new File(LOGSIGN_FILE));</span>
+<span class="nc bnc" id="L266" title="All 2 branches missed.">        if (!renameSuccessful) {</span>
+<span class="nc" id="L267">            LOGGER.warning(&quot;Failed to rename the temporary logsign file.&quot;);</span>
+        }
+<span class="nc" id="L269">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

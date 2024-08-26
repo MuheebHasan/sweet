@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserManagementSystem.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mySweetmanagementsystem</a> &gt; <a href="index.source.html" class="el_package">my_sweet_management_system</a> &gt; <span class="el_source">UserManagementSystem.java</span></div><h1>UserManagementSystem.java</h1><pre class="source lang-java linenums">package my_sweet_management_system;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class UserManagementSystem {
+<span class="fc" id="L15">    private static final Logger logger = Logger.getLogger(UserManagementSystem.class.getName());</span>
+
+<span class="fc" id="L17">    private Map&lt;String, User&gt; users = new HashMap&lt;&gt;();</span>
+    private String currentId;
+
+<span class="fc" id="L20">    public UserManagementSystem() {</span>
+<span class="fc" id="L21">        loadData();</span>
+<span class="fc" id="L22">    }</span>
+
+    // Load data from the text files
+    private void loadData() {
+<span class="fc" id="L26">        loadFromFile(&quot;user.txt&quot;);</span>
+<span class="fc" id="L27">        loadFromFile(&quot;owner.txt&quot;);</span>
+<span class="fc" id="L28">        loadFromFile(&quot;supplier.txt&quot;);</span>
+<span class="fc" id="L29">    }</span>
+
+    private void loadFromFile(String filename) {
+<span class="fc" id="L32">        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {</span>
+<span class="fc" id="L33">            String line = reader.readLine(); // Read the header line and discard it</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">            while ((line = reader.readLine()) != null) {</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">                if (line.trim().isEmpty()) {</span>
+<span class="nc" id="L36">                    continue; // Skip empty lines</span>
+                }
+<span class="fc" id="L38">                String[] parts = line.split(&quot;,&quot;);</span>
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">                if (parts.length == 5) {</span>
+<span class="fc" id="L40">                    String id = parts[0];</span>
+<span class="fc" id="L41">                    String type = parts[1];</span>
+<span class="fc" id="L42">                    String name = parts[2];</span>
+<span class="fc" id="L43">                    String address = parts[3];</span>
+<span class="fc" id="L44">                    String phone = parts[4];</span>
+<span class="fc" id="L45">                    users.put(id, new User(id, type, name, address, phone));</span>
+<span class="fc" id="L46">                } else {</span>
+                    // Log a warning if the line format is invalid
+<span class="nc" id="L48">                    logger.warning(&quot;Invalid line format: &quot; + line);</span>
+                }
+<span class="fc" id="L50">            }</span>
+<span class="nc" id="L51">        } catch (IOException e) {</span>
+<span class="nc" id="L52">            logger.log(Level.SEVERE, &quot;Error loading data from file: &quot; + filename, e);</span>
+<span class="fc" id="L53">        }</span>
+<span class="fc" id="L54">    }</span>
+
+    // Add a new user
+    public String addUser(String id, String type, String name, String address, String phone) {
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (users.containsKey(id)) {</span>
+<span class="fc" id="L59">            return &quot;ID already exists&quot;;</span>
+        }
+
+        // Ensure type is one of the predefined options
+<span class="pc bpc" id="L63" title="5 of 6 branches missed.">        if (!type.equalsIgnoreCase(&quot;user&quot;) &amp;&amp; !type.equalsIgnoreCase(&quot;owner&quot;) &amp;&amp; !type.equalsIgnoreCase(&quot;supplier&quot;)) {</span>
+<span class="nc" id="L64">            return &quot;Invalid user type&quot;;</span>
+        }
+
+<span class="fc" id="L67">        users.put(id, new User(id, type, name, address, phone));</span>
+<span class="fc" id="L68">        saveData();</span>
+
+<span class="fc" id="L70">        return &quot;User account created successfully&quot;;</span>
+    }
+
+    // Set the current user ID
+    public void setCurrentId(String id) {
+<span class="fc" id="L75">        this.currentId = id;</span>
+<span class="fc" id="L76">    }</span>
+
+    // Update user details
+    public String updateUser(String field, String value) {
+<span class="fc" id="L80">        User user = users.get(currentId);</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (user == null) {</span>
+<span class="fc" id="L82">            return &quot;ID does not exist&quot;;</span>
+        }
+<span class="pc bpc" id="L84" title="1 of 4 branches missed.">        switch (field) {</span>
+            case &quot;Name&quot;:
+<span class="fc" id="L86">                user.setName(value);</span>
+<span class="fc" id="L87">                break;</span>
+            case &quot;Address&quot;:
+<span class="fc" id="L89">                user.setAddress(value);</span>
+<span class="fc" id="L90">                break;</span>
+            case &quot;Phone&quot;:
+<span class="fc" id="L92">                user.setPhone(value);</span>
+<span class="fc" id="L93">                break;</span>
+            default:
+<span class="nc" id="L95">                return &quot;Invalid field&quot;;</span>
+        }
+<span class="fc" id="L97">        saveData(); // Save changes to all files</span>
+<span class="fc" id="L98">        return &quot;User account updated successfully&quot;;</span>
+    }
+
+    public String deleteUser() {
+<span class="fc" id="L102">        User user = users.remove(currentId);</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        if (user != null) {</span>
+<span class="fc" id="L104">            saveData(); // Save changes to all files</span>
+<span class="fc" id="L105">            return &quot;User account deleted successfully&quot;;</span>
+        } else {
+<span class="fc" id="L107">            logger.log(Level.WARNING, &quot;Current ID not found: &quot; + currentId); // Debug statement</span>
+<span class="fc" id="L108">            return &quot;ID does not exist&quot;;</span>
+        }
+    }
+
+    // Save data to all text files
+    private void saveData() {
+<span class="fc" id="L114">        saveToFile(&quot;data.txt&quot;);</span>
+<span class="fc" id="L115">        saveToFile(&quot;user.txt&quot;);</span>
+<span class="fc" id="L116">        saveToFile(&quot;owner.txt&quot;);</span>
+<span class="fc" id="L117">        saveToFile(&quot;supplier.txt&quot;);</span>
+<span class="fc" id="L118">    }</span>
+
+    private void saveToFile(String filename) {
+<span class="fc" id="L121">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {</span>
+<span class="fc" id="L122">            writer.write(&quot;id,type,name,address,phone&quot;);</span>
+<span class="fc" id="L123">            writer.newLine();</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">            for (User user : users.values()) {</span>
+                // Write only the relevant user type data to the specific file
+<span class="fc bfc" id="L126" title="All 2 branches covered.">                if (filename.equals(&quot;data.txt&quot;) ||</span>
+<span class="fc bfc" id="L127" title="All 4 branches covered.">                        (filename.equals(&quot;user.txt&quot;) &amp;&amp; user.getType().equalsIgnoreCase(&quot;user&quot;)) ||</span>
+<span class="fc bfc" id="L128" title="All 4 branches covered.">                        (filename.equals(&quot;owner.txt&quot;) &amp;&amp; user.getType().equalsIgnoreCase(&quot;owner&quot;)) ||</span>
+<span class="pc bpc" id="L129" title="1 of 4 branches missed.">                        (filename.equals(&quot;supplier.txt&quot;) &amp;&amp; user.getType().equalsIgnoreCase(&quot;supplier&quot;))) {</span>
+<span class="fc" id="L130">                    writer.write(String.format(&quot;%s,%s,%s,%s,%s&quot;,</span>
+<span class="fc" id="L131">                            user.getId(),</span>
+<span class="fc" id="L132">                            user.getType(),</span>
+<span class="fc" id="L133">                            user.getName(),</span>
+<span class="fc" id="L134">                            user.getAddress(),</span>
+<span class="fc" id="L135">                            user.getPhone()));</span>
+<span class="fc" id="L136">                    writer.newLine();</span>
+                }
+<span class="fc" id="L138">            }</span>
+<span class="nc" id="L139">        } catch (IOException e) {</span>
+<span class="nc" id="L140">            logger.log(Level.SEVERE, &quot;Error saving data to file: &quot; + filename, e);</span>
+<span class="fc" id="L141">        }</span>
+<span class="fc" id="L142">    }</span>
+
+    // Inner class for User
+    public static class User {
+        private String id;
+        private String type;
+        private String name;
+        private String address;
+        private String phone;
+
+<span class="fc" id="L152">        public User(String id, String type, String name, String address, String phone) {</span>
+<span class="fc" id="L153">            this.id = id;</span>
+<span class="fc" id="L154">            this.type = type;</span>
+<span class="fc" id="L155">            this.name = name;</span>
+<span class="fc" id="L156">            this.address = address;</span>
+<span class="fc" id="L157">            this.phone = phone;</span>
+<span class="fc" id="L158">        }</span>
+
+<span class="fc" id="L160">        public String getId() { return id; }</span>
+<span class="fc" id="L161">        public String getType() { return type; }</span>
+<span class="fc" id="L162">        public String getName() { return name; }</span>
+<span class="fc" id="L163">        public String getAddress() { return address; }</span>
+<span class="fc" id="L164">        public String getPhone() { return phone; }</span>
+
+<span class="fc" id="L166">        public void setName(String name) { this.name = name; }</span>
+<span class="fc" id="L167">        public void setAddress(String address) { this.address = address; }</span>
+<span class="fc" id="L168">        public void setPhone(String phone) { this.phone = phone; }</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L172">        UserManagementSystem system = new UserManagementSystem();</span>
+<span class="nc" id="L173">        Scanner scanner = new Scanner(System.in);</span>
+
+        while (true) {
+<span class="nc" id="L176">            logger.info(&quot;\n** Admin Menu **&quot;);</span>
+<span class="nc" id="L177">            logger.info(&quot;1. Add User&quot;);</span>
+<span class="nc" id="L178">            logger.info(&quot;2. Update User&quot;);</span>
+<span class="nc" id="L179">            logger.info(&quot;3. Delete User&quot;);</span>
+<span class="nc" id="L180">            logger.info(&quot;4. View All Users&quot;);</span>
+<span class="nc" id="L181">            logger.info(&quot;5. Exit&quot;);</span>
+<span class="nc" id="L182">            logger.info(&quot;Enter your choice: &quot;);</span>
+<span class="nc" id="L183">            int choice = scanner.nextInt();</span>
+<span class="nc" id="L184">            scanner.nextLine(); // Consume newline</span>
+
+<span class="nc bnc" id="L186" title="All 6 branches missed.">            switch (choice) {</span>
+                case 1:
+<span class="nc" id="L188">                    logger.info(&quot;Enter User ID: &quot;);</span>
+<span class="nc" id="L189">                    String id = scanner.nextLine();</span>
+<span class="nc" id="L190">                    logger.info(&quot;Enter User Type (User/Owner/Supplier): &quot;);</span>
+<span class="nc" id="L191">                    String type = scanner.nextLine().toLowerCase(); // Convert to lower case for consistency</span>
+<span class="nc" id="L192">                    logger.info(&quot;Enter User Name: &quot;);</span>
+<span class="nc" id="L193">                    String name = scanner.nextLine();</span>
+<span class="nc" id="L194">                    logger.info(&quot;Enter User Address: &quot;);</span>
+<span class="nc" id="L195">                    String address = scanner.nextLine();</span>
+<span class="nc" id="L196">                    logger.info(&quot;Enter User Phone: &quot;);</span>
+<span class="nc" id="L197">                    String phone = scanner.nextLine();</span>
+<span class="nc" id="L198">                    String addResult = system.addUser(id, type, name, address, phone);</span>
+<span class="nc" id="L199">                    logger.info(addResult);</span>
+<span class="nc" id="L200">                    break;</span>
+
+                case 2:
+<span class="nc" id="L203">                    logger.info(&quot;Enter User ID to update: &quot;);</span>
+<span class="nc" id="L204">                    String updateId = scanner.nextLine();</span>
+<span class="nc" id="L205">                    system.setCurrentId(updateId);</span>
+<span class="nc" id="L206">                    logger.info(&quot;Enter field to update (Name/Address/Phone): &quot;);</span>
+<span class="nc" id="L207">                    String field = scanner.nextLine();</span>
+<span class="nc" id="L208">                    logger.info(&quot;Enter new value: &quot;);</span>
+<span class="nc" id="L209">                    String value = scanner.nextLine();</span>
+<span class="nc" id="L210">                    String updateResult = system.updateUser(field, value);</span>
+<span class="nc" id="L211">                    logger.info(updateResult);</span>
+<span class="nc" id="L212">                    break;</span>
+
+                case 3:
+<span class="nc" id="L215">                    logger.info(&quot;Enter User ID to delete: &quot;);</span>
+<span class="nc" id="L216">                    String deleteId = scanner.nextLine();</span>
+<span class="nc" id="L217">                    system.setCurrentId(deleteId);</span>
+<span class="nc" id="L218">                    String deleteResult = system.deleteUser();</span>
+<span class="nc" id="L219">                    logger.info(deleteResult);</span>
+<span class="nc" id="L220">                    break;</span>
+
+                case 4:
+<span class="nc" id="L223">                    logger.info(&quot;All users:&quot;);</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">                    for (User user : system.users.values()) {</span>
+<span class="nc" id="L225">                        logger.info(String.format(&quot;ID: %s, Type: %s, Name: %s, Address: %s, Phone: %s&quot;,</span>
+<span class="nc" id="L226">                                user.getId(), user.getType(), user.getName(), user.getAddress(), user.getPhone()));</span>
+<span class="nc" id="L227">                    }</span>
+<span class="nc" id="L228">                    break;</span>
+
+                case 5:
+<span class="nc" id="L231">                    logger.info(&quot;Exiting...&quot;);</span>
+<span class="nc" id="L232">                    scanner.close();</span>
+<span class="nc" id="L233">                    return;</span>
+
+                default:
+<span class="nc" id="L236">                    logger.warning(&quot;Invalid choice. Please try again.&quot;);</span>
+            }
+<span class="nc" id="L238">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

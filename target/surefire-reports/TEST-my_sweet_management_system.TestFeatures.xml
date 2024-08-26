@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="my_sweet_management_system.TestFeatures" time="4.058" tests="89" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="22"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sonar.host.url" value="https://sonarcloud.io"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\mohee\Desktop\sweet\target\test-classes;C:\Users\mohee\Desktop\sweet\target\classes;C:\Users\mohee\.m2\repository\org\slf4j\slf4j-api\2.0.0\slf4j-api-2.0.0.jar;C:\Users\mohee\.m2\repository\ch\qos\logback\logback-classic\1.4.0\logback-classic-1.4.0.jar;C:\Users\mohee\.m2\repository\ch\qos\logback\logback-core\1.4.0\logback-core-1.4.0.jar;C:\Users\mohee\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\mohee\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-java\7.18.0\cucumber-java-7.18.0.jar;C:\Users\mohee\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-core\7.18.0\cucumber-core-7.18.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-gherkin\7.18.0\cucumber-gherkin-7.18.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-gherkin-messages\7.18.0\cucumber-gherkin-messages-7.18.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\gherkin\28.0.0\gherkin-28.0.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\messages\24.1.0\messages-24.1.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\testng-xml-formatter\0.1.0\testng-xml-formatter-0.1.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\query\12.2.0\query-12.2.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\tag-expressions\6.1.0\tag-expressions-6.1.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-expressions\17.1.0\cucumber-expressions-17.1.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\datatable\7.18.0\datatable-7.18.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-plugin\7.18.0\cucumber-plugin-7.18.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\docstring\7.18.0\docstring-7.18.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\html-formatter\21.3.1\html-formatter-21.3.1.jar;C:\Users\mohee\.m2\repository\io\cucumber\junit-xml-formatter\0.4.0\junit-xml-formatter-0.4.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\ci-environment\10.0.1\ci-environment-10.0.1.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-junit\7.18.0\cucumber-junit-7.18.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-picocontainer\7.18.0\cucumber-picocontainer-7.18.0.jar;C:\Users\mohee\.m2\repository\org\picocontainer\picocontainer\2.15\picocontainer-2.15.jar;C:\Users\mohee\.m2\repository\org\sonarsource\scanner\maven\sonar-maven-plugin\4.0.0.4121\sonar-maven-plugin-4.0.0.4121.jar;C:\Users\mohee\.m2\repository\org\sonatype\plexus\plexus-sec-dispatcher\1.4\plexus-sec-dispatcher-1.4.jar;C:\Users\mohee\.m2\repository\org\codehaus\plexus\plexus-utils\1.5.5\plexus-utils-1.5.5.jar;C:\Users\mohee\.m2\repository\org\sonatype\plexus\plexus-cipher\1.4\plexus-cipher-1.4.jar;C:\Users\mohee\.m2\repository\org\sonarsource\scanner\api\sonar-scanner-api\2.16.3.1081\sonar-scanner-api-2.16.3.1081.jar;C:\Users\mohee\.m2\repository\commons-lang\commons-lang\2.6\commons-lang-2.6.jar;"/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
+    <property name="user.timezone" value="Asia/Hebron"/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="java.vm.specification.version" value="22"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="C:\Users\mohee\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_22.0.2.v20240802-1626\jre\bin"/>
+    <property name="sun.java.command" value="C:\Users\mohee\AppData\Local\Temp\surefire5614716916575009034\surefirebooter15866382251693870193.jar C:\Users\mohee\AppData\Local\Temp\surefire5614716916575009034 2024-08-26T22-48-01_488-jvmRun1 surefire3255776693212283660tmp surefire_116128924992665926192tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\Users\mohee\Desktop\sweet\target\test-classes;C:\Users\mohee\Desktop\sweet\target\classes;C:\Users\mohee\.m2\repository\org\slf4j\slf4j-api\2.0.0\slf4j-api-2.0.0.jar;C:\Users\mohee\.m2\repository\ch\qos\logback\logback-classic\1.4.0\logback-classic-1.4.0.jar;C:\Users\mohee\.m2\repository\ch\qos\logback\logback-core\1.4.0\logback-core-1.4.0.jar;C:\Users\mohee\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\mohee\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-java\7.18.0\cucumber-java-7.18.0.jar;C:\Users\mohee\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-core\7.18.0\cucumber-core-7.18.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-gherkin\7.18.0\cucumber-gherkin-7.18.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-gherkin-messages\7.18.0\cucumber-gherkin-messages-7.18.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\gherkin\28.0.0\gherkin-28.0.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\messages\24.1.0\messages-24.1.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\testng-xml-formatter\0.1.0\testng-xml-formatter-0.1.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\query\12.2.0\query-12.2.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\tag-expressions\6.1.0\tag-expressions-6.1.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-expressions\17.1.0\cucumber-expressions-17.1.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\datatable\7.18.0\datatable-7.18.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-plugin\7.18.0\cucumber-plugin-7.18.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\docstring\7.18.0\docstring-7.18.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\html-formatter\21.3.1\html-formatter-21.3.1.jar;C:\Users\mohee\.m2\repository\io\cucumber\junit-xml-formatter\0.4.0\junit-xml-formatter-0.4.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\ci-environment\10.0.1\ci-environment-10.0.1.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-junit\7.18.0\cucumber-junit-7.18.0.jar;C:\Users\mohee\.m2\repository\io\cucumber\cucumber-picocontainer\7.18.0\cucumber-picocontainer-7.18.0.jar;C:\Users\mohee\.m2\repository\org\picocontainer\picocontainer\2.15\picocontainer-2.15.jar;C:\Users\mohee\.m2\repository\org\sonarsource\scanner\maven\sonar-maven-plugin\4.0.0.4121\sonar-maven-plugin-4.0.0.4121.jar;C:\Users\mohee\.m2\repository\org\sonatype\plexus\plexus-sec-dispatcher\1.4\plexus-sec-dispatcher-1.4.jar;C:\Users\mohee\.m2\repository\org\codehaus\plexus\plexus-utils\1.5.5\plexus-utils-1.5.5.jar;C:\Users\mohee\.m2\repository\org\sonatype\plexus\plexus-cipher\1.4\plexus-cipher-1.4.jar;C:\Users\mohee\.m2\repository\org\sonarsource\scanner\api\sonar-scanner-api\2.16.3.1081\sonar-scanner-api-2.16.3.1081.jar;C:\Users\mohee\.m2\repository\commons-lang\commons-lang\2.6\commons-lang-2.6.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\mohee"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2024-07-16"/>
+    <property name="java.home" value="C:\Users\mohee\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_22.0.2.v20240802-1626\jre"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\mohee\Desktop\sweet"/>
+    <property name="style.color" value="always"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\mohee\AppData\Local\Temp\surefire5614716916575009034\surefirebooter15866382251693870193.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="22.0.2+9"/>
+    <property name="user.name" value="mohee"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Temurin-22.0.2+9"/>
+    <property name="localRepository" value="C:\Users\mohee\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+    <property name="java.io.tmpdir" value="C:\Users\mohee\AppData\Local\Temp\"/>
+    <property name="sonar.token" value="e2a275cf9f39e98e07a56cd4a97ac4e0d40e6250"/>
+    <property name="java.version" value="22.0.2"/>
+    <property name="user.dir" value="C:\Users\mohee\Desktop\sweet"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sonar.organization" value="muheebhasan-1"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="sonar.projectKey" value="MuheebHasan_sweet"/>
+    <property name="java.library.path" value="C:\Users\mohee\.p2\pool\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_22.0.2.v20240802-1626\jre\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:/Users/mohee/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_22.0.2.v20240802-1626/jre/bin/server;C:/Users/mohee/.p2/pool/plugins/org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_22.0.2.v20240802-1626/jre/bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\jdk-22\bin;C:\Program Files\nodejs\node_modules\npm\bin;C:\Program Files\MongoDB\mongosh-2.2.3-win32-x64\bin;C:\Program Files\MongoDB\Server\7.0\bin;C:\Users\mohee\AppData\Local\Pub\Cache\bin;C:\Program Files\nodejs\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\mohee\AppData\Local\Microsoft\WindowsApps;C:\Users\mohee\AppData\Local\Programs\Microsoft VS Code\bin;C:\flutter-sdk\bin;C:\Program Files\jdk-22\bin;C:\Program Files\nodejs\node_modules\npm\bin;C:\Users\mohee\AppData\Local\Pub\Cache\bin;C:\Users\mohee\AppData\Roaming\npm;C:\Users\mohee\AppData\Local\GitHubDesktop\bin;C:\Users\mohee\Desktop;;."/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="22.0.2+9"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="66.0"/>
+  </properties>
+  <testcase name="Admin monitors profits and generates financial reports" classname="Monitoring and Reporting" time="0.328"/>
+  <testcase name="Admin identifies best-selling products in each store" classname="Monitoring and Reporting" time="0.086"/>
+  <testcase name="Admin gathers and displays statistics on registered users by city" classname="Monitoring and Reporting" time="0.033"/>
+  <testcase name="Admin adds a recipe" classname="Content Management and Feedback" time="0.131"/>
+  <testcase name="Admin updates a recipe" classname="Content Management and Feedback" time="0.023"/>
+  <testcase name="Admin deletes a recipe" classname="Content Management and Feedback" time="0.018"/>
+  <testcase name="Admin views a recipe" classname="Content Management and Feedback" time="0.021"/>
+  <testcase name="Admin adds a post" classname="Content Management and Feedback" time="0.017"/>
+  <testcase name="Admin updates a post" classname="Content Management and Feedback" time="0.019"/>
+  <testcase name="Admin deletes a post" classname="Content Management and Feedback" time="0.025"/>
+  <testcase name="Admin views user feedback" classname="Content Management and Feedback" time="0.02"/>
+  <testcase name="Admin responds to feedback" classname="Content Management and Feedback" time="0.022"/>
+  <testcase name="Admin adds a new  owner" classname="Accounts" time="0.029"/>
+  <testcase name="Admin tries to add a owner with an existing id" classname="Accounts" time="0.037"/>
+  <testcase name="Admin adds a new user" classname="Accounts" time="0.017"/>
+  <testcase name="Admin tries to add a user with an existing id" classname="Accounts" time="0.016"/>
+  <testcase name="Admin adds a new supplier" classname="Accounts" time="0.017"/>
+  <testcase name="Admin tries to add a supplier with an existing id" classname="Accounts" time="0.021"/>
+  <testcase name="Admin updates a  owner&apos;s details" classname="Accounts" time="0.026"/>
+  <testcase name="Admin tries to update a  owner with a non-existing id" classname="Accounts" time="0.02"/>
+  <testcase name="Admin updates a user&apos;s details" classname="Accounts" time="0.019"/>
+  <testcase name="Admin tries to update a user with a non-existing id" classname="Accounts" time="0.021"/>
+  <testcase name="Admin updates a supplier&apos;s details" classname="Accounts" time="0.022"/>
+  <testcase name="Admin tries to update a supplier with a non-existing id" classname="Accounts" time="0.016"/>
+  <testcase name="Admin deletes a owner" classname="Accounts" time="0.013"/>
+  <testcase name="Admin tries to delete a owner with a non-existing id" classname="Accounts" time="0.018"/>
+  <testcase name="Admin deletes a user" classname="Accounts" time="0.011"/>
+  <testcase name="Admin tries to delete a user with a non-existing id" classname="Accounts" time="0.024"/>
+  <testcase name="Admin deletes a supplier" classname="Accounts" time="0.012"/>
+  <testcase name="Admin tries to delete a supplier with a non-existing id" classname="Accounts" time="0.023"/>
+  <testcase name="Search for a product by ID and found it #1" classname="Product Search" time="0.012"/>
+  <testcase name="Search for a product by ID and found it #2" classname="Product Search" time="0.01"/>
+  <testcase name="Search for a product by ID but not found" classname="Product Search" time="0.008"/>
+  <testcase name="Search for a product by name and found it" classname="Product Search" time="0.007"/>
+  <testcase name="Search for a product by name but name not found" classname="Product Search" time="0.011"/>
+  <testcase name="Search for a product by description or part of it and found it" classname="Product Search" time="0.012"/>
+  <testcase name="Search for a product by description and not found" classname="Product Search" time="0.007"/>
+  <testcase name="Search for a product by availability" classname="Product Search" time="0.007"/>
+  <testcase name="Search for a product by availability but not found" classname="Product Search" time="0.008"/>
+  <testcase name="owner show all product" classname="Product Search" time="0.01"/>
+  <testcase name="Supplier tries to send a message to a non-existing owner" classname="Supplier Communication" time="0.01"/>
+  <testcase name="Supplier successfully sends a message to an existing owner" classname="Supplier Communication" time="0.008"/>
+  <testcase name="Store owner sends a message to a user" classname="Communication and Notification" time="0.01"/>
+  <testcase name="Supplier sends a message to a store owner" classname="Communication and Notification" time="0.008"/>
+  <testcase name="Supplier receives a notification for a special request via email" classname="Communication and Notification" time="0.011"/>
+  <testcase name="User receives a message from a store owner" classname="Communication and Notification" time="0.011"/>
+  <testcase name="User receives a message from a supplier" classname="Communication and Notification" time="0.009"/>
+  <testcase name="Manage account details and update business information" classname="Communication and Notification" time="0.01"/>
+  <testcase name="Supplier updates account details" classname="Communication and Notification" time="0.013"/>
+  <testcase name="Store owner processes an order" classname="Communication and Notification" time="0.008"/>
+  <testcase name="Supplier tracks an order status" classname="Communication and Notification" time="0.007"/>
+  <testcase name="Customer cancels an order" classname="Communication and Notification" time="0.008"/>
+  <testcase name="owner can add order" classname="Order" time="0.009"/>
+  <testcase name="owner enters an ID that already exists" classname="Order" time="0.01"/>
+  <testcase name="owner can delete order" classname="Order" time="0.01"/>
+  <testcase name="owner enters an ID that does not exist to delete" classname="Order" time="0.01"/>
+  <testcase name="Owner updates an existing order&apos;s details" classname="Order" time="0.018"/>
+  <testcase name="Owner tries to update an order with a non-existing orderId" classname="Order" time="0.011"/>
+  <testcase name="Implement dynamic discounts" classname="Store Owner Management" time="0.014"/>
+  <testcase name="Apply discount to an order" classname="Store Owner Management" time="0.01"/>
+  <testcase name="owner can add product" classname="product" time="0.02"/>
+  <testcase name="owner enters an ID that already exists" classname="product" time="0.011"/>
+  <testcase name="owner can delete product" classname="product" time="0.013"/>
+  <testcase name="owner enters an ID that does not exist to delete" classname="product" time="0.007"/>
+  <testcase name="Owner updates an existing product&apos;s details" classname="product" time="0.012"/>
+  <testcase name="Owner tries to update a product with a non-existing productId" classname="product" time="0.011"/>
+  <testcase name="User browses and searches for dessert recipes" classname="Beneficiary User Exploration and Purchase" time="0.013"/>
+  <testcase name="User filters recipes based on dietary needs or food allergies" classname="Beneficiary User Exploration and Purchase" time="0.012"/>
+  <testcase name="Purchase desserts directly from store owners" classname="Beneficiary User Exploration and Purchase" time="0.02"/>
+  <testcase name="Directly communicate with store owners and suppliers for inquiries or assistance" classname="Beneficiary User Exploration and Purchase" time="0.011"/>
+  <testcase name="Provide feedback on purchased products" classname="Beneficiary User Exploration and Purchase" time="0.025"/>
+  <testcase name="Provide feedback on shared recipes" classname="Beneficiary User Exploration and Purchase" time="0.016"/>
+  <testcase name="Sign up for a new account" classname="Beneficiary User Account Management" time="0.012"/>
+  <testcase name="Sign in to the platform" classname="Beneficiary User Account Management" time="0.013"/>
+  <testcase name="Manage personal account details" classname="Beneficiary User Account Management" time="0.017"/>
+  <testcase name="Post and share personal dessert creations" classname="Beneficiary User Account Management" time="0.015"/>
+  <testcase name="User logs in successfully" classname="User Login" time="0.011"/>
+  <testcase name="User enters incorrect password" classname="User Login" time="0.011"/>
+  <testcase name="User tries to log in with an unregistered username" classname="User Login" time="0.007"/>
+  <testcase name="empty fields" classname="User Login" time="0.008"/>
+  <testcase name="Attempting to sign up with an existing username" classname="User Registration" time="0.018"/>
+  <testcase name="Attempting to sign up with mismatched passwords" classname="User Registration" time="0.007"/>
+  <testcase name="Attempting to sign up with empty fields" classname="User Registration" time="0.012"/>
+  <testcase name="Successful registration with valid details and specific role" classname="User Registration" time="0.011"/>
+  <testcase name="Errors with input #1" classname="User Registration" time="0.008"/>
+  <testcase name="Errors with input #2" classname="User Registration" time="0.012"/>
+  <testcase name="Errors with input #3" classname="User Registration" time="0.011"/>
+  <testcase name="Errors with input #4" classname="User Registration" time="0.007"/>
+  <testcase name="User attempts to register with a duplicate email" classname="User Registration" time="0.007"/>
+</testsuite>

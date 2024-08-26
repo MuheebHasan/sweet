@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PersonAccount.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mySweetmanagementsystem</a> &gt; <a href="index.source.html" class="el_package">my_sweet_management_system</a> &gt; <span class="el_source">PersonAccount.java</span></div><h1>PersonAccount.java</h1><pre class="source lang-java linenums">package my_sweet_management_system;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.util.*;
+
+public class PersonAccount {
+    // Define constants for file names
+    private static final String RECIPES_FILE_NAME = &quot;recipes.txt&quot;;
+    private static final String POSTS_FILE_NAME = &quot;posts.txt&quot;;
+    private static final String FEEDBACK_FILE_NAME = &quot;feedback.txt&quot;;
+    private static final String ERROR_READING_RECIPES_FILE = &quot;Error reading recipes file: {}&quot;;
+
+<span class="fc" id="L16">    private static final Logger logger = LoggerFactory.getLogger(PersonAccount.class);</span>
+
+<span class="fc" id="L18">    private File recipesFile = new File(RECIPES_FILE_NAME);</span>
+<span class="fc" id="L19">    private File postsFile = new File(POSTS_FILE_NAME);</span>
+<span class="fc" id="L20">    private File feedbackFile = new File(FEEDBACK_FILE_NAME);</span>
+
+<span class="fc" id="L22">    public PersonAccount() {</span>
+        try {
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">            if (!recipesFile.exists()) {</span>
+<span class="nc" id="L25">                boolean created = recipesFile.createNewFile();</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">                if (!created) {</span>
+<span class="nc" id="L27">                    logger.warn(&quot;Failed to create recipes file: {}&quot;, RECIPES_FILE_NAME);</span>
+                }
+            }
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">            if (!postsFile.exists()) {</span>
+<span class="nc" id="L31">                boolean created = postsFile.createNewFile();</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">                if (!created) {</span>
+<span class="nc" id="L33">                    logger.warn(&quot;Failed to create posts file: {}&quot;, POSTS_FILE_NAME);</span>
+                }
+            }
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">            if (!feedbackFile.exists()) {</span>
+<span class="nc" id="L37">                boolean created = feedbackFile.createNewFile();</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">                if (!created) {</span>
+<span class="nc" id="L39">                    logger.warn(&quot;Failed to create feedback file: {}&quot;, FEEDBACK_FILE_NAME);</span>
+                }
+            }
+<span class="nc" id="L42">        } catch (IOException e) {</span>
+<span class="nc" id="L43">            logger.error(&quot;Error creating files: {}&quot;, e.getMessage());</span>
+<span class="fc" id="L44">        }</span>
+<span class="fc" id="L45">    }</span>
+
+    public static void searchRecipeByName(String name) {
+<span class="nc" id="L48">        try (BufferedReader reader = new BufferedReader(new FileReader(RECIPES_FILE_NAME))) {</span>
+            String line;
+<span class="nc" id="L50">            boolean found = false;</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L52">                String[] parts = line.split(&quot;;&quot;);</span>
+<span class="nc bnc" id="L53" title="All 4 branches missed.">                if (parts.length == 2 &amp;&amp; parts[0].equalsIgnoreCase(name)) {</span>
+<span class="nc" id="L54">                    logger.info(&quot;{}: {}&quot;, parts[0], parts[1]);</span>
+<span class="nc" id="L55">                    found = true;</span>
+<span class="nc" id="L56">                    break;</span>
+                }
+<span class="nc" id="L58">            }</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">            if (!found) {</span>
+<span class="nc" id="L60">                logger.info(&quot;Recipe not found.&quot;);</span>
+            }
+<span class="nc" id="L62">        } catch (IOException e) {</span>
+<span class="nc" id="L63">            logger.error(ERROR_READING_RECIPES_FILE, e.getMessage());</span>
+<span class="nc" id="L64">        }</span>
+<span class="nc" id="L65">    }</span>
+
+    public static void filterRecipesByAllergies(String allergy) {
+<span class="nc" id="L68">        try (BufferedReader reader = new BufferedReader(new FileReader(RECIPES_FILE_NAME))) {</span>
+            String line;
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L71">                String[] parts = line.split(&quot;;&quot;);</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">                if (parts.length == 2) {</span>
+<span class="nc" id="L73">                    String recipeName = parts[0];</span>
+<span class="nc" id="L74">                    String contents = parts[1];</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">                    if (contents.contains(allergy)) {</span>
+<span class="nc" id="L76">                        logger.info(&quot;{}: {}&quot;, recipeName, contents);</span>
+                    }
+                }
+<span class="nc" id="L79">            }</span>
+<span class="nc" id="L80">        } catch (IOException e) {</span>
+<span class="nc" id="L81">            logger.error(ERROR_READING_RECIPES_FILE, e.getMessage());</span>
+<span class="nc" id="L82">        }</span>
+<span class="nc" id="L83">    }</span>
+
+    public void filterRecipesByNutritionalValue(Set&lt;String&gt; criteria) {
+<span class="nc" id="L86">        try (BufferedReader reader = new BufferedReader(new FileReader(recipesFile))) {</span>
+            String line;
+<span class="nc bnc" id="L88" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L89">                String[] parts = line.split(&quot;;&quot;);</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">                if (parts.length == 2) {</span>
+<span class="nc" id="L91">                    String recipeName = parts[0];</span>
+<span class="nc" id="L92">                    String contents = parts[1];</span>
+<span class="nc" id="L93">                    boolean matchesAll = true;</span>
+
+                    // Check if all criteria are present in the contents
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                    for (String criterion : criteria) {</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">                        if (!contents.contains(criterion)) {</span>
+<span class="nc" id="L98">                            matchesAll = false;</span>
+<span class="nc" id="L99">                            break;</span>
+                        }
+<span class="nc" id="L101">                    }</span>
+
+<span class="nc bnc" id="L103" title="All 2 branches missed.">                    if (matchesAll) {</span>
+<span class="nc" id="L104">                        logger.info(&quot;{}: {}&quot;, recipeName, contents);</span>
+                    }
+                }
+<span class="nc" id="L107">            }</span>
+<span class="nc" id="L108">        } catch (IOException e) {</span>
+<span class="nc" id="L109">            logger.error(ERROR_READING_RECIPES_FILE, e.getMessage());</span>
+<span class="nc" id="L110">        }</span>
+<span class="nc" id="L111">    }</span>
+
+    public void showAllRecipes() {
+<span class="nc" id="L114">        try (BufferedReader reader = new BufferedReader(new FileReader(RECIPES_FILE_NAME))) {</span>
+            String line;
+<span class="nc bnc" id="L116" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L117">                String[] parts = line.split(&quot;;&quot;);</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">                if (parts.length == 2) {</span>
+<span class="nc" id="L119">                    String recipeName = parts[0];</span>
+<span class="nc" id="L120">                    String contents = parts[1];</span>
+<span class="nc" id="L121">                    logger.info(&quot;{}: {}&quot;, recipeName, contents);</span>
+                }
+<span class="nc" id="L123">            }</span>
+<span class="nc" id="L124">        } catch (IOException e) {</span>
+<span class="nc" id="L125">            logger.error(ERROR_READING_RECIPES_FILE, e.getMessage());</span>
+<span class="nc" id="L126">        }</span>
+<span class="nc" id="L127">    }</span>
+
+    public static void filterAndShowRecipes(String criterion) {
+<span class="nc" id="L130">        try (BufferedReader reader = new BufferedReader(new FileReader(RECIPES_FILE_NAME))) {</span>
+            String line;
+<span class="nc bnc" id="L132" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L133">                String[] parts = line.split(&quot;;&quot;);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">                if (parts.length == 2) {</span>
+<span class="nc" id="L135">                    String recipeName = parts[0];</span>
+<span class="nc" id="L136">                    String contents = parts[1];</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">                    if (contents.contains(criterion)) {</span>
+<span class="nc" id="L138">                        logger.info(&quot;{}: {}&quot;, recipeName, contents);</span>
+                    }
+                }
+<span class="nc" id="L141">            }</span>
+<span class="nc" id="L142">        } catch (IOException e) {</span>
+<span class="nc" id="L143">            logger.error(ERROR_READING_RECIPES_FILE, e.getMessage());</span>
+<span class="nc" id="L144">        }</span>
+<span class="nc" id="L145">    }</span>
+
+    public String addRecipe(String name, String ingredient, String quantity) {
+<span class="fc" id="L148">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(recipesFile, true))) {</span>
+<span class="fc" id="L149">            writer.write(name + &quot;;&quot; + ingredient + &quot;;&quot; + quantity);</span>
+<span class="fc" id="L150">            writer.newLine();</span>
+<span class="fc" id="L151">            return &quot;Recipe added successfully&quot;;</span>
+<span class="nc" id="L152">        } catch (IOException e) {</span>
+<span class="nc" id="L153">            logger.error(&quot;Failed to add recipe: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L154">            return &quot;Failed to add recipe&quot;;</span>
+        }
+    }
+
+    public String updateRecipe(String name, String newDescription) {
+<span class="fc" id="L159">        List&lt;String&gt; recipes = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L160">        boolean found = false;</span>
+<span class="fc" id="L161">        try (BufferedReader reader = new BufferedReader(new FileReader(recipesFile))) {</span>
+            String line;
+<span class="fc bfc" id="L163" title="All 2 branches covered.">            while ((line = reader.readLine()) != null) {</span>
+<span class="fc" id="L164">                String[] parts = line.split(&quot;;&quot;);</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">                if (parts[0].equals(name)) {</span>
+<span class="fc" id="L166">                    line = name + &quot;;&quot; + newDescription;</span>
+<span class="fc" id="L167">                    found = true;</span>
+                }
+<span class="fc" id="L169">                recipes.add(line);</span>
+<span class="fc" id="L170">            }</span>
+<span class="nc" id="L171">        } catch (IOException e) {</span>
+<span class="nc" id="L172">            logger.error(&quot;Failed to update recipe: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L173">            return &quot;Failed to update recipe&quot;;</span>
+<span class="fc" id="L174">        }</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">        if (!found) {</span>
+<span class="nc" id="L176">            return &quot;Recipe not found&quot;;</span>
+        }
+<span class="fc" id="L178">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(recipesFile))) {</span>
+<span class="fc bfc" id="L179" title="All 2 branches covered.">            for (String recipe : recipes) {</span>
+<span class="fc" id="L180">                writer.write(recipe);</span>
+<span class="fc" id="L181">                writer.newLine();</span>
+<span class="fc" id="L182">            }</span>
+<span class="fc" id="L183">            return &quot;Recipe updated successfully&quot;;</span>
+<span class="nc" id="L184">        } catch (IOException e) {</span>
+<span class="nc" id="L185">            logger.error(&quot;Failed to update recipe: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L186">            return &quot;Failed to update recipe&quot;;</span>
+        }
+    }
+
+    public String deleteRecipe(String name) {
+<span class="fc" id="L191">        List&lt;String&gt; recipes = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L192">        boolean found = false;</span>
+<span class="fc" id="L193">        try (BufferedReader reader = new BufferedReader(new FileReader(recipesFile))) {</span>
+            String line;
+<span class="fc bfc" id="L195" title="All 2 branches covered.">            while ((line = reader.readLine()) != null) {</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">                if (!line.startsWith(name + &quot;;&quot;)) {</span>
+<span class="fc" id="L197">                    recipes.add(line);</span>
+                } else {
+<span class="fc" id="L199">                    found = true;</span>
+                }
+            }
+<span class="nc" id="L202">        } catch (IOException e) {</span>
+<span class="nc" id="L203">            logger.error(&quot;Failed to delete recipe: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L204">            return &quot;Failed to delete recipe&quot;;</span>
+<span class="fc" id="L205">        }</span>
+<span class="pc bpc" id="L206" title="1 of 2 branches missed.">        if (!found) {</span>
+<span class="nc" id="L207">            return &quot;Recipe not found&quot;;</span>
+        }
+<span class="fc" id="L209">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(recipesFile))) {</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">            for (String recipe : recipes) {</span>
+<span class="fc" id="L211">                writer.write(recipe);</span>
+<span class="fc" id="L212">                writer.newLine();</span>
+<span class="fc" id="L213">            }</span>
+<span class="fc" id="L214">            return &quot;Recipe deleted successfully&quot;;</span>
+<span class="nc" id="L215">        } catch (IOException e) {</span>
+<span class="nc" id="L216">            logger.error(&quot;Failed to delete recipe: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L217">            return &quot;Failed to delete recipe&quot;;</span>
+        }
+    }
+
+    public String viewRecipe(String name) {
+<span class="fc" id="L222">        try (BufferedReader reader = new BufferedReader(new FileReader(recipesFile))) {</span>
+            String line;
+<span class="fc bfc" id="L224" title="All 2 branches covered.">            while ((line = reader.readLine()) != null) {</span>
+<span class="pc bpc" id="L225" title="1 of 2 branches missed.">                if (line.startsWith(name + &quot;;&quot;)) {</span>
+<span class="nc" id="L226">                    return line;</span>
+                }
+            }
+<span class="fc" id="L229">            return &quot;Recipe not found&quot;;</span>
+<span class="nc" id="L230">        } catch (IOException e) {</span>
+<span class="nc" id="L231">            logger.error(&quot;Failed to view recipe: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L232">            return &quot;Failed to view recipe&quot;;</span>
+        }
+    }
+
+    public String addPost(String title, String content) {
+<span class="fc" id="L237">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(postsFile, true))) {</span>
+<span class="fc" id="L238">            writer.write(title + &quot;;&quot; + content);</span>
+<span class="fc" id="L239">            writer.newLine();</span>
+<span class="fc" id="L240">            return &quot;Post added successfully&quot;;</span>
+<span class="nc" id="L241">        } catch (IOException e) {</span>
+<span class="nc" id="L242">            logger.error(&quot;Failed to add post: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L243">            return &quot;Failed to add post&quot;;</span>
+        }
+    }
+
+    public String deletePost(String title) {
+<span class="fc" id="L248">        List&lt;String&gt; posts = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L249">        boolean found = false;</span>
+<span class="fc" id="L250">        try (BufferedReader reader = new BufferedReader(new FileReader(postsFile))) {</span>
+            String line;
+<span class="fc bfc" id="L252" title="All 2 branches covered.">            while ((line = reader.readLine()) != null) {</span>
+<span class="fc bfc" id="L253" title="All 2 branches covered.">                if (!line.startsWith(title + &quot;;&quot;)) {</span>
+<span class="fc" id="L254">                    posts.add(line);</span>
+                } else {
+<span class="fc" id="L256">                    found = true;</span>
+                }
+            }
+<span class="nc" id="L259">        } catch (IOException e) {</span>
+<span class="nc" id="L260">            logger.error(&quot;Failed to delete post: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L261">            return &quot;Failed to delete post&quot;;</span>
+<span class="fc" id="L262">        }</span>
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">        if (!found) {</span>
+<span class="nc" id="L264">            return &quot;Post not found&quot;;</span>
+        }
+<span class="fc" id="L266">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(postsFile))) {</span>
+<span class="fc bfc" id="L267" title="All 2 branches covered.">            for (String post : posts) {</span>
+<span class="fc" id="L268">                writer.write(post);</span>
+<span class="fc" id="L269">                writer.newLine();</span>
+<span class="fc" id="L270">            }</span>
+<span class="fc" id="L271">            return &quot;Post deleted successfully&quot;;</span>
+<span class="nc" id="L272">        } catch (IOException e) {</span>
+<span class="nc" id="L273">            logger.error(&quot;Failed to delete post: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L274">            return &quot;Failed to delete post&quot;;</span>
+        }
+    }
+
+    public String updatePost(String title, String newContent) {
+<span class="fc" id="L279">        List&lt;String&gt; posts = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L280">        boolean found = false;</span>
+<span class="fc" id="L281">        try (BufferedReader reader = new BufferedReader(new FileReader(postsFile))) {</span>
+            String line;
+<span class="fc bfc" id="L283" title="All 2 branches covered.">            while ((line = reader.readLine()) != null) {</span>
+<span class="fc" id="L284">                String[] parts = line.split(&quot;;&quot;);</span>
+<span class="fc bfc" id="L285" title="All 2 branches covered.">                if (parts[0].equals(title)) {</span>
+<span class="fc" id="L286">                    line = title + &quot;;&quot; + newContent;</span>
+<span class="fc" id="L287">                    found = true;</span>
+                }
+<span class="fc" id="L289">                posts.add(line);</span>
+<span class="fc" id="L290">            }</span>
+<span class="nc" id="L291">        } catch (IOException e) {</span>
+<span class="nc" id="L292">            logger.error(&quot;Failed to update post: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L293">            return &quot;Failed to update post&quot;;</span>
+<span class="fc" id="L294">        }</span>
+<span class="pc bpc" id="L295" title="1 of 2 branches missed.">        if (!found) {</span>
+<span class="nc" id="L296">            return &quot;Post not found&quot;;</span>
+        }
+<span class="fc" id="L298">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(postsFile))) {</span>
+<span class="fc bfc" id="L299" title="All 2 branches covered.">            for (String post : posts) {</span>
+<span class="fc" id="L300">                writer.write(post);</span>
+<span class="fc" id="L301">                writer.newLine();</span>
+<span class="fc" id="L302">            }</span>
+<span class="fc" id="L303">            return &quot;Post updated successfully&quot;;</span>
+<span class="nc" id="L304">        } catch (IOException e) {</span>
+<span class="nc" id="L305">            logger.error(&quot;Failed to update post: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L306">            return &quot;Failed to update post&quot;;</span>
+        }
+    }
+
+    public String viewAllPosts() {
+<span class="nc" id="L311">        StringBuilder allPosts = new StringBuilder();</span>
+
+<span class="nc" id="L313">        try (BufferedReader reader = new BufferedReader(new FileReader(postsFile))) {</span>
+            String line;
+<span class="nc bnc" id="L315" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L316">                allPosts.append(line).append(&quot;\n\n&quot;);</span>
+            }
+<span class="nc" id="L318">        } catch (IOException e) {</span>
+<span class="nc" id="L319">            logger.error(&quot;Failed to retrieve posts: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L320">            return &quot;Failed to retrieve posts&quot;;</span>
+<span class="nc" id="L321">        }</span>
+<span class="nc bnc" id="L322" title="All 2 branches missed.">        if (allPosts.length() == 0) {</span>
+<span class="nc" id="L323">            return &quot;No posts available.&quot;;</span>
+        }
+<span class="nc" id="L325">        return allPosts.toString();</span>
+    }
+
+    public String viewFeedback() {
+<span class="fc" id="L329">        StringBuilder feedbackList = new StringBuilder();</span>
+<span class="fc" id="L330">        try (BufferedReader reader = new BufferedReader(new FileReader(feedbackFile))) {</span>
+            String line;
+<span class="fc bfc" id="L332" title="All 2 branches covered.">            while ((line = reader.readLine()) != null) {</span>
+<span class="fc" id="L333">                feedbackList.append(line).append(&quot;\n&quot;);</span>
+            }
+<span class="nc" id="L335">        } catch (IOException e) {</span>
+<span class="nc" id="L336">            logger.error(&quot;Failed to retrieve feedback: {}&quot;, e.getMessage());</span>
+<span class="fc" id="L337">        }</span>
+<span class="fc" id="L338">        return feedbackList.toString();</span>
+    }
+
+    public String respondToFeedback(int feedbackId, String response) {
+<span class="nc" id="L342">        List&lt;String&gt; feedbacks = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L343">        boolean found = false;</span>
+<span class="nc" id="L344">        try (BufferedReader reader = new BufferedReader(new FileReader(feedbackFile))) {</span>
+            String line;
+<span class="nc bnc" id="L346" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L347">                String[] parts = line.split(&quot;;&quot;);</span>
+<span class="nc bnc" id="L348" title="All 2 branches missed.">                if (Integer.parseInt(parts[0]) == feedbackId) {</span>
+<span class="nc bnc" id="L349" title="All 2 branches missed.">                    if (parts.length &gt; 3) {</span>
+                        // If there is an existing response, append the new response
+<span class="nc" id="L351">                        line += &quot; | &quot; + response;</span>
+                    } else {
+                        // If there are no responses, add the new response
+<span class="nc" id="L354">                        line += &quot;; Response: &quot; + response;</span>
+                    }
+<span class="nc" id="L356">                    found = true;</span>
+                }
+<span class="nc" id="L358">                feedbacks.add(line);</span>
+<span class="nc" id="L359">            }</span>
+<span class="nc" id="L360">        } catch (IOException e) {</span>
+<span class="nc" id="L361">            logger.error(&quot;Failed to respond to feedback: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L362">            return &quot;Failed to respond to feedback&quot;;</span>
+<span class="nc" id="L363">        }</span>
+<span class="nc bnc" id="L364" title="All 2 branches missed.">        if (!found) {</span>
+<span class="nc" id="L365">            return &quot;Feedback with ID &quot; + feedbackId + &quot; not found.&quot;;</span>
+        }
+<span class="nc" id="L367">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(feedbackFile))) {</span>
+<span class="nc bnc" id="L368" title="All 2 branches missed.">            for (String feedback : feedbacks) {</span>
+<span class="nc" id="L369">                writer.write(feedback);</span>
+<span class="nc" id="L370">                writer.newLine();</span>
+<span class="nc" id="L371">            }</span>
+<span class="nc" id="L372">            return &quot;Feedback responded to successfully&quot;;</span>
+<span class="nc" id="L373">        } catch (IOException e) {</span>
+<span class="nc" id="L374">            logger.error(&quot;Failed to respond to feedback: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L375">            return &quot;Failed to respond to feedback&quot;;</span>
+        }
+    }
+
+    public String deleteFeedback(int feedbackId) {
+<span class="nc" id="L380">        List&lt;String&gt; feedbacks = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L381">        boolean found = false;</span>
+<span class="nc" id="L382">        try (BufferedReader reader = new BufferedReader(new FileReader(feedbackFile))) {</span>
+            String line;
+<span class="nc bnc" id="L384" title="All 2 branches missed.">            while ((line = reader.readLine()) != null) {</span>
+<span class="nc" id="L385">                String[] parts = line.split(&quot;;&quot;);</span>
+<span class="nc bnc" id="L386" title="All 2 branches missed.">                if (Integer.parseInt(parts[0]) != feedbackId) {</span>
+<span class="nc" id="L387">                    feedbacks.add(line);</span>
+                } else {
+<span class="nc" id="L389">                    found = true;</span>
+                }
+<span class="nc" id="L391">            }</span>
+<span class="nc" id="L392">        } catch (IOException e) {</span>
+<span class="nc" id="L393">            logger.error(&quot;Failed to delete feedback: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L394">            return &quot;Failed to delete feedback&quot;;</span>
+<span class="nc" id="L395">        }</span>
+<span class="nc bnc" id="L396" title="All 2 branches missed.">        if (!found) {</span>
+<span class="nc" id="L397">            return &quot;Feedback with ID &quot; + feedbackId + &quot; not found.&quot;;</span>
+        }
+<span class="nc" id="L399">        try (BufferedWriter writer = new BufferedWriter(new FileWriter(feedbackFile))) {</span>
+<span class="nc bnc" id="L400" title="All 2 branches missed.">            for (String feedback : feedbacks) {</span>
+<span class="nc" id="L401">                writer.write(feedback);</span>
+<span class="nc" id="L402">                writer.newLine();</span>
+<span class="nc" id="L403">            }</span>
+<span class="nc" id="L404">            return &quot;Feedback deleted successfully&quot;;</span>
+<span class="nc" id="L405">        } catch (IOException e) {</span>
+<span class="nc" id="L406">            logger.error(&quot;Failed to delete feedback: {}&quot;, e.getMessage());</span>
+<span class="nc" id="L407">            return &quot;Failed to delete feedback&quot;;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: my_sweet_management_system.TestFeatures
+-------------------------------------------------------------------------------
+Tests run: 89, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.058 s - in my_sweet_management_system.TestFeatures

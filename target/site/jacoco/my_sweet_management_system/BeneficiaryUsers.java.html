@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BeneficiaryUsers.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">mySweetmanagementsystem</a> &gt; <a href="index.source.html" class="el_package">my_sweet_management_system</a> &gt; <span class="el_source">BeneficiaryUsers.java</span></div><h1>BeneficiaryUsers.java</h1><pre class="source lang-java linenums">package my_sweet_management_system;
+
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+<span class="fc" id="L7">public class BeneficiaryUsers {</span>
+
+<span class="fc" id="L9">    private static final Logger logger = Logger.getLogger(BeneficiaryUsers.class.getName());</span>
+
+    // Logic to navigate to the sign-up page
+    public void navigateToSignUpPage() {
+<span class="fc" id="L13">        logInfo(&quot;Navigating to the sign-up page...&quot;);</span>
+        // Logic to navigate to the sign-up page
+<span class="fc" id="L15">    }</span>
+
+    // Logic to enter sign-up details
+    public void enterSignUpDetails(Map&lt;String, String&gt; userDetails) {
+<span class="fc" id="L19">        logInfo(&quot;Entering sign-up details...&quot;);</span>
+<span class="fc" id="L20">        String username = userDetails.get(&quot;username&quot;);</span>
+<span class="fc" id="L21">        String password = userDetails.get(&quot;password&quot;);</span>
+<span class="fc" id="L22">        logInfo(String.format(&quot;Username: %s&quot;, username));</span>
+<span class="fc" id="L23">        logInfo(String.format(&quot;Password: %s&quot;, password));</span>
+        // Logic to enter sign-up details
+<span class="fc" id="L25">    }</span>
+
+    // Logic to submit the sign-up form
+    public void submitSignUpForm() {
+<span class="fc" id="L29">        logInfo(&quot;Submitting sign-up form...&quot;);</span>
+        // Logic to submit the sign-up form
+<span class="fc" id="L31">    }</span>
+
+    // Logic to verify confirmation email
+    public void verifyConfirmationEmail() {
+<span class="fc" id="L35">        logInfo(&quot;Verifying confirmation email...&quot;);</span>
+        // Logic to verify confirmation email
+<span class="fc" id="L37">    }</span>
+
+    // Logic to navigate to the sign-in page
+    public void navigateToSignInPage() {
+<span class="fc" id="L41">        logInfo(&quot;Navigating to the sign-in page...&quot;);</span>
+        // Logic to navigate to the sign-in page
+<span class="fc" id="L43">    }</span>
+
+    // Logic to enter sign-in credentials
+    public void enterSignInCredentials(String username, String password) {
+<span class="fc" id="L47">        logInfo(&quot;Entering sign-in credentials...&quot;);</span>
+<span class="fc" id="L48">        logInfo(String.format(&quot;Username: %s&quot;, username));</span>
+<span class="fc" id="L49">        logInfo(String.format(&quot;Password: %s&quot;, password));</span>
+        // Logic to enter sign-in credentials
+<span class="fc" id="L51">    }</span>
+
+    // Logic to submit the sign-in form
+    public void submitSignInForm() {
+<span class="fc" id="L55">        logInfo(&quot;Submitting sign-in form...&quot;);</span>
+        // Logic to submit the sign-in form
+<span class="fc" id="L57">    }</span>
+
+    // Logic to verify redirection to the dashboard
+    public void verifyDashboardRedirect() {
+<span class="fc" id="L61">        logInfo(&quot;Verifying redirection to the dashboard...&quot;);</span>
+        // Logic to verify redirection to the dashboard
+<span class="fc" id="L63">    }</span>
+
+    // Logic to verify welcome message
+    public void verifyWelcomeMessage(String message) {
+<span class="fc" id="L67">        logInfo(&quot;Verifying welcome message...&quot;);</span>
+<span class="fc" id="L68">        logInfo(String.format(&quot;Expected Message: %s&quot;, message));</span>
+        // Logic to verify welcome message
+<span class="fc" id="L70">    }</span>
+
+    // Logic to verify user login
+    public void verifyUserLoggedIn() {
+<span class="fc" id="L74">        logInfo(&quot;Verifying user login...&quot;);</span>
+        // Logic to verify user login
+<span class="fc" id="L76">    }</span>
+
+    // Logic to navigate to the specified section
+    public void navigateToSection(String section) {
+<span class="fc" id="L80">        logInfo(String.format(&quot;Navigating to section: %s&quot;, section));</span>
+        // Logic to navigate to the specified section
+<span class="fc" id="L82">    }</span>
+
+    // Logic to update user details
+    public void updateUserDetails(Map&lt;String, String&gt; updatedDetails) {
+<span class="fc" id="L86">        logInfo(&quot;Updating user details...&quot;);</span>
+<span class="fc" id="L87">        String address = updatedDetails.get(&quot;address&quot;);</span>
+<span class="fc" id="L88">        String phoneNumber = updatedDetails.get(&quot;phone&quot;);</span>
+<span class="fc" id="L89">        logInfo(String.format(&quot;New Address: %s&quot;, address));</span>
+<span class="fc" id="L90">        logInfo(String.format(&quot;New Phone Number: %s&quot;, phoneNumber));</span>
+        // Logic to update user details
+<span class="fc" id="L92">    }</span>
+
+    // Logic to submit update form
+    public void submitUpdateForm() {
+<span class="fc" id="L96">        logInfo(&quot;Submitting update form...&quot;);</span>
+        // Logic to submit update form
+<span class="fc" id="L98">    }</span>
+
+    // Logic to enter dessert details
+    public void enterDessertDetails(Map&lt;String, String&gt; dessertDetails) {
+<span class="fc" id="L102">        logInfo(&quot;Entering dessert details...&quot;);</span>
+<span class="fc" id="L103">        String dessertName = dessertDetails.get(&quot;name&quot;);</span>
+<span class="fc" id="L104">        String ingredients = dessertDetails.get(&quot;ingredients&quot;);</span>
+<span class="fc" id="L105">        logInfo(String.format(&quot;Dessert Name: %s&quot;, dessertName));</span>
+<span class="fc" id="L106">        logInfo(String.format(&quot;Ingredients: %s&quot;, ingredients));</span>
+        // Logic to enter dessert details
+<span class="fc" id="L108">    }</span>
+
+    // Logic to submit post
+    public void submitPost() {
+<span class="fc" id="L112">        logInfo(&quot;Submitting dessert post...&quot;);</span>
+        // Logic to submit post
+<span class="fc" id="L114">    }</span>
+
+    // Logic to verify post display on user profile
+    public void verifyPostDisplayed() {
+<span class="fc" id="L118">        logInfo(&quot;Verifying post display on user profile...&quot;);</span>
+        // Logic to verify post display on user profile
+<span class="fc" id="L120">    }</span>
+
+    // Logic to search for a recipe
+    public void searchForRecipe(String searchTerm) {
+<span class="fc" id="L124">        logInfo(String.format(&quot;Searching for recipe: %s&quot;, searchTerm));</span>
+        // Logic to search for a recipe
+<span class="fc" id="L126">    }</span>
+
+    // Logic to verify recipe list for search term
+    public void verifyRecipeList(String searchTerm) {
+<span class="fc" id="L130">        logInfo(String.format(&quot;Verifying recipe list for search term: %s&quot;, searchTerm));</span>
+        // Logic to verify recipe list for search term
+<span class="fc" id="L132">    }</span>
+
+    // Logic to apply filter
+    public void applyFilter(String filter) {
+<span class="fc" id="L136">        logInfo(String.format(&quot;Applying filter: %s&quot;, filter));</span>
+        // Logic to apply filter
+<span class="fc" id="L138">    }</span>
+
+    // Logic to verify filtered recipes
+    public void verifyFilteredRecipes(String filter) {
+<span class="fc" id="L142">        logInfo(String.format(&quot;Verifying filtered recipes for filter: %s&quot;, filter));</span>
+        // Logic to verify filtered recipes
+<span class="fc" id="L144">    }</span>
+
+    // Logic to verify store owner page
+    public void verifyStoreOwnerPage() {
+<span class="fc" id="L148">        logInfo(&quot;Verifying store owner page...&quot;);</span>
+        // Logic to verify store owner page
+<span class="fc" id="L150">    }</span>
+
+    // Logic to select dessert for purchase
+    public void selectDessertForPurchase() {
+<span class="fc" id="L154">        logInfo(&quot;Selecting dessert for purchase...&quot;);</span>
+        // Logic to select dessert for purchase
+<span class="fc" id="L156">    }</span>
+
+    // Logic to enter payment details
+    public void enterPaymentDetails(Map&lt;String, String&gt; paymentDetails) {
+<span class="fc" id="L160">        logInfo(&quot;Entering payment details...&quot;);</span>
+<span class="fc" id="L161">        String cardNumber = paymentDetails.get(&quot;cardNumber&quot;);</span>
+<span class="fc" id="L162">        String expirationDate = paymentDetails.get(&quot;expirationDate&quot;);</span>
+<span class="fc" id="L163">        logInfo(String.format(&quot;Card Number: %s&quot;, cardNumber));</span>
+<span class="fc" id="L164">        logInfo(String.format(&quot;Expiration Date: %s&quot;, expirationDate));</span>
+        // Logic to enter payment details
+<span class="fc" id="L166">    }</span>
+
+    // Logic to submit payment
+    public void submitPayment() {
+<span class="fc" id="L170">        logInfo(&quot;Submitting payment...&quot;);</span>
+        // Logic to submit payment
+<span class="fc" id="L172">    }</span>
+
+    // Logic to verify email receipt
+    public void verifyEmailReceipt() {
+<span class="fc" id="L176">        logInfo(&quot;Verifying email receipt...&quot;);</span>
+        // Logic to verify email receipt
+<span class="fc" id="L178">    }</span>
+
+    // Logic to navigate to the specified section on store owner page
+    public void navigateToStoreOwnerSection(String section) {
+<span class="fc" id="L182">        logInfo(String.format(&quot;Navigating to store owner section: %s&quot;, section));</span>
+        // Logic to navigate to the specified section on store owner page
+<span class="fc" id="L184">    }</span>
+
+    // Logic to send message to store owner
+    public void sendMessageToStoreOwner(String message) {
+<span class="fc" id="L188">        logInfo(String.format(&quot;Sending message to store owner: %s&quot;, message));</span>
+        // Logic to send message to store owner
+<span class="fc" id="L190">    }</span>
+
+    // Logic to verify message sent to store owner
+    public void verifyMessageSentToStoreOwner() {
+<span class="fc" id="L194">        logInfo(&quot;Verifying message sent to store owner...&quot;);</span>
+        // Logic to verify message sent to store owner
+<span class="fc" id="L196">    }</span>
+
+    // Logic to select order for feedback
+    public void selectOrderForFeedback() {
+<span class="fc" id="L200">        logInfo(&quot;Selecting order for feedback...&quot;);</span>
+        // Logic to select order for feedback
+<span class="fc" id="L202">    }</span>
+
+    // Logic to enter feedback
+    public void enterFeedback(String feedback) {
+<span class="fc" id="L206">        logInfo(String.format(&quot;Entering feedback: %s&quot;, feedback));</span>
+        // Logic to enter feedback
+<span class="fc" id="L208">    }</span>
+
+    // Logic to submit feedback
+    public void submitFeedback() {
+<span class="fc" id="L212">        logInfo(&quot;Submitting feedback...&quot;);</span>
+        // Logic to submit feedback
+<span class="fc" id="L214">    }</span>
+
+    // Logic to verify feedback under product reviews
+    public void verifyFeedbackUnderProductReviews() {
+<span class="fc" id="L218">        logInfo(&quot;Verifying feedback under product reviews...&quot;);</span>
+        // Logic to verify feedback under product reviews
+<span class="fc" id="L220">    }</span>
+
+    // Logic to navigate to shared recipe page
+    public void navigateToSharedRecipePage() {
+<span class="fc" id="L224">        logInfo(&quot;Navigating to shared recipe page...&quot;);</span>
+        // Logic to navigate to shared recipe page
+<span class="fc" id="L226">    }</span>
+
+    // Logic to verify feedback under recipe reviews
+    public void verifyFeedbackUnderRecipeReviews() {
+<span class="fc" id="L230">        logInfo(&quot;Verifying feedback under recipe reviews...&quot;);</span>
+        // Logic to verify feedback under recipe reviews
+<span class="fc" id="L232">    }</span>
+
+    private void logInfo(String message) {
+<span class="pc bpc" id="L235" title="1 of 2 branches missed.">        if (logger.isLoggable(Level.INFO)) {</span>
+<span class="fc" id="L236">            logger.info(message);</span>
+        }
+<span class="fc" id="L238">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
