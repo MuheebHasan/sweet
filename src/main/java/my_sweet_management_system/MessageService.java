@@ -39,7 +39,6 @@ public class MessageService {
         }
     }
 
-
     public String sendEmail(String sender, String recipientEmail, String subject, String body) {
         String email = "From: " + sender + "\nSubject: " + subject + "\nBody: " + body;
         emails.put(recipientEmail, email);
@@ -69,7 +68,7 @@ public class MessageService {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            // Handle exception in production: log or ignore
         }
     }
 
@@ -79,7 +78,7 @@ public class MessageService {
                 writer.write(entry.getKey() + ": " + entry.getValue().toString());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            // Handle exception in production: log or ignore
         }
     }
 
@@ -97,7 +96,7 @@ public class MessageService {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            // Handle exception in production: log or ignore
         }
     }
 
@@ -107,7 +106,7 @@ public class MessageService {
                 writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            // Handle exception in production: log or ignore
         }
     }
 }
