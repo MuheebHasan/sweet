@@ -52,8 +52,6 @@ class SupplierService {
         }
     }
 
-    
-
     public List<String> loadMessagesForOwner(String ownerName) {
         List<String> messages = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("messages.txt"))) {
@@ -70,11 +68,10 @@ class SupplierService {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error reading messages: " + e.getMessage());
         }
         return messages;
     }
-
 
     public String getStoreOwnerNameFromEmail(String email) {
         String ownerName = "";
@@ -88,21 +85,17 @@ class SupplierService {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error reading file: " + e.getMessage());
         }
         return ownerName;
     }
-
-
-
 
     public void appendReplyToMessageFile(String ownerName, String message, String reply) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("messages.txt", true))) {
             writer.write(loggedInUser + ";" + ownerName + ";" + reply);
             writer.newLine();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error writing reply: " + e.getMessage());
         }
     }
-
 }
