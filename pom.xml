@@ -10,9 +10,8 @@
 	<properties>
 
 
-		<sonar.projectKey>MuheebHasan_sweet</sonar.projectKey>
-
-		<sonar.organization>muheebhasan-1</sonar.organization>
+		<sonar.projectKey>ReemaHasan_sweet</sonar.projectKey>
+		<sonar.organization>reemahasan</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 
 
