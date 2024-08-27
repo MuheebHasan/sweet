@@ -63,13 +63,11 @@ public class AccountService {
                 return "Field does not exist";
         }
 
-        if (updated) {
+ 
             saveAccountsIfNeeded(); // Save only if there is an update
             logInfo("Updated account: " + name + ", Field: " + field);
             return "Account details updated successfully";
-        } else {
-            return "No changes made";
-        }
+      
     }
 
     private void loadAccountsIfNeeded() {
